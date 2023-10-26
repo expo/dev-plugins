@@ -1,0 +1,703 @@
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClient.d.ts b/node_modules/expo/build/devtools/DevToolsPluginClient.d.ts
+new file mode 100644
+index 0000000..8e862e1
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClient.d.ts
+@@ -0,0 +1,46 @@
++import { EventEmitter, EventSubscription } from 'fbemitter';
++import type { ConnectionInfo } from './devtools.types';
++export declare const MESSAGE_PROTOCOL_VERSION = 2;
++export declare const DevToolsPluginMethod = "Expo:DevToolsPlugin";
++/**
++ * This client is for the Expo DevTools Plugins to communicate between the app and the DevTools webpage hosted in a browser.
++ * All the code should be both compatible with browsers and React Native.
++ */
++export declare abstract class DevToolsPluginClient {
++    readonly connectionInfo: ConnectionInfo;
++    protected eventEmitter: EventEmitter;
++    constructor(connectionInfo: ConnectionInfo);
++    /**
++     * Initialize the connection.
++     * @hidden
++     */
++    abstract initAsync(): Promise<void>;
++    /**
++     * Close the connection.
++     */
++    abstract closeAsync(): Promise<void>;
++    /**
++     * Send a message to the other end of DevTools.
++     * @param method A method name.
++     * @param params any extra payload.
++     */
++    abstract sendMessage(method: string, params: any): void;
++    /**
++     * Subscribe to a message from the other end of DevTools.
++     * @param method Subscribe to a message with a method name.
++     * @param listener Listener to be called when a message is received.
++     */
++    addMessageListener(method: string, listener: (params: any) => void): EventSubscription;
++    /**
++     * Subscribe to a message from the other end of DevTools just once.
++     * @param method Subscribe to a message with a method name.
++     * @param listener Listener to be called when a message is received.
++     */
++    addMessageListenerOnce(method: string, listener: (params: any) => void): void;
++    /**
++     * Returns whether the client is connected to the server.
++     */
++    abstract isConnected(): boolean;
++    protected handleMessage: (event: WebSocketMessageEvent) => void;
++}
++//# sourceMappingURL=DevToolsPluginClient.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClient.js b/node_modules/expo/build/devtools/DevToolsPluginClient.js
+new file mode 100644
+index 0000000..5339648
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClient.js
+@@ -0,0 +1,50 @@
++import { EventEmitter } from 'fbemitter';
++import * as logger from './logger';
++// This version should be synced with the one in the **createMessageSocketEndpoint.ts** in @react-native-community/cli-server-api
++export const MESSAGE_PROTOCOL_VERSION = 2;
++export const DevToolsPluginMethod = 'Expo:DevToolsPlugin';
++/**
++ * This client is for the Expo DevTools Plugins to communicate between the app and the DevTools webpage hosted in a browser.
++ * All the code should be both compatible with browsers and React Native.
++ */
++export class DevToolsPluginClient {
++    connectionInfo;
++    eventEmitter = new EventEmitter();
++    constructor(connectionInfo) {
++        this.connectionInfo = connectionInfo;
++    }
++    /**
++     * Subscribe to a message from the other end of DevTools.
++     * @param method Subscribe to a message with a method name.
++     * @param listener Listener to be called when a message is received.
++     */
++    addMessageListener(method, listener) {
++        return this.eventEmitter.addListener(method, listener);
++    }
++    /**
++     * Subscribe to a message from the other end of DevTools just once.
++     * @param method Subscribe to a message with a method name.
++     * @param listener Listener to be called when a message is received.
++     */
++    addMessageListenerOnce(method, listener) {
++        this.eventEmitter.once(method, listener);
++    }
++    handleMessage = (event) => {
++        let payload;
++        try {
++            payload = JSON.parse(event.data);
++        }
++        catch (e) {
++            logger.info('Failed to parse JSON', e);
++            return;
++        }
++        if (payload.version !== MESSAGE_PROTOCOL_VERSION || payload.method !== DevToolsPluginMethod) {
++            return;
++        }
++        if (payload.pluginName && payload.pluginName !== this.connectionInfo.pluginName) {
++            return;
++        }
++        this.eventEmitter.emit(payload.params.method, payload.params.params);
++    };
++}
++//# sourceMappingURL=DevToolsPluginClient.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClientFactory.d.ts b/node_modules/expo/build/devtools/DevToolsPluginClientFactory.d.ts
+new file mode 100644
+index 0000000..0d1e843
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClientFactory.d.ts
+@@ -0,0 +1,16 @@
++import type { DevToolsPluginClient } from './DevToolsPluginClient';
++import type { ConnectionInfo } from './devtools.types';
++/**
++ * Factory of DevToolsPluginClient based on sender types.
++ * @hidden
++ */
++export declare function createDevToolsPluginClient(connectionInfo: ConnectionInfo): Promise<DevToolsPluginClient>;
++/**
++ * Public API to get the DevToolsPluginClient instance.
++ */
++export declare function getDevToolsPluginClientAsync(pluginName: string): Promise<DevToolsPluginClient>;
++/**
++ * Internal testing API to cleanup all DevToolsPluginClient instances.
++ */
++export declare function cleanupDevToolsPluginInstances(): void;
++//# sourceMappingURL=DevToolsPluginClientFactory.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClientFactory.js b/node_modules/expo/build/devtools/DevToolsPluginClientFactory.js
+new file mode 100644
+index 0000000..241db19
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClientFactory.js
+@@ -0,0 +1,60 @@
++import { DevToolsPluginClientImplApp } from './DevToolsPluginClientImplApp';
++import { DevToolsPluginClientImplBrowser } from './DevToolsPluginClientImplBrowser';
++import { getConnectionInfo } from './getConnectionInfo';
++const instanceMap = {};
++/**
++ * Factory of DevToolsPluginClient based on sender types.
++ * @hidden
++ */
++export async function createDevToolsPluginClient(connectionInfo) {
++    let client;
++    if (connectionInfo.sender === 'app') {
++        client = new DevToolsPluginClientImplApp(connectionInfo);
++    }
++    else {
++        client = new DevToolsPluginClientImplBrowser(connectionInfo);
++    }
++    await client.initAsync();
++    return client;
++}
++/**
++ * Public API to get the DevToolsPluginClient instance.
++ */
++export async function getDevToolsPluginClientAsync(pluginName) {
++    const connectionInfo = getConnectionInfo();
++    let instance = instanceMap[pluginName];
++    if (instance != null) {
++        if (instance instanceof Promise) {
++            return instance;
++        }
++        if (instance.isConnected() === false ||
++            instance.connectionInfo.devServer !== connectionInfo.devServer) {
++            await instance.closeAsync();
++            delete instanceMap[pluginName];
++            instance = null;
++        }
++    }
++    if (instance == null) {
++        const instancePromise = createDevToolsPluginClient({ ...connectionInfo, pluginName });
++        instanceMap[pluginName] = instancePromise;
++        instance = await instancePromise;
++        instanceMap[pluginName] = instance;
++    }
++    return instance;
++}
++/**
++ * Internal testing API to cleanup all DevToolsPluginClient instances.
++ */
++export function cleanupDevToolsPluginInstances() {
++    for (const pluginName of Object.keys(instanceMap)) {
++        const instance = instanceMap[pluginName];
++        delete instanceMap[pluginName];
++        if (instance instanceof Promise) {
++            instance.then((instance) => instance.closeAsync());
++        }
++        else {
++            instance.closeAsync();
++        }
++    }
++}
++//# sourceMappingURL=DevToolsPluginClientFactory.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClientImplApp.d.ts b/node_modules/expo/build/devtools/DevToolsPluginClientImplApp.d.ts
+new file mode 100644
+index 0000000..22e92d0
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClientImplApp.d.ts
+@@ -0,0 +1,41 @@
++import { DevToolsPluginClient } from './DevToolsPluginClient';
++/**
++ * The DevToolsPluginClient for the app -> browser communication.
++ */
++export declare class DevToolsPluginClientImplApp extends DevToolsPluginClient {
++    private browserClientMap;
++    private static ws;
++    private static refCount;
++    /**
++     * Initialize the connection.
++     * @hidden
++     */
++    initAsync(): Promise<void>;
++    /**
++     * Close the connection.
++     */
++    closeAsync(): Promise<void>;
++    /**
++     * Send a message to the other end of DevTools.
++     * @param method A method name.
++     * @param params any extra payload.
++     */
++    sendMessage(method: string, params: any): void;
++    /**
++     * Returns whether the client is connected to the server.
++     */
++    isConnected(): boolean;
++    /**
++     * Get the WebSocket instance. Exposed for testing.
++     * @hidden
++     */
++    static getWebSocket(): WebSocket | null;
++    /**
++     * Get the current reference count. Exposed for testing.
++     * @hidden
++     */
++    static getRefCount(): number;
++    private connectAsync;
++    private addHandshakeHandler;
++}
++//# sourceMappingURL=DevToolsPluginClientImplApp.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClientImplApp.js b/node_modules/expo/build/devtools/DevToolsPluginClientImplApp.js
+new file mode 100644
+index 0000000..24ddfe7
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClientImplApp.js
+@@ -0,0 +1,101 @@
++import { DevToolsPluginClient, DevToolsPluginMethod, MESSAGE_PROTOCOL_VERSION, } from './DevToolsPluginClient';
++import * as logger from './logger';
++/**
++ * The DevToolsPluginClient for the app -> browser communication.
++ */
++export class DevToolsPluginClientImplApp extends DevToolsPluginClient {
++    // Map of pluginName -> browserClientId
++    browserClientMap = {};
++    static ws = null;
++    static refCount = 0;
++    /**
++     * Initialize the connection.
++     * @hidden
++     */
++    async initAsync() {
++        if (DevToolsPluginClientImplApp.ws == null) {
++            DevToolsPluginClientImplApp.ws = await this.connectAsync();
++        }
++        DevToolsPluginClientImplApp.refCount += 1;
++        DevToolsPluginClientImplApp.ws.addEventListener('message', this.handleMessage);
++        this.addHandshakeHandler();
++    }
++    /**
++     * Close the connection.
++     */
++    async closeAsync() {
++        this.eventEmitter.removeAllListeners();
++        DevToolsPluginClientImplApp.ws?.removeEventListener('message', this.handleMessage);
++        DevToolsPluginClientImplApp.refCount -= 1;
++        if (DevToolsPluginClientImplApp.refCount < 1) {
++            DevToolsPluginClientImplApp.ws?.close();
++            DevToolsPluginClientImplApp.ws = null;
++        }
++    }
++    /**
++     * Send a message to the other end of DevTools.
++     * @param method A method name.
++     * @param params any extra payload.
++     */
++    sendMessage(method, params) {
++        if (!this.isConnected()) {
++            throw new Error('Unable to send message in a disconnected state.');
++        }
++        const payload = {
++            version: MESSAGE_PROTOCOL_VERSION,
++            pluginName: this.connectionInfo.pluginName,
++            method: DevToolsPluginMethod,
++            params: {
++                method,
++                params,
++            },
++        };
++        DevToolsPluginClientImplApp.ws?.send(JSON.stringify(payload));
++    }
++    /**
++     * Returns whether the client is connected to the server.
++     */
++    isConnected() {
++        return DevToolsPluginClientImplApp.ws?.readyState === WebSocket.OPEN;
++    }
++    /**
++     * Get the WebSocket instance. Exposed for testing.
++     * @hidden
++     */
++    static getWebSocket() {
++        return DevToolsPluginClientImplApp.ws;
++    }
++    /**
++     * Get the current reference count. Exposed for testing.
++     * @hidden
++     */
++    static getRefCount() {
++        return DevToolsPluginClientImplApp.refCount;
++    }
++    async connectAsync() {
++        return new Promise((resolve, reject) => {
++            const ws = new WebSocket(`ws://${this.connectionInfo.devServer}/message`);
++            ws.addEventListener('open', () => {
++                resolve(ws);
++            });
++            ws.addEventListener('error', (e) => {
++                reject(e);
++            });
++            ws.addEventListener('close', (e) => {
++                logger.info('WebSocket closed', e.code, e.reason);
++                DevToolsPluginClientImplApp.ws = null;
++            });
++        });
++    }
++    addHandshakeHandler() {
++        this.addMessageListener('handshake', (params) => {
++            const previousBrowserClientId = this.browserClientMap[params.pluginName];
++            if (previousBrowserClientId != null && previousBrowserClientId !== params.browserClientId) {
++                logger.info(`Terminate the previous browser client connection - previousBrowserClientId[${previousBrowserClientId}]`);
++                this.sendMessage('terminateBrowserClient', { browserClientId: previousBrowserClientId });
++            }
++            this.browserClientMap[params.pluginName] = params.browserClientId;
++        });
++    }
++}
++//# sourceMappingURL=DevToolsPluginClientImplApp.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClientImplBrowser.d.ts b/node_modules/expo/build/devtools/DevToolsPluginClientImplBrowser.d.ts
+new file mode 100644
+index 0000000..2289c46
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClientImplBrowser.d.ts
+@@ -0,0 +1,30 @@
++import { DevToolsPluginClient } from './DevToolsPluginClient';
++/**
++ * The DevToolsPluginClient for the browser -> app communication.
++ */
++export declare class DevToolsPluginClientImplBrowser extends DevToolsPluginClient {
++    private ws;
++    private browserClientId;
++    /**
++     * Initialize the connection.
++     * @hidden
++     */
++    initAsync(): Promise<void>;
++    /**
++     * Close the connection.
++     */
++    closeAsync(): Promise<void>;
++    /**
++     * Send a message to the other end of DevTools.
++     * @param method A method name.
++     * @param params any extra payload.
++     */
++    sendMessage(method: string, params: any, pluginNamespace?: string): void;
++    /**
++     * Returns whether the client is connected to the server.
++     */
++    isConnected(): boolean;
++    private startHandshake;
++    private connectAsync;
++}
++//# sourceMappingURL=DevToolsPluginClientImplBrowser.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/DevToolsPluginClientImplBrowser.js b/node_modules/expo/build/devtools/DevToolsPluginClientImplBrowser.js
+new file mode 100644
+index 0000000..6e8ff86
+--- /dev/null
++++ b/node_modules/expo/build/devtools/DevToolsPluginClientImplBrowser.js
+@@ -0,0 +1,85 @@
++import { DevToolsPluginClient, DevToolsPluginMethod, MESSAGE_PROTOCOL_VERSION, } from './DevToolsPluginClient';
++import * as logger from './logger';
++/**
++ * The DevToolsPluginClient for the browser -> app communication.
++ */
++export class DevToolsPluginClientImplBrowser extends DevToolsPluginClient {
++    ws = null;
++    browserClientId = Date.now().toString();
++    /**
++     * Initialize the connection.
++     * @hidden
++     */
++    async initAsync() {
++        if (this.ws == null) {
++            const ws = await this.connectAsync();
++            this.ws = ws;
++        }
++        this.ws.addEventListener('message', this.handleMessage);
++        this.startHandshake();
++    }
++    /**
++     * Close the connection.
++     */
++    async closeAsync() {
++        this.ws?.removeEventListener('message', this.handleMessage);
++        this.ws?.close();
++        this.ws = null;
++        this.eventEmitter.removeAllListeners();
++    }
++    /**
++     * Send a message to the other end of DevTools.
++     * @param method A method name.
++     * @param params any extra payload.
++     */
++    sendMessage(method, params, pluginNamespace) {
++        if (!this.isConnected()) {
++            throw new Error('Unable to send message in a disconnected state.');
++        }
++        const payload = {
++            version: MESSAGE_PROTOCOL_VERSION,
++            pluginName: this.connectionInfo.pluginName,
++            method: DevToolsPluginMethod,
++            params: {
++                method,
++                params,
++            },
++        };
++        this.ws?.send(JSON.stringify(payload));
++    }
++    /**
++     * Returns whether the client is connected to the server.
++     */
++    isConnected() {
++        return this.ws?.readyState === WebSocket.OPEN;
++    }
++    startHandshake() {
++        this.addMessageListener('terminateBrowserClient', (params) => {
++            if (this.browserClientId !== params.browserClientId) {
++                return;
++            }
++            logger.info('Received terminateBrowserClient messages and terminate the current connection');
++            this.closeAsync();
++        });
++        this.sendMessage('handshake', {
++            browserClientId: this.browserClientId,
++            pluginName: this.connectionInfo.pluginName,
++        });
++    }
++    async connectAsync() {
++        return new Promise((resolve, reject) => {
++            const ws = new WebSocket(`ws://${this.connectionInfo.devServer}/message`);
++            ws.addEventListener('open', () => {
++                resolve(ws);
++            });
++            ws.addEventListener('error', (e) => {
++                reject(e);
++            });
++            ws.addEventListener('close', (e) => {
++                logger.info('WebSocket closed', e.code, e.reason);
++                this.ws = null;
++            });
++        });
++    }
++}
++//# sourceMappingURL=DevToolsPluginClientImplBrowser.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/devtools.types.d.ts b/node_modules/expo/build/devtools/devtools.types.d.ts
+new file mode 100644
+index 0000000..95e8956
+--- /dev/null
++++ b/node_modules/expo/build/devtools/devtools.types.d.ts
+@@ -0,0 +1,20 @@
++/**
++ * The connection info for devtools plugins client.
++ */
++export interface ConnectionInfo {
++    /** Indicates the sender towards the devtools plugin. */
++    sender: 'app' | 'browser';
++    /** Dev server address. */
++    devServer: string;
++    /** The plugin name. */
++    pluginName: string;
++}
++/**
++ * Parameters for the `handshake` message.
++ * @hidden
++ */
++export interface HandshakeMessageParams {
++    browserClientId: string;
++    pluginName: string;
++}
++//# sourceMappingURL=devtools.types.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/devtools.types.js b/node_modules/expo/build/devtools/devtools.types.js
+new file mode 100644
+index 0000000..a19b355
+--- /dev/null
++++ b/node_modules/expo/build/devtools/devtools.types.js
+@@ -0,0 +1,2 @@
++export {};
++//# sourceMappingURL=devtools.types.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/getConnectionInfo.d.ts b/node_modules/expo/build/devtools/getConnectionInfo.d.ts
+new file mode 100644
+index 0000000..be0b562
+--- /dev/null
++++ b/node_modules/expo/build/devtools/getConnectionInfo.d.ts
+@@ -0,0 +1,6 @@
++/**
++ * Get the dev server address.
++ */
++import type { ConnectionInfo } from './devtools.types';
++export declare function getConnectionInfo(): Omit<ConnectionInfo, 'pluginName'>;
++//# sourceMappingURL=getConnectionInfo.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/getConnectionInfo.js b/node_modules/expo/build/devtools/getConnectionInfo.js
+new file mode 100644
+index 0000000..5304c95
+--- /dev/null
++++ b/node_modules/expo/build/devtools/getConnectionInfo.js
+@@ -0,0 +1,12 @@
++/**
++ * Get the dev server address.
++ */
++export function getConnectionInfo() {
++    const devServerQuery = new URLSearchParams(window.location.search).get('devServer');
++    const host = window.location.origin.replace(/^https?:\/\//, '');
++    return {
++        sender: 'browser',
++        devServer: devServerQuery || host,
++    };
++}
++//# sourceMappingURL=getConnectionInfo.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/getConnectionInfo.native.d.ts b/node_modules/expo/build/devtools/getConnectionInfo.native.d.ts
+new file mode 100644
+index 0000000..eb9fffb
+--- /dev/null
++++ b/node_modules/expo/build/devtools/getConnectionInfo.native.d.ts
+@@ -0,0 +1,6 @@
++/**
++ * Get the dev server address.
++ */
++import type { ConnectionInfo } from './devtools.types';
++export declare function getConnectionInfo(): Omit<ConnectionInfo, 'pluginName'>;
++//# sourceMappingURL=getConnectionInfo.native.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/getConnectionInfo.native.js b/node_modules/expo/build/devtools/getConnectionInfo.native.js
+new file mode 100644
+index 0000000..2ad17af
+--- /dev/null
++++ b/node_modules/expo/build/devtools/getConnectionInfo.native.js
+@@ -0,0 +1,14 @@
++/**
++ * Get the dev server address.
++ */
++export function getConnectionInfo() {
++    const getDevServer = require('react-native/Libraries/Core/Devtools/getDevServer');
++    const devServer = getDevServer()
++        .url.replace(/^https?:\/\//, '')
++        .replace(/\/?$/, '');
++    return {
++        sender: 'app',
++        devServer,
++    };
++}
++//# sourceMappingURL=getConnectionInfo.native.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/index.d.ts b/node_modules/expo/build/devtools/index.d.ts
+new file mode 100644
+index 0000000..2c840d6
+--- /dev/null
++++ b/node_modules/expo/build/devtools/index.d.ts
+@@ -0,0 +1,10 @@
++import { DevToolsPluginClient } from './DevToolsPluginClient';
++import { getDevToolsPluginClientAsync } from './DevToolsPluginClientFactory';
++export { getDevToolsPluginClientAsync };
++export type { EventSubscription } from 'fbemitter';
++export { setEnableLogging } from './logger';
++/**
++ * A React hook to get the DevToolsPluginClient instance.
++ */
++export declare function useDevToolsPluginClient(pluginName: string): DevToolsPluginClient | null;
++//# sourceMappingURL=index.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/index.js b/node_modules/expo/build/devtools/index.js
+new file mode 100644
+index 0000000..9635330
+--- /dev/null
++++ b/node_modules/expo/build/devtools/index.js
+@@ -0,0 +1,39 @@
++import { useState, useEffect } from 'react';
++import { getDevToolsPluginClientAsync } from './DevToolsPluginClientFactory';
++export { getDevToolsPluginClientAsync };
++export { setEnableLogging } from './logger';
++/**
++ * A React hook to get the DevToolsPluginClient instance.
++ */
++export function useDevToolsPluginClient(pluginName) {
++    const [client, setClient] = useState(null);
++    const [error, setError] = useState(null);
++    useEffect(() => {
++        async function setup() {
++            try {
++                const client = await getDevToolsPluginClientAsync(pluginName);
++                setClient(client);
++            }
++            catch (e) {
++                setError(new Error('Failed to setup client from useDevToolsPluginClient: ' + e.toString()));
++            }
++        }
++        async function teardown() {
++            try {
++                await client?.closeAsync();
++            }
++            catch (e) {
++                setError(new Error('Failed to teardown client from useDevToolsPluginClient: ' + e.toString()));
++            }
++        }
++        setup();
++        return () => {
++            teardown();
++        };
++    }, [pluginName]);
++    if (error != null) {
++        throw error;
++    }
++    return client;
++}
++//# sourceMappingURL=index.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/logger.d.ts b/node_modules/expo/build/devtools/logger.d.ts
+new file mode 100644
+index 0000000..bbf354f
+--- /dev/null
++++ b/node_modules/expo/build/devtools/logger.d.ts
+@@ -0,0 +1,5 @@
++export declare function log(...params: Parameters<typeof console.log>): void;
++export declare function debug(...params: Parameters<typeof console.debug>): void;
++export declare function info(...params: Parameters<typeof console.info>): void;
++export declare function setEnableLogging(enabled: boolean): void;
++//# sourceMappingURL=logger.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/expo/build/devtools/logger.js b/node_modules/expo/build/devtools/logger.js
+new file mode 100644
+index 0000000..ef43048
+--- /dev/null
++++ b/node_modules/expo/build/devtools/logger.js
+@@ -0,0 +1,20 @@
++let enableLogging = false;
++export function log(...params) {
++    if (enableLogging) {
++        console.log(...params);
++    }
++}
++export function debug(...params) {
++    if (enableLogging) {
++        console.debug(...params);
++    }
++}
++export function info(...params) {
++    if (enableLogging) {
++        console.info(...params);
++    }
++}
++export function setEnableLogging(enabled) {
++    enableLogging = enabled;
++}
++//# sourceMappingURL=logger.js.map
+\ No newline at end of file
+diff --git a/node_modules/expo/devtools.d.ts b/node_modules/expo/devtools.d.ts
+new file mode 100644
+index 0000000..eceb646
+--- /dev/null
++++ b/node_modules/expo/devtools.d.ts
+@@ -0,0 +1 @@
++export * from './build/devtools';
+diff --git a/node_modules/expo/devtools.js b/node_modules/expo/devtools.js
+new file mode 100644
+index 0000000..529b931
+--- /dev/null
++++ b/node_modules/expo/devtools.js
+@@ -0,0 +1 @@
++module.exports = require('./build/devtools');

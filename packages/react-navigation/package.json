@@ -1,0 +1,51 @@
+{
+  "name": "@devtool-plugins/react-navigation",
+  "title": "Expo DevTools Plugin for React Navigation",
+  "version": "0.0.1",
+  "description": "A React Navigation DevTool that can run in an Expo App",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare && node ./scripts/build-webui.js",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "homepage": "https://docs.expo.dev/versions/latest/sdk/image/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expo/devtool-plugins.git",
+    "directory": "packages/react-navigation"
+  },
+  "keywords": [
+    "expo",
+    "devtools",
+    "react-navigation"
+  ],
+  "files": [
+    "build",
+    "dist",
+    "expo-module.config.json",
+    "src"
+  ],
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "@react-navigation/devtools": "^6.0.20",
+    "nanoid": "^3.1.23"
+  },
+  "devDependencies": {
+    "@react-navigation/core": "^6.4.10",
+    "expo": "~49.0.15",
+    "expo-module-scripts": "^3.1.0",
+    "typescript": "^5.1.3"
+  },
+  "peerDependencies": {
+    "@react-navigation/core": "*",
+    "expo": "*"
+  }
+}

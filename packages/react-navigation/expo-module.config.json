@@ -1,0 +1,7 @@
+{
+  "name": "@devtool-plugins/react-navigation",
+  "platforms": ["devtools"],
+  "devtools": {
+    "webpageRoot": "dist"
+  }
+}

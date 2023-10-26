@@ -1,0 +1,37 @@
+{
+  "name": "@devtool-plugins/react-navigation-webui",
+  "description": "The frontend webui for @devtool-plugins/react-navigation",
+  "homepage": "/_expo/plugins/@devtool-plugins/react-navigation",
+  "private": true,
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf web-build ../dist && expo export:web && mv web-build ../dist",
+    "start": "expo start -w"
+  },
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@babel/core": "^7.20.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@expo/webpack-config": "^19.0.0",
+    "@react-navigation/core": "^6.4.10",
+    "@types/react": "~18.2.14",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/react-window": "^1.8.5",
+    "antd": "^5.10.2",
+    "expo": "~49.0.15",
+    "nanoid": "^3.1.23",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-json-view": "^1.21.3",
+    "react-native": "0.72.6",
+    "react-native-web": "~0.19.6",
+    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-window": "^1.8.6",
+    "typescript": "^5.1.3"
+  }
+}
