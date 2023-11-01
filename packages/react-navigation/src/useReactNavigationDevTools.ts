@@ -1,12 +1,8 @@
 import type { NavigationContainerRef } from '@react-navigation/core';
 import { nanoid } from 'nanoid/non-secure';
 import useDevToolsBase from '@react-navigation/devtools/lib/module/useDevToolsBase';
-import { useDevToolsPluginClient } from 'expo/devtools';
+import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useEffect } from 'react';
-
-type SubscriptionType = ReturnType<
-  NonNullable<ReturnType<typeof useDevToolsPluginClient>>['addMessageListener']
->;
 
 export function useReactNavigationDevTools(ref: React.RefObject<NavigationContainerRef<any>>) {
   const client = useDevToolsPluginClient('react-navigation');
@@ -43,7 +39,7 @@ export function useReactNavigationDevTools(ref: React.RefObject<NavigationContai
       });
     };
 
-    const subscriptions: SubscriptionType[] = [];
+    const subscriptions: EventSubscription[] = [];
     subscriptions.push(
       on('navigation.invoke', ({ method, args = [] }) => {
         switch (method) {

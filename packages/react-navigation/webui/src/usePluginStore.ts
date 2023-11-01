@@ -1,12 +1,8 @@
-import { useDevToolsPluginClient } from 'expo/devtools';
+import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { nanoid } from 'nanoid/non-secure';
 import { useCallback, useEffect, useState } from 'react';
 
 import type { Log, NavigationState } from './types';
-
-type SubscriptionType = ReturnType<
-  NonNullable<ReturnType<typeof useDevToolsPluginClient>>['addMessageListener']
->;
 
 interface Deferred<T> {
   promise: Promise<T>;
@@ -22,7 +18,7 @@ export function usePluginStore() {
   const [index, setIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    const subscriptions: SubscriptionType[] = [];
+    const subscriptions: EventSubscription[] = [];
 
     subscriptions.push(
       client?.addMessageListener('init', () => {
