@@ -1,4 +1,4 @@
-# @devtool-plugins/react-navigation
+# @dev-plugins/react-navigation
 
 A React Navigation DevTool that can run in an Expo App
 
@@ -18,7 +18,7 @@ For bare React Native projects, you must ensure that you have [installed and con
 ### Add the package to your npm dependencies
 
 ```
-npm install @devtool-plugins/react-navigation
+npm install @dev-plugins/react-navigation
 ```
 
 # Contributing
