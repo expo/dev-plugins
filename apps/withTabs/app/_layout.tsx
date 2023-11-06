@@ -1,9 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { store } from 'expo-router/src/global-state/router-store';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
@@ -11,6 +9,8 @@ export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
+
+import DevToolsPluginsContainer from './DevToolsPluginsContainer';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -21,8 +21,6 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  useReactNavigationDevTools(store.navigationRef);
-
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -51,10 +49,12 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
+      <DevToolsPluginsContainer>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        </Stack>
+      </DevToolsPluginsContainer>
     </ThemeProvider>
   );
 }
