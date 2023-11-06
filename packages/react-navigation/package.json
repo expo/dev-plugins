@@ -1,5 +1,5 @@
 {
-  "name": "@devtool-plugins/react-navigation",
+  "name": "@dev-plugins/react-navigation",
   "title": "Expo DevTools Plugin for React Navigation",
   "version": "0.0.1",
   "description": "A React Navigation DevTool that can run in an Expo App",
@@ -18,7 +18,7 @@
   "homepage": "https://docs.expo.dev/versions/latest/sdk/image/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/expo/devtool-plugins.git",
+    "url": "git+https://github.com/expo/dev-plugins.git",
     "directory": "packages/react-navigation"
   },
   "keywords": [

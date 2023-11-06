@@ -1,7 +1,7 @@
 {
-  "name": "@devtool-plugins/react-navigation-webui",
-  "description": "The frontend webui for @devtool-plugins/react-navigation",
-  "homepage": "/_expo/plugins/@devtool-plugins/react-navigation",
+  "name": "@dev-plugins/react-navigation-webui",
+  "description": "The frontend webui for @dev-plugins/react-navigation",
+  "homepage": "/_expo/plugins/@dev-plugins/react-navigation",
   "private": true,
   "version": "0.0.1",
   "main": "index.js",

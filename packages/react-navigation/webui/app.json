@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "@devtool-plugins/react-navigation",
-    "slug": "@devtool-plugins/react-navigation",
+    "name": "@dev-plugins/react-navigation",
+    "slug": "@dev-plugins/react-navigation",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
