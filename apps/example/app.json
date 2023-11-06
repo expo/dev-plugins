@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "withTabs",
-    "slug": "withTabs",
+    "name": "example",
+    "slug": "example",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -29,6 +29,7 @@
     },
     "plugins": ["expo-router"],
     "experiments": {
+      "tsconfigPaths": true,
       "typedRoutes": true
     }
   }

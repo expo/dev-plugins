@@ -10,12 +10,7 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
-import DevToolsPluginsContainer from './DevToolsPluginsContainer';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
+import DevToolsPluginsContainer from '@/components/DevToolsPluginsContainer';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -50,10 +45,7 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <DevToolsPluginsContainer>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-        </Stack>
+        <Stack />
       </DevToolsPluginsContainer>
     </ThemeProvider>
   );
