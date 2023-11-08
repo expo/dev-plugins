@@ -1,5 +1,6 @@
 import { Slot } from 'expo-router';
 import { AppStateStatus, Platform } from 'react-native';
+import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { QueryClient, QueryClientProvider, focusManager } from '@tanstack/react-query';
 
 import { useAppState } from '@/react-query/hooks/useAppState';
@@ -17,9 +18,9 @@ const queryClient = new QueryClient({
 });
 
 export default function Layout() {
-  useOnlineManager();
-
   useAppState(onAppStateChange);
+  useOnlineManager();
+  useReactQueryDevTools(queryClient);
 
   return (
     <QueryClientProvider client={queryClient}>
