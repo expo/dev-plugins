@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "patch-package"
+    "postinstall": "patch-package && ./scripts/build-webui.js --all"
   },
   "workspaces": [
     "apps/*",
