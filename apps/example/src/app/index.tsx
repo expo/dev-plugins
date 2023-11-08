@@ -11,6 +11,7 @@ export default function TesterScreen() {
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
         <TestCase title="React Query" route="/react-query/" />
+        <TestCase title="React Query Time" route="/react-query-time/" />
       </View>
     </SafeAreaView>
   );
