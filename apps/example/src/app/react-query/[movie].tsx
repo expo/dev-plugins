@@ -1,31 +1,29 @@
-import * as React from 'react';
-import { View, RefreshControl, StyleSheet, ScrollView } from 'react-native';
-import { Title, Paragraph } from 'react-native-paper';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp } from '@react-navigation/native';
-import { useQuery } from '@tanstack/react-query';
-
-import { LoadingIndicator } from '@/react-query/components/LoadingIndicator';
 import { ErrorMessage } from '@/react-query/components/ErrorMessage';
+import { LoadingIndicator } from '@/react-query/components/LoadingIndicator';
 import { useRefreshByUser } from '@/react-query/hooks/useRefreshByUser';
 import { fetchMovie, MovieDetails } from '@/react-query/lib/api';
-import type { MoviesStackNavigator } from '@/react-query/types';
+import { useQuery } from '@tanstack/react-query';
+import { Stack, useLocalSearchParams } from 'expo-router';
+import * as React from 'react';
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { Paragraph, Title } from 'react-native-paper';
 
-type MoviesDetailsScreenNavigationProp = NativeStackNavigationProp<
-  MoviesStackNavigator,
-  'MovieDetails'
->;
+export default function MovieDetailsScreen() {
+  const { movie } = useLocalSearchParams<{ movie: string }>();
 
-type Props = {
-  navigation: MoviesDetailsScreenNavigationProp;
-  route: RouteProp<MoviesStackNavigator, 'MovieDetails'>;
-};
+  return (
+    <>
+      <Stack.Screen options={{ title: movie }} />
+      <MovieDetailsInfo movie={movie} />
+    </>
+  );
+}
 
-export default function MovieDetailsScreen({ route }: Props) {
+function MovieDetailsInfo({ movie }: { movie: string }) {
   const { isPending, error, data, refetch } = useQuery<MovieDetails, Error>({
-    queryKey: ['movie', route.params.movie.title],
-    queryFn: () => fetchMovie(route.params.movie.title),
-    initialData: route.params.movie as MovieDetails,
+    queryKey: ['movie', movie],
+    queryFn: () => fetchMovie(movie),
+    initialData: { title: movie } as MovieDetails,
   });
 
   const { isRefetchingByUser, refetchByUser } = useRefreshByUser(refetch);

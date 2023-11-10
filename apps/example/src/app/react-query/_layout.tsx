@@ -1,4 +1,4 @@
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import { AppStateStatus, Platform } from 'react-native';
 import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { QueryClient, QueryClientProvider, focusManager } from '@tanstack/react-query';
@@ -17,6 +17,10 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 2 } },
 });
 
+export const unstable_settings = {
+  initialRouteName: 'index',
+};
+
 export default function Layout() {
   useAppState(onAppStateChange);
   useOnlineManager();
@@ -24,7 +28,7 @@ export default function Layout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Slot />
+      <Stack />
     </QueryClientProvider>
   );
 }

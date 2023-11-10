@@ -1,25 +1,16 @@
 import * as React from 'react';
 import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, useNavigation } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { LoadingIndicator } from '@/react-query/components/LoadingIndicator';
-import { ErrorMessage } from '@/react-query/components/ErrorMessage';
 import { Divider } from '@/react-query/components/Divider';
 import { ListItem } from '@/react-query/components/ListItem';
 import { useRefreshByUser } from '@/react-query/hooks/useRefreshByUser';
 import { useRefreshOnFocus } from '@/react-query/hooks/useRefreshOnFocus';
 import { fetchMovies, Movie } from '@/react-query/lib/api';
-import { MoviesStackNavigator } from '@/react-query/types';
 
-type MoviesListScreenNavigationProp = NativeStackNavigationProp<MoviesStackNavigator, 'MoviesList'>;
-
-type Props = {
-  navigation: MoviesListScreenNavigationProp;
-};
-
-export default function MoviesListScreen({ navigation }: Props) {
+export default function MoviesListScreen() {
+  const navigation = useNavigation();
   const { isPending, error, data, refetch } = useQuery<Movie[], Error>({
     queryKey: ['movies'],
     queryFn: fetchMovies,
@@ -29,8 +20,10 @@ export default function MoviesListScreen({ navigation }: Props) {
 
   const onListItemPress = React.useCallback(
     (movie: any) => {
-      navigation.navigate('MovieDetails', {
-        movie,
+      console.log('movie:', movie);
+      // @ts-expect-error: untyped
+      navigation.navigate('[movie]', {
+        movie: movie.title,
       });
     },
     [navigation]
@@ -53,7 +46,8 @@ export default function MoviesListScreen({ navigation }: Props) {
         ItemSeparatorComponent={() => <Divider />}
         refreshControl={
           <RefreshControl refreshing={isRefetchingByUser} onRefresh={refetchByUser} />
-        }></FlatList>
+        }
+      />
     </View>
   );
 }
