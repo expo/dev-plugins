@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+// @ts-expect-error: untyped
+import Colors from 'react-native/Libraries/NewAppScreen/components/Colors';
 import {
   useTimeByCurrentIp,
   UseTimeByCurrentIpOptions,
