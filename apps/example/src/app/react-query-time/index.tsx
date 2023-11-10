@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// @ts-expect-error: untyped
-import Colors from 'react-native/Libraries/NewAppScreen/components/Colors';
 import {
   useTimeByCurrentIp,
   UseTimeByCurrentIpOptions,
@@ -25,7 +15,6 @@ const queryClient = new QueryClient();
 
 function Section({ children, title }: { children: React.ReactNode; title: string }) {
   useReactQueryDevTools(queryClient);
-  const isDarkMode = useColorScheme() === 'dark';
 
   return (
     <View style={styles.sectionContainer}>
@@ -33,7 +22,7 @@ function Section({ children, title }: { children: React.ReactNode; title: string
         style={[
           styles.sectionTitle,
           {
-            color: isDarkMode ? Colors.white : Colors.black,
+            color: '#000',
           },
         ]}>
         {title}
@@ -42,7 +31,7 @@ function Section({ children, title }: { children: React.ReactNode; title: string
         style={[
           styles.sectionDescription,
           {
-            color: isDarkMode ? Colors.light : Colors.dark,
+            color: '#222',
           },
         ]}>
         {children}
@@ -90,20 +79,18 @@ function TimeByTimeZone({
 }
 
 export default function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: '#F3F3F3',
   };
 
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <StatusBar barStyle={'dark-content'} />
         <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
           <View
             style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
+              backgroundColor: '#fff',
             }}>
             <Section title="Time by current IP">
               <TimeByCurrentIp />
