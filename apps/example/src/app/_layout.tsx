@@ -2,13 +2,13 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
+import DevToolsPluginsContainer from '@/components/DevToolsPluginsContainer';
+import { StatusBar } from 'expo-status-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
-
-import DevToolsPluginsContainer from '@/components/DevToolsPluginsContainer';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -45,6 +45,7 @@ function RootLayoutNav() {
   return (
     <DevToolsPluginsContainer>
       <Stack />
+      <StatusBar style="dark" />
     </DevToolsPluginsContainer>
   );
 }
