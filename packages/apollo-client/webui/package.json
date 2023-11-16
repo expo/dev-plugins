@@ -1,0 +1,27 @@
+{
+  "name": "@dev-plugins/apollo-client-webui",
+  "description": "The frontend webui for @dev-plugins/apollo-client",
+  "homepage": "/_expo/plugins/@dev-plugins/apollo-client",
+  "private": true,
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start -w"
+  },
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@expo/webpack-config": "^19.0.0",
+    "@types/react": "~18.2.14",
+    "antd": "^5.10.2",
+    "expo": "~49.0.15",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-json-view": "^1.21.3",
+    "react-native": "0.72.6",
+    "react-native-web": "~0.19.6",
+    "typescript": "^5.1.3"
+  }
+}

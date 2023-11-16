@@ -1,8 +1,13 @@
 # Expo DevTools Plugins
 
 - A collection of Expo DevTools Plugins.
+- The repository here is a Proof-Of-Concept for Expo DevTools Plugins and showing the migration effort for moving Flipper Plugins to Expo DevTools Plugins.
 
 ## Awesome Plugins
+
+- `@dev-plugins/apollo-client`: Plugin for [Apollo Client](https://www.apollographql.com/docs/react/)
+
+  - Credit: Most code are forked from [react-query-apollo-devtools](https://github.com/razorpay/react-native-apollo-devtools)
 
 - `@dev-plugins/react-query`: Plugin for [TanStack Query](https://tanstack.com/query/latest/)
 
@@ -17,5 +22,6 @@
 The [example app](/apps/example) is an [Expo Router](https://docs.expo.dev/routing/introduction/) app that provides test cases for plugins
 
 - Expo Router is based on React Navigation, so you can just test `@dev-plugins/react-navigation` from visiting different screens from the app.
+- [`Apollo Client`](/apps/example/src/app/apollo-client/): Apollo Client example forked from https://www.apollographql.com/docs/react/get-started/
 - [`React Query`](/apps/example/src/app/react-query/): React Query example forked from https://github.com/TanStack/query/tree/5b9be1e299257e32c4c294796711f5d82f968530/examples/react/react-native
 - [`React Query Time`](/apps/example/src/app/react-query-time/): React Query example forked from https://github.com/bgaleotti/react-query-native-devtools/tree/799efff17b08e9793ab27d5a93457c5d5510233c/apps/Time
