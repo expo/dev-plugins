@@ -1,8 +1,7 @@
 {
   "name": "@dev-plugins/react-query",
-  "title": "Expo DevTools Plugin for TanStack Query",
   "version": "0.0.1",
-  "description": "A TanStack Query DevTool that can run in an Expo App",
+  "description": "Expo DevTools Plugin for TanStack Query",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "sideEffects": false,

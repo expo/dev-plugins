@@ -13,6 +13,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.7",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-community/netinfo": "9.3.10",
     "@react-navigation/native": "^6.0.2",
@@ -25,6 +26,7 @@
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "~2.4.0",
     "expo-web-browser": "~12.3.2",
+    "graphql": "^16.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
