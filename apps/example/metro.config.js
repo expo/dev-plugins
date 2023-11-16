@@ -17,6 +17,6 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, 'node_modules'),
 ];
 config.resolver.disableHierarchicalLookup = true;
-config.resolver.sourceExts = ['mjs', ...config.resolver.sourceExts];
+config.resolver.sourceExts = [...config.resolver.sourceExts, 'mjs'];
 
 module.exports = config;
