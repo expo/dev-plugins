@@ -11,6 +11,7 @@ export default function TesterScreen() {
         <TestCase title="Apollo Client" route="/apollo-client/" />
         <TestCase title="React Query" route="/react-query/" />
         <TestCase title="React Query Time" route="/react-query-time/" />
+        <TestCase title="TinyBase" route="/tinybase/" />
       </View>
     </SafeAreaView>
   );
