@@ -13,7 +13,7 @@ config.resolver.nodeModulesPaths = [
 ];
 config.resolver.disableHierarchicalLookup = true;
 
-// Serves mjs
-config.resolver.sourceExts = ['mjs', ...config.resolver.sourceExts];
+// TinyBase uses package exports
+config.resolver.unstable_enablePackageExports = true;
 
 module.exports = config;

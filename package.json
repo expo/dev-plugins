@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "patch-package && ./scripts/build-webui.js --all"
+    "postinstall": "./scripts/build-webui.js --all"
   },
   "workspaces": [
     "apps/*",
@@ -11,17 +11,16 @@
     "packages/*/webui"
   ],
   "resolutions": {
-    "expo": "~49.0.15",
+    "babel-preset-expo": "~9.9.0",
+    "expo": "~50.0.0-alpha.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "~0.72.6",
+    "react-native": "0.72.6",
     "react-native-web": "~0.19.6"
   },
   "dependencies": {},
   "devDependencies": {
     "@expo/spawn-async": "^1.7.2",
-    "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5"
   }

@@ -4,6 +4,7 @@
     "slug": "example",
     "version": "1.0.0",
     "orientation": "portrait",
+    "sdkVersion": "UNVERSIONED",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",

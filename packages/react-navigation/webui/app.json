@@ -22,7 +22,11 @@
       }
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
+    },
+    "experiments": {
+      "baseUrl": "/_expo/plugins/@dev-plugins/react-navigation"
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "@dev-plugins/react-navigation",
-    "slug": "@dev-plugins/react-navigation",
+    "name": "@dev-plugins/react-query",
+    "slug": "@dev-plugins/react-query",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,11 @@
       }
     },
     "web": {
+      "bundler": "metro",
       "favicon": "./assets/favicon.png"
+    },
+    "experiments": {
+      "baseUrl": "/_expo/plugins/@dev-plugins/react-query"
     }
   }
 }
