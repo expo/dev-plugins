@@ -32,12 +32,10 @@ async function runAsync() {
 async function buildAsync(packageName) {
   console.log(`⚙️  Building web assets for ${packageName}`);
   const packageRoot = path.join(ROOT, 'packages', packageName);
-  await Promise.all([
-    rimraf.rimraf(path.join(packageRoot, 'dist')),
-    rimraf.rimraf(path.join(packageRoot, 'webui', 'web-build')),
-  ]);
-  await spawnAsync('npx', ['expo', 'export:web'], { cwd: path.join(packageRoot, 'webui') });
-  await fs.rename(path.join(packageRoot, 'webui', 'web-build'), path.join(packageRoot, 'dist'));
+  await rimraf.rimraf(path.join(packageRoot, 'dist'));
+  await spawnAsync('npx', ['expo', 'export', '-p', 'web', '--output-dir', '../dist'], {
+    cwd: path.join(packageRoot, 'webui'),
+  });
 }
 
 (async () => {
