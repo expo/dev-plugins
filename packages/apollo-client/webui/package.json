@@ -14,7 +14,7 @@
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.14",
     "antd": "^5.10.2",
-    "expo": "~50.0.0-alpha.7",
+    "expo": "50.0.0-canary-20231205-250b31f",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-json-view": "^1.21.3",
