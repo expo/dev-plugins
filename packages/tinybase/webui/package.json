@@ -2,7 +2,7 @@
   "name": "@dev-plugins/tinybase-webui",
   "description": "The frontend webui for @dev-plugins/tinybase",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "scripts": {
     "start": "expo start -w"
