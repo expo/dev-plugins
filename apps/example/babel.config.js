@@ -7,9 +7,6 @@ module.exports = function (api) {
       ['@babel/plugin-transform-flow-strip-types', { loose: true }],
       ['@babel/plugin-transform-private-methods', { loose: true }],
       // [END] For react-query
-
-      // Required for expo-router
-      'expo-router/babel',
     ],
   };
 };
