@@ -33,7 +33,7 @@ export function Logs({ active, logs, index, resetTo }: Props) {
 
   return logs.length ? (
     <Layout hasSider={hasSider}>
-      <Layout.Content>
+      <Layout.Content style={{ height: '100vh', overflow: 'auto'}}>
         <AutoSizer>
           {({ height, width }) => (
             <List
