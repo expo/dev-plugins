@@ -1,6 +1,6 @@
 {
   "name": "@dev-plugins/react-navigation",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Expo DevTools Plugin for React Navigation",
   "main": "build/index.js",
   "types": "build/index.d.ts",
