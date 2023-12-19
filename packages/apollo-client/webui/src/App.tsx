@@ -122,8 +122,10 @@ const styles = StyleSheet.create({
   sider: {
     backgroundColor: '#fff',
     padding: 8,
+    overflow: 'scroll',
   },
   content: {
     padding: 8,
+    overflow: 'scroll'
   },
 });

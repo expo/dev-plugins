@@ -64,7 +64,7 @@ export default function QuerySidebar({ query, onQueryRefetch, onQueryRemove }: P
   ];
 
   return (
-    <Layout.Sider width="30%" theme="light">
+    <Layout.Sider style={{ height: '100vh', overflow: 'auto' }} width="30%" theme="light">
       <Collapse items={panels} bordered={false} />
     </Layout.Sider>
   );

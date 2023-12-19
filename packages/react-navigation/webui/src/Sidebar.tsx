@@ -24,6 +24,8 @@ export function Sidebar({
         margin: `0 ${theme.space.medium}px`,
         padding: `0 ${theme.space.small}px`,
         borderRadius: theme.borderRadius,
+        overflow: 'auto',
+        height: '100vh'
       }}>
       {stack ? (
         <>
