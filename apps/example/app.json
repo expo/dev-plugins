@@ -35,7 +35,6 @@
       "expo-font"
     ],
     "experiments": {
-      "tsconfigPaths": true,
       "typedRoutes": true
     }
   }
