@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 const spawnAsync = require('@expo/spawn-async');
-const fs = require('fs/promises');
-const fsSync = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 
@@ -15,15 +13,7 @@ async function runAsync() {
     process.exit(1);
   }
 
-  let packageNames;
-  if (args[0] === '--all') {
-    packageNames = (await fs.readdir(path.join(ROOT, 'packages'))).filter((name) =>
-      fsSync.statSync(path.join(ROOT, 'packages', name)).isDirectory()
-    );
-  } else {
-    packageNames = args;
-  }
-
+  const packageNames = args;
   for (const packageName of packageNames) {
     await buildAsync(packageName);
   }

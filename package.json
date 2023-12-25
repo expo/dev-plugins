@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "./scripts/build-webui.js --all"
+    "postinstall": "./scripts/prepare-packages.js"
   },
   "workspaces": [
     "apps/*",

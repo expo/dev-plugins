@@ -1,0 +1,30 @@
+{
+  "name": "@dev-plugins/vanilla-log-viewer",
+  "version": "0.0.1",
+  "description": "An example of DevTools plugin using vanilla JavaScript to show console logs",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "prepare": "esbuild --bundle webui-dist/script.js --outfile=webui-dist/script-bundle.js --minify"
+  },
+  "keywords": [
+    "expo",
+    "devtools",
+    "console",
+    "logviewer"
+  ],
+  "files": [
+    "webui-dist",
+    "expo-module.config.json"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.19.10",
+    "expo": "50.0.0-canary-20231205-250b31f"
+  },
+  "peerDependencies": {
+    "expo": "*"
+  }
+}
