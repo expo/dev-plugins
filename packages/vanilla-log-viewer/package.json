@@ -22,7 +22,7 @@
   "dependencies": {},
   "devDependencies": {
     "esbuild": "^0.19.10",
-    "expo": "50.0.0-canary-20231205-250b31f"
+    "expo": "50.0.0-preview.7"
   },
   "peerDependencies": {
     "expo": "*"
