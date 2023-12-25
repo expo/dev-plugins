@@ -12,6 +12,7 @@ export default function TesterScreen() {
         <TestCase title="React Query" route="/react-query/" />
         <TestCase title="React Query Time" route="/react-query-time/" />
         <TestCase title="TinyBase" route="/tinybase/" />
+        <TestCase title="Vanilla Log Viewer" route="/vanilla-log-viewer/" />
       </View>
     </SafeAreaView>
   );
