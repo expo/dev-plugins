@@ -1,6 +1,6 @@
 {
   "name": "@dev-plugins/apollo-client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Expo DevTools Plugin for Apollo Client",
   "main": "build/index.js",
   "types": "build/index.d.ts",
