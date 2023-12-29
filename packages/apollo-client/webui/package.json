@@ -2,7 +2,7 @@
   "name": "@dev-plugins/apollo-client-webui",
   "description": "The frontend webui for @dev-plugins/apollo-client",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "index.js",
   "scripts": {
     "start": "expo start -w"
