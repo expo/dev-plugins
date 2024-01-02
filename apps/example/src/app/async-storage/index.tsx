@@ -10,7 +10,7 @@ function Main() {
 
   const [key, setKey] = useState('');
   const [value, setValue] = useState('');
-  const { setItem, getItem, removeItem } = useAsyncStorage(key);
+  const { setItem, getItem } = useAsyncStorage(key);
 
   const [allData, setAllData] = useState<readonly KeyValuePair[]>([]);
 
@@ -69,12 +69,6 @@ function Main() {
           onPress={() => setItem(value).then(() => updateAllData())}
         />
         <IconButton
-          icon="delete"
-          iconColor="#000"
-          size={20}
-          onPress={() => removeItem().then(() => updateAllData())}
-        />
-        <IconButton
           icon="refresh"
           iconColor="#000"
           size={20}
@@ -95,6 +89,12 @@ function Main() {
             }}>
             <Text>{key}: </Text>
             <Text>{value}</Text>
+            <IconButton
+              icon="delete"
+              iconColor="#000"
+              size={20}
+              onPress={() => AsyncStorage.removeItem(key).then(() => updateAllData())}
+            />
           </View>
         ))}
       </View>
