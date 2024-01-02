@@ -20,10 +20,13 @@ const promiseMap = new Map<string, Deferred<any>>();
 export function usePluginStore(onError: (error: unknown) => void) {
   const client = useDevToolsPluginClient('async-storage');
 
-  const [entries, setEntries] = useState<readonly KeyValuePair[]>([]);
+  useEffect(() => {
+    console.log('Connected to host', client?.connectionInfo);
+  }, [client]);
+
+  const [entries, setEntries] = useState<readonly { key: string; value: string | null }[]>([]);
 
   const update = useCallback(async () => {
-    console.log('getAll', client?.connectionInfo);
     return client?.sendMessage('getAll', {});
   }, [client]);
 
@@ -47,7 +50,7 @@ export function usePluginStore(onError: (error: unknown) => void) {
       client?.addMessageListener(
         methodAck.getAll,
         ({ result }: { result: readonly KeyValuePair[] }) => {
-          setEntries(result);
+          setEntries(result.map(([key, value]) => ({ key, value })));
         }
       )
     );
