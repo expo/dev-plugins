@@ -1,6 +1,6 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Stack, type LinkProps } from 'expo-router';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TesterScreen() {
@@ -13,6 +13,7 @@ export default function TesterScreen() {
         <TestCase title="React Query Time" route="/react-query-time/" />
         <TestCase title="TinyBase" route="/tinybase/" />
         <TestCase title="Vanilla Log Viewer" route="/vanilla-log-viewer/" />
+        <TestCase title="Async Storage" route="/async-storage/" />
       </View>
     </SafeAreaView>
   );

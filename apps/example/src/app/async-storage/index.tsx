@@ -1,43 +1,107 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
-import { useVanillaLogViewer } from '@dev-plugins/vanilla-log-viewer';
+import { useAsyncStorageDevTools } from '@dev-plugins/async-storage';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { KeyValuePair } from '@react-native-async-storage/async-storage/lib/typescript/types';
+import { useCallback, useEffect, useState } from 'react';
+import { Text, TextInput, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
 
-export default function VanillaLogView() {
-  useVanillaLogViewer();
+function Main() {
+  useAsyncStorageDevTools();
+
+  const [key, setKey] = useState('');
+  const [value, setValue] = useState('');
+  const { setItem, getItem, removeItem } = useAsyncStorage(key);
+
+  const [allData, setAllData] = useState<readonly KeyValuePair[]>([]);
+
+  const updateAllData = useCallback(() => {
+    AsyncStorage.getAllKeys().then((keys) => {
+      AsyncStorage.multiGet(keys).then((data) => {
+        setAllData(data);
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(updateAllData, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="Send console.log"
-        onPress={() => {
-          console.log('Hello');
-        }}
-      />
-      <Button
-        title="Send console.log with extra arguments"
-        onPress={() => {
-          console.log('Hello', 'World', new Date().toISOString());
-        }}
-      />
-      <Button
-        title="Send console.warn"
-        onPress={() => {
-          console.warn('A warning should present as a yellow box in apps');
-        }}
-      />
-      <Button
-        title="Send console.error"
-        onPress={() => {
-          console.error(`Error happened at ${new Date().toISOString()}`);
-        }}
-      />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20 }}>
+      <Text>Async Storage</Text>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          width: '100%',
+          marginVertical: 20,
+        }}>
+        <Text>Key: </Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1, minWidth: 200 }}
+          onChangeText={(text) => {
+            setKey(text);
+            setValue('');
+          }}
+          value={key}
+        />
+      </View>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+          width: '100%',
+          marginVertical: 20,
+        }}>
+        <Text>Value: </Text>
+        <TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1, minWidth: 200 }}
+          onChangeText={setValue}
+          value={value}
+        />
+        <IconButton
+          icon="content-save"
+          iconColor="#000"
+          size={20}
+          onPress={() => setItem(value).then(() => updateAllData())}
+        />
+        <IconButton
+          icon="delete"
+          iconColor="#000"
+          size={20}
+          onPress={() => removeItem().then(() => updateAllData())}
+        />
+        <IconButton
+          icon="refresh"
+          iconColor="#000"
+          size={20}
+          onPress={() => getItem().then((value) => setValue(value ?? ''))}
+        />
+      </View>
+      <View style={{ width: '100%' }}>
+        <Text>Entries:</Text>
+        {allData.map(([key, value]) => (
+          <View
+            key={key}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              flexDirection: 'row',
+              width: '100%',
+              marginVertical: 20,
+            }}>
+            <Text>{key}: </Text>
+            <Text>{value}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function AsyncStorageDemo() {
+  return <Main />;
+}

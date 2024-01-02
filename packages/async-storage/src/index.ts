@@ -2,7 +2,7 @@ export let useAsyncStorageDevTools: typeof import('./useAsyncStorageDevTools').u
 
 // @ts-ignore process.env.NODE_ENV is defined by metro transform plugins
 if (process.env.NODE_ENV !== 'production') {
-  useAsyncStorageDevTools = require('./useReactNavigationDevTools').useAsyncStorageDevTools;
+  useAsyncStorageDevTools = require('./useAsyncStorageDevTools').useAsyncStorageDevTools;
 } else {
   useAsyncStorageDevTools = () => {};
 }

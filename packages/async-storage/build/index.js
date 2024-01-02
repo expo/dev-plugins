@@ -1,9 +1,9 @@
-export let useReactNavigationDevTools;
+export let useAsyncStorageDevTools;
 // @ts-ignore process.env.NODE_ENV is defined by metro transform plugins
 if (process.env.NODE_ENV !== 'production') {
-    useReactNavigationDevTools = require('./useReactNavigationDevTools').useReactNavigationDevTools;
+    useAsyncStorageDevTools = require('./useAsyncStorageDevTools').useAsyncStorageDevTools;
 }
 else {
-    useReactNavigationDevTools = () => { };
+    useAsyncStorageDevTools = () => { };
 }
 //# sourceMappingURL=index.js.map
