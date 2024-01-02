@@ -14,7 +14,7 @@ export function useAsyncStorageDevTools() {
     const on = (
       event: Method,
       listener: (params: { key?: string; value?: string }) => Promise<any>
-    ) => {
+    ) =>
       client?.addMessageListener(event, async (params: { key?: string; value?: string }) => {
         try {
           const result = await listener(params);
@@ -26,7 +26,6 @@ export function useAsyncStorageDevTools() {
           } catch {}
         }
       });
-    };
 
     const subscriptions: EventSubscription[] = [];
     subscriptions.push(
@@ -38,7 +37,6 @@ export function useAsyncStorageDevTools() {
 
     subscriptions.push(
       on('set', ({ key, value }) => {
-        console.log('set', { key, value });
         if (key !== undefined && value !== undefined) return AsyncStorage.setItem(key, value);
         else return Promise.resolve();
       })

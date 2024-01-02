@@ -7,27 +7,24 @@ export function useAsyncStorageDevTools() {
         console.log(client?.connectionInfo);
     }, [client]);
     useEffect(() => {
-        const on = (event, listener) => {
-            client?.addMessageListener(event, async (params) => {
+        const on = (event, listener) => client?.addMessageListener(event, async (params) => {
+            try {
+                const result = await listener(params);
+                client?.sendMessage(`ack:${event}`, { result });
+            }
+            catch (error) {
                 try {
-                    const result = await listener(params);
-                    client?.sendMessage(`ack:${event}`, { result });
+                    client?.sendMessage('error', { error });
                 }
-                catch (error) {
-                    try {
-                        client?.sendMessage('error', { error });
-                    }
-                    catch { }
-                }
-            });
-        };
+                catch { }
+            }
+        });
         const subscriptions = [];
         subscriptions.push(on('getAll', async () => {
             const keys = await AsyncStorage.getAllKeys();
             return await AsyncStorage.multiGet(keys);
         }));
         subscriptions.push(on('set', ({ key, value }) => {
-            console.log('set', { key, value });
             if (key !== undefined && value !== undefined)
                 return AsyncStorage.setItem(key, value);
             else
