@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDevToolsPluginClient } from 'expo/devtools';
 import { useEffect } from 'react';
 export function useAsyncStorageDevTools() {
-    const client = useDevToolsPluginClient('react-navigation');
+    const client = useDevToolsPluginClient('async-storage');
     useEffect(() => {
         const on = (event, listener) => {
             client?.addMessageListener(event, async (params) => {
@@ -10,12 +10,18 @@ export function useAsyncStorageDevTools() {
                     const result = await listener(params);
                     client?.sendMessage(`ack:${event}`, { result });
                 }
-                catch { }
+                catch (error) {
+                    try {
+                        client?.sendMessage('error', { error });
+                    }
+                    catch { }
+                }
             });
         };
         const subscriptions = [];
         subscriptions.push(on('getAll', async () => {
             const keys = await AsyncStorage.getAllKeys();
+            alert('test');
             return await AsyncStorage.multiGet(keys);
         }));
         subscriptions.push(on('set', ({ key, value }) => {

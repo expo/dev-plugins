@@ -17,12 +17,13 @@ const methodAck: Record<Method, MethodAck> = {
 
 const promiseMap = new Map<string, Deferred<any>>();
 
-export function usePluginStore() {
+export function usePluginStore(onError: (error: unknown) => void) {
   const client = useDevToolsPluginClient('async-storage');
 
   const [entries, setEntries] = useState<readonly KeyValuePair[]>([]);
 
   const update = useCallback(async () => {
+    console.log('getAll', client?.connectionInfo);
     return client?.sendMessage('getAll', {});
   }, [client]);
 
@@ -43,9 +44,12 @@ export function usePluginStore() {
     const subscriptions: EventSubscription[] = [];
 
     subscriptions.push(
-      client?.addMessageListener(methodAck.getAll, (updatedEntries: readonly KeyValuePair[]) => {
-        setEntries(updatedEntries);
-      })
+      client?.addMessageListener(
+        methodAck.getAll,
+        ({ result }: { result: readonly KeyValuePair[] }) => {
+          setEntries(result);
+        }
+      )
     );
 
     subscriptions.push(
@@ -57,6 +61,12 @@ export function usePluginStore() {
     subscriptions.push(
       client?.addMessageListener(methodAck.remove, () => {
         update();
+      })
+    );
+
+    subscriptions.push(
+      client?.addMessageListener('error', ({ error }: { error: unknown }) => {
+        onError(error);
       })
     );
 

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Method } from '../methods';
 
 export function useAsyncStorageDevTools() {
-  const client = useDevToolsPluginClient('react-navigation');
+  const client = useDevToolsPluginClient('async-storage');
 
   useEffect(() => {
     const on = (event: Method, listener: (params: any) => Promise<any>) => {
@@ -13,7 +13,11 @@ export function useAsyncStorageDevTools() {
           const result = await listener(params);
 
           client?.sendMessage(`ack:${event}`, { result });
-        } catch {}
+        } catch (error) {
+          try {
+            client?.sendMessage('error', { error });
+          } catch {}
+        }
       });
     };
 
@@ -21,6 +25,7 @@ export function useAsyncStorageDevTools() {
     subscriptions.push(
       on('getAll', async () => {
         const keys = await AsyncStorage.getAllKeys();
+        alert('test');
         return await AsyncStorage.multiGet(keys);
       })
     );
