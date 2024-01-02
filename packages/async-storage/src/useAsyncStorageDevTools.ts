@@ -7,8 +7,15 @@ export function useAsyncStorageDevTools() {
   const client = useDevToolsPluginClient('async-storage');
 
   useEffect(() => {
-    const on = (event: Method, listener: (params: any) => Promise<any>) => {
-      client?.addMessageListener(event, async (params) => {
+    console.log(client?.connectionInfo);
+  }, [client]);
+
+  useEffect(() => {
+    const on = (
+      event: Method,
+      listener: (params: { key?: string; value?: string }) => Promise<any>
+    ) => {
+      client?.addMessageListener(event, async (params: { key?: string; value?: string }) => {
         try {
           const result = await listener(params);
 
@@ -25,20 +32,22 @@ export function useAsyncStorageDevTools() {
     subscriptions.push(
       on('getAll', async () => {
         const keys = await AsyncStorage.getAllKeys();
-        alert('test');
         return await AsyncStorage.multiGet(keys);
       })
     );
 
     subscriptions.push(
       on('set', ({ key, value }) => {
-        return AsyncStorage.setItem(key, value);
+        console.log('set', { key, value });
+        if (key !== undefined && value !== undefined) return AsyncStorage.setItem(key, value);
+        else return Promise.resolve();
       })
     );
 
     subscriptions.push(
       on('remove', ({ key }) => {
-        return AsyncStorage.removeItem(key);
+        if (key !== undefined) return AsyncStorage.removeItem(key);
+        else return Promise.resolve();
       })
     );
 
