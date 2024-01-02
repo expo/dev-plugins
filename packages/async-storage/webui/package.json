@@ -1,0 +1,32 @@
+{
+  "name": "@dev-plugins/async-storage-webui",
+  "description": "The frontend webui for @dev-plugins/async-storage",
+  "private": true,
+  "version": "0.0.5",
+  "main": "index.js",
+  "scripts": {
+    "start": "expo start -w"
+  },
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@babel/core": "^7.20.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@types/react": "~18.2.45",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/react-window": "^1.8.5",
+    "antd": "^5.10.2",
+    "expo": "50.0.0-preview.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-json-view": "^1.21.3",
+    "react-native": "0.73.1",
+    "react-native-web": "~0.19.6",
+    "react-window": "^1.8.6",
+    "typescript": "^5.3.0"
+  }
+}
