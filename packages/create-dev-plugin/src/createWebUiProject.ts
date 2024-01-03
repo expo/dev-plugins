@@ -22,7 +22,7 @@ export async function createWebUiProjectAsync(
   debug(`Using expo template: ${template}`);
   await spawnAsync(
     packageManager,
-    ['create', 'expo-app', '--template', template, '--yes', '--no-install', 'webui'],
+    ['create', 'expo-app', '--', '--template', template, '--yes', '--no-install', 'webui'],
     { cwd: projectRoot, stdio: 'ignore' }
   );
 
