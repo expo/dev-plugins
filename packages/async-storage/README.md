@@ -21,9 +21,3 @@ export default function App() {
   /* ... */
 }
 ```
-
-### Future Plans
-
-- JSON support in the DevTool's value column (using [React JSON Viewer](https://github.com/microlinkhq/react-json-view))
-- Improve the DevTool's UI to get rid of calls to `prompt`
-- Improve the UX of refreshing the table after changes have been made
