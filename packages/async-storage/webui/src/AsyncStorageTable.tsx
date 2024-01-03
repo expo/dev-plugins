@@ -35,6 +35,9 @@ export function AsyncStorageTable() {
     <>
       {AddEntryDialog}
       <Table
+        loading={!ready}
+        bordered
+        size="middle"
         style={{ width: '100%' }}
         dataSource={rows}
         pagination={false}
@@ -70,7 +73,7 @@ export function AsyncStorageTable() {
             ) : null,
         }}
         columns={[
-          { title: 'Key', dataIndex: 'key', key: 'key' },
+          { title: 'Key', dataIndex: 'key', key: 'key', width: 1 },
           {
             title: 'Value',
             dataIndex: 'value',
@@ -78,7 +81,8 @@ export function AsyncStorageTable() {
             onCell(record) {
               return {
                 style: {
-                  boxShadow: inProgressEdits[record.key] != null ? '0 0 0 2px #1890ff' : undefined,
+                  border: inProgressEdits[record.key] != null ? '1px solid #1890ff' : undefined,
+                  backgroundColor: '#eee6',
                 },
                 contentEditable: true,
                 title: 'Value',
@@ -87,13 +91,17 @@ export function AsyncStorageTable() {
                 },
               };
             },
+            shouldCellUpdate(record, prevRecord) {
+              return record.editedValue !== prevRecord.editedValue;
+            },
           },
           {
             title: 'Actions',
             key: 'action',
+            width: 1,
             render(_, record) {
               return (
-                <Flex>
+                <Flex gap="0.5em" style={{ marginLeft: '0.5em', marginRight: '0.5em' }}>
                   <Button
                     onClick={() => showRemoveEntryModal(record.key)}
                     icon={<DeleteOutlined />}
@@ -135,12 +143,6 @@ export function AsyncStorageTable() {
             />
           </Flex>
         )}
-        caption={
-          <p>
-            By default, the reload button will not update any fields you have edited . To fully
-            update the list, click the reload button while holding the <code>Shift</code> key.
-          </p>
-        }
       />
     </>
   );
