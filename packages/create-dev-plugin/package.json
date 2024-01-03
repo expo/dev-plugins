@@ -1,6 +1,6 @@
 {
   "name": "create-dev-plugin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The script to create the Expo DevTools Plugins",
   "main": "build",
   "scripts": {
