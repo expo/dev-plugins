@@ -7,7 +7,7 @@ import {
   SubnodeOutlined,
 } from '@ant-design/icons';
 import ReactJsonView from '@microlink/react-json-view';
-import { Button, Flex, Input, Table } from 'antd';
+import { Button, Flex, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
 import { useRemoveEntryModal } from './modal/useRemoveEntryModal';
@@ -75,18 +75,17 @@ export function AsyncStorageTable() {
             title: 'Value',
             dataIndex: 'value',
             key: 'value',
-            render(value, { key, editedValue }) {
-              return (
-                <Input.TextArea
-                  value={editedValue ?? value}
-                  onChange={(e) => {
-                    updateInProgressEdits({ [key]: e.target.value });
-                  }}
-                  style={{
-                    boxShadow: inProgressEdits[key] != null ? '0 0 0 2px #1890ff' : undefined,
-                  }}
-                />
-              );
+            onCell(record) {
+              return {
+                style: {
+                  boxShadow: inProgressEdits[record.key] != null ? '0 0 0 2px #1890ff' : undefined,
+                },
+                contentEditable: true,
+                title: 'Value',
+                onInput(e) {
+                  updateInProgressEdits({ [record.key]: e.currentTarget.textContent });
+                },
+              };
             },
           },
           {
