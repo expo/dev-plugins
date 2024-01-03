@@ -5,15 +5,15 @@ export type TableRow = {
   key: string;
   value: string;
   editedValue?: string;
-  isJson: boolean;
+  json: object | null;
 };
 
-function hasJsonStructure(str: unknown) {
+function hasJsonStructure(str: unknown): object | false {
   if (typeof str !== 'string') return false;
   try {
     const result = JSON.parse(str);
     const type = Object.prototype.toString.call(result);
-    return type === '[object Object]' || type === '[object Array]';
+    return type === '[object Object]' || type === '[object Array]' ? result : false;
   } catch (err) {
     return false;
   }
@@ -43,12 +43,15 @@ export function useTableData({
 
   useEffect(() => {
     updateRows(
-      entries.map((entry) => ({
-        key: entry.key,
-        value: entry.value ?? '',
-        editedValue: (inProgressEdits[entry.key] || entry.value) ?? '',
-        isJson: hasJsonStructure(entry.value ?? ''),
-      }))
+      entries.map((entry) => {
+        const editedValue = (inProgressEdits[entry.key] || entry.value) ?? '';
+        return {
+          key: entry.key,
+          value: entry.value ?? '',
+          editedValue,
+          json: hasJsonStructure(editedValue) || null,
+        };
+      })
     );
   }, [entries, inProgressEdits]);
 

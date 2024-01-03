@@ -1,4 +1,12 @@
-import { DeleteOutlined, PlusOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  ReloadOutlined,
+  SaveOutlined,
+  SisternodeOutlined,
+  SubnodeOutlined,
+} from '@ant-design/icons';
+import ReactJsonView from '@microlink/react-json-view';
 import { Button, Flex, Input, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
@@ -30,6 +38,37 @@ export function AsyncStorageTable() {
         style={{ width: '100%' }}
         dataSource={rows}
         pagination={false}
+        expandable={{
+          rowExpandable(record) {
+            return record.json != null;
+          },
+          expandedRowRender(record) {
+            if (!record.json) return null;
+            return (
+              <ReactJsonView
+                src={record.json}
+                name={record.key}
+                onEdit={(e) => {
+                  updateInProgressEdits({ [record.key]: JSON.stringify(e.updated_src) });
+                }}
+                onAdd={(e) => {
+                  updateInProgressEdits({ [record.key]: JSON.stringify(e.updated_src) });
+                }}
+                onDelete={(e) => {
+                  updateInProgressEdits({ [record.key]: JSON.stringify(e.updated_src) });
+                }}
+              />
+            );
+          },
+          expandIcon: ({ expanded, expandable, onExpand, record }) =>
+            expandable ? (
+              <Button
+                icon={expanded ? <SisternodeOutlined /> : <SubnodeOutlined />}
+                onClick={(event) => onExpand(record, event)}
+                type="text"
+              />
+            ) : null,
+        }}
         columns={[
           { title: 'Key', dataIndex: 'key', key: 'key' },
           {
@@ -64,7 +103,11 @@ export function AsyncStorageTable() {
                     onClick={() => {
                       const value = inProgressEdits[record.key];
                       if (value) {
-                        set(record.key, value).catch(console.error);
+                        set(record.key, value)
+                          .then(() => {
+                            updateInProgressEdits({ [record.key]: null });
+                          })
+                          .catch(console.error);
                       }
                     }}
                     icon={<SaveOutlined />}
@@ -95,9 +138,8 @@ export function AsyncStorageTable() {
         )}
         caption={
           <p>
-            By default, the reload button will not update any fields you have edited (even if they
-            have been saved!). To fully update the list, click the reload button while holding the{' '}
-            <code>Shift</code> key.
+            By default, the reload button will not update any fields you have edited . To fully
+            update the list, click the reload button while holding the <code>Shift</code> key.
           </p>
         }
       />
