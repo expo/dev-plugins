@@ -1,9 +1,10 @@
 import { DeleteOutlined, PlusOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons';
 import { Button, Flex, Input, Table } from 'antd';
-import React, { Reducer, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
 import { useRemoveEntryModal } from './modal/useRemoveEntryModal';
 import { usePluginStore } from './usePluginStore';
+import { useTableData } from './useTableData';
 
 export function AsyncStorageTable() {
   const { entries, update, set, remove, ready } = usePluginStore(console.error);
@@ -20,42 +21,30 @@ export function AsyncStorageTable() {
     }
   }, [initialUpdate, ready]);
 
-  // 'set', 'replace'
-  const [inProgressEdits, updateInProgressEdits] = useReducer<
-    Reducer<Record<string, string | null>, Record<string, string | null> | 'clear'>
-  >((state, payload) => {
-    if (payload === 'clear') {
-      return {};
-    }
-    return {
-      ...state,
-      ...payload,
-    };
-  }, {});
+  const { rows, inProgressEdits, updateInProgressEdits } = useTableData({ entries });
 
   return (
     <>
       {AddEntryDialog}
       <Table
-        dataSource={entries}
+        style={{ width: '100%' }}
+        dataSource={rows}
         pagination={false}
         columns={[
           { title: 'Key', dataIndex: 'key', key: 'key' },
           {
             title: 'Value',
-            dataIndex: 'key',
+            dataIndex: 'value',
             key: 'value',
-            render(key) {
+            render(value, { key, editedValue }) {
               return (
                 <Input.TextArea
-                  value={
-                    inProgressEdits[key] ?? entries.find((entry) => entry.key === key)?.value ?? ''
-                  }
+                  value={editedValue ?? value}
                   onChange={(e) => {
                     updateInProgressEdits({ [key]: e.target.value });
                   }}
                   style={{
-                    boxShadow: inProgressEdits[key] ? '0 0 0 2px #1890ff' : undefined,
+                    boxShadow: inProgressEdits[key] != null ? '0 0 0 2px #1890ff' : undefined,
                   }}
                 />
               );
@@ -63,8 +52,8 @@ export function AsyncStorageTable() {
           },
           {
             title: 'Actions',
-            key: 'key',
-            render(value, record, index) {
+            key: 'action',
+            render(_, record) {
               return (
                 <Flex>
                   <Button
