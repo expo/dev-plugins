@@ -3,11 +3,20 @@ import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect } from 'react';
 import { Method } from '../methods';
 
+/**
+ * This hook registers a devtools plugin for AsyncStorage.
+ *
+ * The plugin provides you with the ability to view, add, edit, and remove AsyncStorage entries.
+ *
+ * @param props
+ * @param props.errorHandler - A function that will be called with any errors that occur while communicating
+ * with the devtools, if not provided errors will be ignored. Setting this is highly recommended.
+ */
 export function useAsyncStorageDevTools({
   errorHandler,
 }: {
   errorHandler?: (error: Error) => void;
-}) {
+} = {}) {
   const client = useDevToolsPluginClient('async-storage');
 
   const handleError = useCallback(
