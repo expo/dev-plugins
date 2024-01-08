@@ -7,7 +7,7 @@ import {
   SubnodeOutlined,
 } from '@ant-design/icons';
 import ReactJsonView from '@microlink/react-json-view';
-import { Button, Flex, Table } from 'antd';
+import { App, Button, Flex, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
 import { useRemoveEntryModal } from './modal/useRemoveEntryModal';
@@ -15,7 +15,11 @@ import { usePluginStore } from './usePluginStore';
 import { useTableData } from './useTableData';
 
 export function AsyncStorageTable() {
-  const { entries, update, set, remove, ready } = usePluginStore(console.error);
+  const { message } = App.useApp();
+  const { entries, update, set, remove, ready } = usePluginStore((error: unknown) => {
+    message.error(String(error));
+    console.error(error);
+  });
 
   const { showRemoveEntryModal } = useRemoveEntryModal({ remove });
   const { showAddEntryDialog, AddEntryDialog, showing } = useAddEntryDialog({ set });

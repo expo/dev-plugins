@@ -1,4 +1,5 @@
 // Import all the hooks
+import { App } from 'antd';
 import { Reducer, useEffect, useReducer, useState } from 'react';
 
 export type TableRow = {
@@ -27,37 +28,48 @@ export function useTableData({
     value: string | null;
   }[];
 }) {
-  const [inProgressEdits, updateInProgressEdits] = useReducer<
-    Reducer<Record<string, string | null>, Record<string, string | null> | 'clear'>
-  >((state, payload) => {
-    if (payload === 'clear') {
-      return {};
-    }
+  const { message } = App.useApp();
+  try {
+    const [inProgressEdits, updateInProgressEdits] = useReducer<
+      Reducer<Record<string, string | null>, Record<string, string | null> | 'clear'>
+    >((state, payload) => {
+      if (payload === 'clear') {
+        return {};
+      }
+      return {
+        ...state,
+        ...payload,
+      };
+    }, {});
+
+    const [rows, updateRows] = useState<TableRow[]>([]);
+
+    useEffect(() => {
+      updateRows(
+        entries.map((entry) => {
+          const editedValue = (inProgressEdits[entry.key] || entry.value) ?? '';
+          return {
+            key: entry.key,
+            value: entry.value ?? '',
+            editedValue,
+            json: jsonStructure(editedValue),
+          };
+        })
+      );
+    }, [entries, inProgressEdits]);
+
     return {
-      ...state,
-      ...payload,
+      rows,
+      inProgressEdits,
+      updateInProgressEdits,
     };
-  }, {});
-
-  const [rows, updateRows] = useState<TableRow[]>([]);
-
-  useEffect(() => {
-    updateRows(
-      entries.map((entry) => {
-        const editedValue = (inProgressEdits[entry.key] || entry.value) ?? '';
-        return {
-          key: entry.key,
-          value: entry.value ?? '',
-          editedValue,
-          json: jsonStructure(editedValue),
-        };
-      })
-    );
-  }, [entries, inProgressEdits]);
-
-  return {
-    rows,
-    inProgressEdits,
-    updateInProgressEdits,
-  };
+  } catch (err) {
+    console.error(err);
+    message.error(String(err));
+    return {
+      rows: [],
+      inProgressEdits: {},
+      updateInProgressEdits: () => {},
+    };
+  }
 }

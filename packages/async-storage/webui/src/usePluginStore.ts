@@ -21,7 +21,7 @@ const promiseMap = new Map<string, Deferred<any>>();
 export function usePluginStore(onError: (error: unknown) => void) {
   const client = useDevToolsPluginClient('async-storage');
 
-  const { message } = App.useApp();
+  const { message, notification } = App.useApp();
 
   const [connected, setConnected] = useState(false);
   useEffect(() => {
@@ -34,73 +34,108 @@ export function usePluginStore(onError: (error: unknown) => void) {
   const [entries, setEntries] = useState<readonly { key: string; value: string | null }[]>([]);
 
   const update = useCallback(async () => {
-    if (!client) {
+    if (!client?.isConnected()) {
       message.error('Not connected to host');
       return;
     }
-    return client?.sendMessage('getAll', {});
+    try {
+      return client?.sendMessage('getAll', {});
+    } catch (e) {
+      onError(e);
+    }
   }, [client]);
 
   const set = useCallback(
     async (key: string, value: string) => {
-      if (!client) {
+      if (!client?.isConnected()) {
         message.error('Not connected to host');
         return;
       }
-      return client.sendMessage('set', {
-        key,
-        value,
-      });
+      try {
+        return client.sendMessage('set', {
+          key,
+          value,
+        });
+      } catch (e) {
+        onError(e);
+      }
     },
     [client]
   );
 
   const remove = useCallback(
     async (key: string) => {
-      if (!client) {
+      if (!client?.isConnected()) {
         message.error('Not connected to host');
         return;
       }
-      return client?.sendMessage('remove', {
-        key,
-      });
+      try {
+        return client?.sendMessage('remove', {
+          key,
+        });
+      } catch (e) {
+        onError(e);
+      }
     },
     [client]
   );
 
   useEffect(() => {
+    if (!client?.isConnected()) {
+      notification.error({
+        message: 'Critical error:\nNot connected to host - please reload the page',
+      });
+      return;
+    }
+
     const subscriptions: EventSubscription[] = [];
 
-    subscriptions.push(
-      client?.addMessageListener(
-        methodAck.getAll,
-        ({ result }: { result: readonly KeyValuePair[] }) => {
-          setEntries(result.map(([key, value]) => ({ key, value })));
-        }
-      )
-    );
+    try {
+      subscriptions.push(
+        client.addMessageListener(
+          methodAck.getAll,
+          ({ result }: { result: readonly KeyValuePair[] }) => {
+            setEntries(result.map(([key, value]) => ({ key, value })));
+          }
+        )
+      );
+    } catch (e) {
+      onError(e);
+    }
+
+    try {
+      subscriptions.push(
+        client.addMessageListener(methodAck.set, () => {
+          update();
+        })
+      );
+    } catch (e) {
+      onError(e);
+    }
+
+    try {
+      subscriptions.push(
+        client.addMessageListener(methodAck.remove, () => {
+          update();
+        })
+      );
+    } catch (e) {
+      onError(e);
+    }
 
     subscriptions.push(
-      client?.addMessageListener(methodAck.set, () => {
-        update();
-      })
-    );
-
-    subscriptions.push(
-      client?.addMessageListener(methodAck.remove, () => {
-        update();
-      })
-    );
-
-    subscriptions.push(
-      client?.addMessageListener('error', ({ error }: { error: unknown }) => {
+      client.addMessageListener('error', ({ error }: { error: unknown }) => {
         onError(error);
       })
     );
 
     return () => {
       for (const subscription of subscriptions) {
-        subscription?.remove();
+        try {
+          subscription?.remove();
+        } catch (e) {
+          onError(e);
+        }
       }
     };
   }, [client]);

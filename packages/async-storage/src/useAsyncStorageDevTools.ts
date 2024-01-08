@@ -1,14 +1,25 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Method } from '../methods';
 
-export function useAsyncStorageDevTools() {
+export function useAsyncStorageDevTools({
+  errorHandler,
+}: {
+  errorHandler?: (error: Error) => void;
+}) {
   const client = useDevToolsPluginClient('async-storage');
 
-  useEffect(() => {
-    console.log(client?.connectionInfo);
-  }, [client]);
+  const handleError = useCallback(
+    (error: unknown) => {
+      if (error instanceof Error) {
+        errorHandler?.(error);
+      } else {
+        errorHandler?.(new Error(`Unknown error: ${String(error)}`));
+      }
+    },
+    [errorHandler]
+  );
 
   useEffect(() => {
     const on = (
@@ -23,35 +34,55 @@ export function useAsyncStorageDevTools() {
         } catch (error) {
           try {
             client?.sendMessage('error', { error });
-          } catch {}
+            handleError(error);
+          } catch (e) {
+            handleError(e);
+          }
         }
       });
 
     const subscriptions: EventSubscription[] = [];
-    subscriptions.push(
-      on('getAll', async () => {
-        const keys = await AsyncStorage.getAllKeys();
-        return await AsyncStorage.multiGet(keys);
-      })
-    );
 
-    subscriptions.push(
-      on('set', ({ key, value }) => {
-        if (key !== undefined && value !== undefined) return AsyncStorage.setItem(key, value);
-        else return Promise.resolve();
-      })
-    );
+    try {
+      subscriptions.push(
+        on('getAll', async () => {
+          const keys = await AsyncStorage.getAllKeys();
+          return await AsyncStorage.multiGet(keys);
+        })
+      );
+    } catch (e) {
+      handleError(e);
+    }
 
-    subscriptions.push(
-      on('remove', ({ key }) => {
-        if (key !== undefined) return AsyncStorage.removeItem(key);
-        else return Promise.resolve();
-      })
-    );
+    try {
+      subscriptions.push(
+        on('set', ({ key, value }) => {
+          if (key !== undefined && value !== undefined) return AsyncStorage.setItem(key, value);
+          else return Promise.resolve();
+        })
+      );
+    } catch (e) {
+      handleError(e);
+    }
+
+    try {
+      subscriptions.push(
+        on('remove', ({ key }) => {
+          if (key !== undefined) return AsyncStorage.removeItem(key);
+          else return Promise.resolve();
+        })
+      );
+    } catch (e) {
+      handleError(e);
+    }
 
     return () => {
       for (const subscription of subscriptions) {
-        subscription?.remove();
+        try {
+          subscription?.remove();
+        } catch (e) {
+          handleError(e);
+        }
       }
     };
   }, [client]);
