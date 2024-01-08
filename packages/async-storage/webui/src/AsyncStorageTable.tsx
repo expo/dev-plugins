@@ -113,13 +113,11 @@ export function AsyncStorageTable() {
                   <Button
                     onClick={() => {
                       const value = inProgressEdits[record.key];
-                      if (value) {
-                        set(record.key, value)
-                          .then(() => {
-                            updateInProgressEdits({ [record.key]: null });
-                          })
-                          .catch(console.error);
-                      }
+                      set(record.key, value ?? '')
+                        .then(() => {
+                          updateInProgressEdits({ [record.key]: null });
+                        })
+                        .catch(console.error);
                     }}
                     icon={<SaveOutlined />}
                   />
