@@ -76,8 +76,8 @@ export function AsyncStorageTable() {
           { title: 'Key', dataIndex: 'key', key: 'key', width: 1 },
           {
             title: 'Value',
-            dataIndex: 'value',
-            key: 'value',
+            dataIndex: 'editedValue',
+            key: 'editedValue',
             onCell(record) {
               return {
                 style: {
