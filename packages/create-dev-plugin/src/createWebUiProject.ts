@@ -70,7 +70,7 @@ import { useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  const client = useDevToolsPluginClient('testpp');
+  const client = useDevToolsPluginClient('${projectInfo.name}');
 
   useEffect(() => {
     const subscriptions: EventSubscription[] = [];
