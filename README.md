@@ -17,7 +17,7 @@
 
   - Credit: Most code are forked from [@react-navigation/devtools](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/devtools) and the [Flipper plugin frontend](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/flipper-plugin-react-navigation)
 
-- `@dev-plugins/async-storage`: Plugin for [React Navigation](https://reactnavigation.org/)
+- `@dev-plugins/async-storage`: Plugin for [@react-native-async-storage/async-storage](https://github.com/react-native-async-storage/async-storage)
 
   - Credit: Originally contributed by [jthoward64](https://github.com/jthoward64)
 
