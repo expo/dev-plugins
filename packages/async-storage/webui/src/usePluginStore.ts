@@ -25,10 +25,16 @@ export function usePluginStore(onError: (error: unknown) => void) {
 
   const [connected, setConnected] = useState(false);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setConnected(client?.isConnected() ?? false);
+    let interval = setInterval(() => {
+      if (client?.isConnected()) {
+        if (interval != null) {
+          clearInterval(interval);
+          interval = null;
+        }
+        setConnected(true);
+      }
     }, 1000);
-    return () => clearInterval(interval);
+    return () => { if (interval != null) { clearInterval(interval); interval = null; } };
   }, [client]);
 
   const [entries, setEntries] = useState<readonly { key: string; value: string | null }[]>([]);
