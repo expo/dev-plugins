@@ -20,6 +20,7 @@
   "dependencies": {},
   "devDependencies": {
     "@expo/spawn-async": "^1.7.2",
+    "@tsconfig/node20": "^20.1.2",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5"
   }
