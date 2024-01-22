@@ -1,8 +1,9 @@
+import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import DevToolsPluginsContainer from '@/components/DevToolsPluginsContainer';
+import { useNavigationContainerRef } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 export {
@@ -42,10 +43,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
+  const navigationRef = useNavigationContainerRef();
+  useReactNavigationDevTools(navigationRef);
+
   return (
-    <DevToolsPluginsContainer>
+    <>
       <Stack />
       <StatusBar style="dark" />
-    </DevToolsPluginsContainer>
+    </>
   );
 }
