@@ -1,0 +1,46 @@
+{
+  "name": "@dev-plugins/react-native-mmkv",
+  "version": "0.0.1",
+  "description": "Expo DevTools Plugin for react-native-mmkv",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare && node ../../scripts/build-webui.js react-native-mmkv",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "homepage": "https://docs.expo.dev/versions/latest/sdk/image/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/expo/dev-plugins.git",
+    "directory": "packages/react-native-mmkv"
+  },
+  "keywords": [
+    "expo",
+    "devtools",
+    "mmkv"
+  ],
+  "files": [
+    "build",
+    "dist",
+    "expo-module.config.json",
+    "src"
+  ],
+  "author": "cyrilbo",
+  "license": "MIT",
+  "devDependencies": {
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "expo": "50.0.2",
+    "expo-module-scripts": "^3.1.0",
+    "typescript": "^5.3.0"
+  },
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "^1.0.0",
+    "expo": "*"
+  }
+}
