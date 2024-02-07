@@ -1,25 +1,24 @@
 import { useMMKVDevTools } from '@dev-plugins/react-native-mmkv';
-import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import { KeyValuePair } from '@react-native-async-storage/async-storage/lib/typescript/types';
 import { useCallback, useEffect, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
+import { MMKV, useMMKVNumber, useMMKVString } from 'react-native-mmkv';
 import { IconButton } from 'react-native-paper';
+
+const storage = new MMKV();
 
 function Main() {
   useMMKVDevTools();
 
   const [key, setKey] = useState('');
   const [value, setValue] = useState('');
-  const { setItem, getItem } = useAsyncStorage(key);
+  const [item, setItem] = useMMKVString(key);
 
-  const [allData, setAllData] = useState<readonly KeyValuePair[]>([]);
+  const [allData, setAllData] = useState<[string, string | undefined][]>([]);
 
   const updateAllData = useCallback(() => {
-    AsyncStorage.getAllKeys().then((keys) => {
-      AsyncStorage.multiGet(keys).then((data) => {
-        setAllData(data);
-      });
-    });
+    const keys = storage.getAllKeys();
+    const keyValues = keys.map((key) => [key, storage.getString(key)]) as [string, string | undefined][];
+    setAllData(keyValues);
   }, []);
 
   useEffect(() => {
@@ -66,13 +65,21 @@ function Main() {
           icon="content-save"
           iconColor="#000"
           size={20}
-          onPress={() => setItem(value).then(() => updateAllData())}
+          onPress={() => {
+            setItem(value);
+            updateAllData();
+          }
+          }
         />
         <IconButton
           icon="refresh"
           iconColor="#000"
           size={20}
-          onPress={() => getItem().then((value) => setValue(value ?? ''))}
+          onPress={() => {
+          
+            setValue(item ?? '');
+          }
+          }
         />
       </View>
       <View style={{ width: '100%' }}>
@@ -93,7 +100,10 @@ function Main() {
               icon="delete"
               iconColor="#000"
               size={20}
-              onPress={() => AsyncStorage.removeItem(key).then(() => updateAllData())}
+              onPress={() => {
+                storage.delete(key);
+                updateAllData();
+              }}
             />
           </View>
         ))}
