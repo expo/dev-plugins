@@ -23,7 +23,6 @@ export function useMMKVDevTools({
 } = {}) {
   const client = useDevToolsPluginClient('mmkv');
 
-
   const handleError = useCallback(
     (error: unknown) => {
       if (error instanceof Error) {
@@ -81,9 +80,10 @@ export function useMMKVDevTools({
 
     try {
       subscriptions.push(
-        on('remove', ({ key }) => {
-          if (key !== undefined) return AsyncStorage.removeItem(key);
-          else return Promise.resolve();
+        on('remove', async ({ key }) => {
+          if (key !== undefined) {
+            storage.delete(key);
+          }
         })
       );
     } catch (e) {

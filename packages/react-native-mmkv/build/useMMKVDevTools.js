@@ -60,11 +60,10 @@ export function useMMKVDevTools({ errorHandler, storage = new MMKV() } = {}) {
             handleError(e);
         }
         try {
-            subscriptions.push(on('remove', ({ key }) => {
-                if (key !== undefined)
-                    return AsyncStorage.removeItem(key);
-                else
-                    return Promise.resolve();
+            subscriptions.push(on('remove', async ({ key }) => {
+                if (key !== undefined) {
+                    storage.delete(key);
+                }
             }));
         }
         catch (e) {
