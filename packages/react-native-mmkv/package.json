@@ -37,10 +37,12 @@
     "@react-native-async-storage/async-storage": "^1.21.0",
     "expo": "50.0.2",
     "expo-module-scripts": "^3.1.0",
+    "react-native-mmkv": "^2.11.0",
     "typescript": "^5.3.0"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^1.0.0",
+    "react-native-mmkv": "^2.0.0",
     "expo": "*"
   }
 }

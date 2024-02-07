@@ -1,16 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDevToolsPluginClient } from 'expo/devtools';
 import { useCallback, useEffect } from 'react';
+import { MMKV } from 'react-native-mmkv';
 /**
- * This hook registers a devtools plugin for AsyncStorage.
+ * This hook registers a devtools plugin for react-native-mmkv.
  *
- * The plugin provides you with the ability to view, add, edit, and remove AsyncStorage entries.
+ * The plugin provides you with the ability to view, add, edit, and remove react-native-mmkv entries.
  *
  * @param props
  * @param props.errorHandler - A function that will be called with any errors that occur while communicating
  * with the devtools, if not provided errors will be ignored. Setting this is highly recommended.
+ * @param props.storage - A MMKV storage instance to use, if not provided the default storage will be used.
  */
-export function useMMKVDevTools({ errorHandler, } = {}) {
+export function useMMKVDevTools({ errorHandler, storage = new MMKV() } = {}) {
     const client = useDevToolsPluginClient('mmkv');
     const handleError = useCallback((error) => {
         if (error instanceof Error) {
@@ -39,8 +41,8 @@ export function useMMKVDevTools({ errorHandler, } = {}) {
         const subscriptions = [];
         try {
             subscriptions.push(on('getAll', async () => {
-                const keys = await AsyncStorage.getAllKeys();
-                return await AsyncStorage.multiGet(keys);
+                const keys = storage.getAllKeys();
+                return keys?.map(key => [key, storage.getString(key)]);
             }));
         }
         catch (e) {
