@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDevToolsPluginClient } from 'expo/devtools';
 import { useCallback, useEffect } from 'react';
 import { MMKV } from 'react-native-mmkv';
@@ -49,11 +48,10 @@ export function useMMKVDevTools({ errorHandler, storage = new MMKV() } = {}) {
             handleError(e);
         }
         try {
-            subscriptions.push(on('set', ({ key, value }) => {
-                if (key !== undefined && value !== undefined)
-                    return AsyncStorage.setItem(key, value);
-                else
-                    return Promise.resolve();
+            subscriptions.push(on('set', async ({ key, value }) => {
+                if (key !== undefined && value !== undefined) {
+                    return storage.set(key, value);
+                }
             }));
         }
         catch (e) {

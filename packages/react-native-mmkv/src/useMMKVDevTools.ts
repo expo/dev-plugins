@@ -69,9 +69,10 @@ export function useMMKVDevTools({
 
     try {
       subscriptions.push(
-        on('set', ({ key, value }) => {
-          if (key !== undefined && value !== undefined) return AsyncStorage.setItem(key, value);
-          else return Promise.resolve();
+        on('set', async ({ key, value }) => {
+          if (key !== undefined && value !== undefined) {
+            return storage.set(key, value);
+          }
         })
       );
     } catch (e) {
