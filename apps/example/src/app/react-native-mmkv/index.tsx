@@ -1,7 +1,7 @@
 import { useMMKVDevTools } from '@dev-plugins/react-native-mmkv';
 import { useCallback, useEffect, useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
-import { MMKV, useMMKVNumber, useMMKVString } from 'react-native-mmkv';
+import { MMKV, useMMKVString } from 'react-native-mmkv';
 import { IconButton } from 'react-native-paper';
 
 const storage = new MMKV();
@@ -112,6 +112,6 @@ function Main() {
   );
 }
 
-export default function AsyncStorageDemo() {
+export default function ReactNativeMMKVDemo() {
   return <Main />;
 }
