@@ -4,19 +4,11 @@ import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect, useState } from 'react';
 import { Method, MethodAck } from '../../methods';
 
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
-  reject: (reason?: any) => void;
-}
-
 const methodAck: Record<Method, MethodAck> = {
   getAll: 'ack:getAll',
   set: 'ack:set',
   remove: 'ack:remove',
 };
-
-const promiseMap = new Map<string, Deferred<any>>();
 
 export function usePluginStore(onError: (error: unknown) => void) {
   const client = useDevToolsPluginClient('async-storage');
