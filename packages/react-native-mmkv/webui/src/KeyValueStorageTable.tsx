@@ -7,39 +7,33 @@ import {
   SubnodeOutlined,
 } from '@ant-design/icons';
 import ReactJsonView from '@microlink/react-json-view';
-import { App, Button, Flex, Table } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Flex, Table } from 'antd';
+import React from 'react';
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
 import { useRemoveEntryModal } from './modal/useRemoveEntryModal';
-import { usePluginStore } from './usePluginStore';
 import { useTableData } from './useTableData';
 
-export function AsyncStorageTable() {
-  const { message } = App.useApp();
-  const { entries, update, set, remove, ready } = usePluginStore((error: unknown) => {
-    message.error(String(error));
-    console.error(error);
-  });
+type KeyValueStorageTableProps = {
+    entries: readonly {
+        key: string;
+        value: string | null;
+    }[];
+    update: () => Promise<void>;
+    set: (key: string, value: string) => Promise<void>;
+    remove: (key: string) => Promise<void>;
+}
 
+export function KeyValueStorageTable({remove, set, entries, update}: KeyValueStorageTableProps) {
   const { showRemoveEntryModal } = useRemoveEntryModal({ remove });
   const { showAddEntryDialog, AddEntryDialog, showing } = useAddEntryDialog({ set });
 
-  const [initialUpdate, setInitialUpdate] = useState(false);
-  useEffect(() => {
-    if (!initialUpdate && ready) {
-      update()
-        .then(() => setInitialUpdate(true))
-        .catch(console.error);
-    }
-  }, [initialUpdate, ready]);
-
   const { rows, inProgressEdits, updateInProgressEdits } = useTableData({ entries });
+  console.log(rows, inProgressEdits, updateInProgressEdits)
 
   return (
     <>
       {AddEntryDialog}
       <Table
-        loading={!ready}
         bordered
         size="middle"
         style={{ width: '100%' }}

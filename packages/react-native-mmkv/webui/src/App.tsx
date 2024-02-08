@@ -1,14 +1,14 @@
-import { App } from 'antd';
-import { AsyncStorageTable } from './AsyncStorageTable';
+import { Spin } from 'antd';
+import { useConnectedClient } from './useConnectedClient';
+import { MMKVStorageTable } from './MMKVStorageTable';
 
-export default function Main() {
-  return (
-    <App style={{ width: '100%', height: '100%', padding: '0.75em', overflowY: 'scroll' }}>
-      <AsyncStorageTable />
-      <p>
-        By default, the reload button will not update any fields you have changed. To fully update
-        the list hold the <code>Shift</code> key when clicking the reload button.
-      </p>
-    </App>
-  );
+
+export default function App() {
+  const connectedClient = useConnectedClient()
+
+  if(!connectedClient) {
+    return (<Spin style={{alignSelf: "center", justifySelf: "center", width: "100%"}} />)
+  }
+
+  return <MMKVStorageTable client={connectedClient} />
 }
