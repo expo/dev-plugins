@@ -1,0 +1,43 @@
+{
+    "name": "@dev-plugins/redux",
+    "version": "0.0.1",
+    "description": "Expo DevTools Plugin for Redux",
+    "main": "build/index.js",
+    "types": "build/index.d.ts",
+    "sideEffects": false,
+    "scripts": {
+      "build": "expo-module build",
+      "clean": "expo-module clean",
+      "lint": "expo-module lint",
+      "test": "expo-module test",
+      "prepare": "expo-module prepare && node ../../scripts/build-webui.js redux",
+      "prepublishOnly": "expo-module prepublishOnly",
+      "expo-module": "expo-module"
+    },
+    "homepage": "https://docs.expo.dev/versions/latest/sdk/image/",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/expo/dev-plugins.git",
+      "directory": "packages/redux"
+    },
+    "keywords": [
+      "expo",
+      "devtools"
+    ],
+    "files": [
+      "build",
+      "dist",
+      "expo-module.config.json",
+      "src"
+    ],
+    "author": "dannyBies",
+    "license": "MIT",
+    "devDependencies": {
+      "expo": "50.0.2",
+      "expo-module-scripts": "^3.1.0",
+      "typescript": "^5.3.0"
+    },
+    "peerDependencies": {
+      "expo": "*"
+    }
+  }
