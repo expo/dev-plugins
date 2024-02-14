@@ -1,1 +1,1 @@
-{"version":3,"file":"useReactQueryDevTools.d.ts","sourceRoot":"","sources":["../src/useReactQueryDevTools.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAgC,WAAW,EAAE,MAAM,uBAAuB,CAAC;AAIvF,wBAAgB,qBAAqB,CAAC,WAAW,EAAE,WAAW,QAqE7D"}
+{"version":3,"file":"useReactQueryDevTools.d.ts","sourceRoot":"","sources":["../src/useReactQueryDevTools.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAgC,WAAW,EAAE,MAAM,uBAAuB,CAAC;AAMvF,wBAAgB,qBAAqB,CAAC,WAAW,EAAE,WAAW,QAqE7D"}
