@@ -48,7 +48,7 @@ export default function QuerySidebar({ query, onQueryRefetch, onQueryRemove }: P
       label: 'Data Explorer',
       children: (
         <ContainerWithPaddings>
-          {<ReactJson src={query?.state?.data || {}} enableClipboard={false} />}
+          {<ReactJson src={query?.state?.data || {}} enableClipboard={false} collapsed />}
         </ContainerWithPaddings>
       ),
     },
@@ -57,7 +57,7 @@ export default function QuerySidebar({ query, onQueryRefetch, onQueryRemove }: P
       label: 'Query Explorer',
       children: (
         <ContainerWithPaddings>
-          <ReactJson src={query || {}} enableClipboard={false} />
+          <ReactJson src={query || {}} enableClipboard={false} collapsed />
         </ContainerWithPaddings>
       ),
     },
