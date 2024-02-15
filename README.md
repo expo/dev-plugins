@@ -21,6 +21,10 @@
 
   - Credit: Originally contributed by [jthoward64](https://github.com/jthoward64)
 
+- `@dev-plugins/redux`: Plugin for [redux](https://github.com/reduxjs/react-redux)
+
+  - Credit: Originally contributed by [dannyBies](https://github.com/dannyBies)
+
 ## Example App
 
 The [example app](/apps/example) is an [Expo Router](https://docs.expo.dev/routing/introduction/) app that provides test cases for plugins
