@@ -5,9 +5,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 
 import QuerySidebar from './components/QuerySidebar';
-import type { ExtendedQuery, SerializedQuery, QueryCacheNotifyEvent } from './types';
+import type { ExtendedQuery, SerializedQuery } from './types';
 import { formatTimestamp, getObserversCounter, getQueryStatusLabel, isQueryActive } from './utils';
 import styled from '@emotion/styled';
+import { QueryCacheNotifyEvent } from '@tanstack/react-query';
 
 const extendQuery = (query: SerializedQuery): ExtendedQuery => {
   const extendedQuery = query as ExtendedQuery;
@@ -109,16 +110,17 @@ export default function App() {
         const query = serializedQuery as SerializedQuery;
 
         switch (type) {
-          case 'queryAdded':
+          case 'added':
             setQueries((prevQueries) => [...prevQueries, extendQuery(query)]);
             break;
-          case 'queryRemoved':
+          case 'removed':
             setQueries((prevQueries) => prevQueries.filter((q) => q.queryHash !== queryHash));
             break;
-          case 'queryUpdated':
+          case 'updated':
           case 'observerAdded':
           case 'observerRemoved':
           case 'observerResultsUpdated':
+          case 'observerOptionsUpdated':
             upsert(query, queryHash);
             break;
           default:
@@ -159,7 +161,7 @@ export default function App() {
   );
 
   return (
-    <Layout hasSider={true}>
+    <StyledLayout hasSider={true}>
       <Content>
         <Table<ExtendedQuery>
           dataSource={queries}
@@ -181,9 +183,13 @@ export default function App() {
         onQueryRefetch={handleQueryRefetch}
         onQueryRemove={handleQueryRemove}
       />
-    </Layout>
+    </StyledLayout>
   );
 }
+
+const StyledLayout = styled(Layout)({
+  maxWidth: '100%',
+});
 
 const Content = styled(Layout.Content)({
   margin: '0 16px',
