@@ -1,6 +1,7 @@
 import { stringify } from 'flatted';
 import { useDevToolsPluginClient } from 'expo/devtools';
 import { useEffect } from 'react';
+const bigintReplacer = (_, v) => (typeof v === 'bigint' ? v.toString() : v);
 export function useReactQueryDevTools(queryClient) {
     const client = useDevToolsPluginClient('react-query');
     const queryCache = queryClient.getQueryCache();
@@ -14,7 +15,7 @@ export function useReactQueryDevTools(queryClient) {
     function getSerializedQueries() {
         const queries = getQueries().map((query) => serializeQuery(query));
         const serializedQueries = {
-            queries: stringify(queries),
+            queries: stringify(queries, bigintReplacer),
         };
         return serializedQueries;
     }
@@ -38,7 +39,7 @@ export function useReactQueryDevTools(queryClient) {
         const handleCacheEvent = (event) => {
             const { query } = event;
             client?.sendMessage('queryCacheEvent', {
-                cacheEvent: stringify({ ...event, query: serializeQuery(query) }),
+                cacheEvent: stringify({ ...event, query: serializeQuery(query) }, bigintReplacer),
             });
         };
         // Subscribe to QueryCacheNotifyEvent and send updates only
