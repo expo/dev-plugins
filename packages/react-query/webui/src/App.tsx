@@ -159,7 +159,7 @@ export default function App() {
   );
 
   return (
-    <Layout hasSider={true}>
+    <StyledLayout hasSider={true}>
       <Content>
         <Table<ExtendedQuery>
           dataSource={queries}
@@ -181,9 +181,13 @@ export default function App() {
         onQueryRefetch={handleQueryRefetch}
         onQueryRemove={handleQueryRemove}
       />
-    </Layout>
+    </StyledLayout>
   );
 }
+
+const StyledLayout = styled(Layout)({
+  maxWidth: '100%',
+});
 
 const Content = styled(Layout.Content)({
   margin: '0 16px',
