@@ -23,6 +23,9 @@
 
 - `@dev-plugins/react-native-mmkv`: Plugin for [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv)
 
+  - Credit: Originally contributed by [cyrilbo](https://github.com/cyrilbo)
+
+
 ## Example App
 
 The [example app](/apps/example) is an [Expo Router](https://docs.expo.dev/routing/introduction/) app that provides test cases for plugins
