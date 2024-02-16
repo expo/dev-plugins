@@ -2,7 +2,7 @@ import type { KeyValuePair } from '@react-native-async-storage/async-storage/lib
 import { type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect, useState } from 'react';
 import { Method, MethodAck } from '../../methods';
-import { DevToolsPluginClient } from 'expo/build/devtools/DevToolsPluginClient';
+import {  useDevToolsPluginClient } from 'expo/devtools';
 
 
 const methodAck: Record<Method, MethodAck> = {
@@ -10,6 +10,9 @@ const methodAck: Record<Method, MethodAck> = {
   set: 'ack:set',
   remove: 'ack:remove',
 };
+
+// TODO: import DevToolsPluginClient from 'expo/devtools' once it's exported
+type DevToolsPluginClient = NonNullable<ReturnType<typeof useDevToolsPluginClient>>;
 
 export function usePluginStore(client: DevToolsPluginClient, onError: (error: unknown) => void) {
 
