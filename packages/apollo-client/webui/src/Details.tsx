@@ -34,7 +34,7 @@ export function Details({ selectedItem }: { selectedItem: BlockType }) {
               <Typography.Title level={4} type="secondary">
                 {block?.blockLabel}
               </Typography.Title>
-              <ReactJson src={block?.blockValue} />
+              <ReactJson src={block?.blockValue} collapsed/>
               <br />
             </Fragment>
           );

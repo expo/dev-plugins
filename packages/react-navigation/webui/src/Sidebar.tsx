@@ -78,9 +78,9 @@ export function Sidebar({
         </>
       ) : null}
       <Title4>Action</Title4>
-      <ReactJson src={action} />
+      <ReactJson src={action} collapsed />
       <Title4>State</Title4>
-      <ReactJson src={state ?? {}} />
+      <ReactJson src={state ?? {}} collapsed />
     </Layout.Sider>
   );
 }
