@@ -1,1 +1,1 @@
-export * from './build/metro/withMetroBundleConfig';
+export * from './build/src/metro/withMetroBundleConfig';
