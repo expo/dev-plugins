@@ -3,8 +3,10 @@
   "extends": "expo-module-scripts/tsconfig.base",
   "compilerOptions": {
     "outDir": "./build",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "module": "CommonJS",
+    "target": "es5"
   },
-  "include": ["./src"],
+  "include": ["./src", "./package.json"],
   "exclude": ["**/__mocks__/*", "**/__tests__/*"]
 }

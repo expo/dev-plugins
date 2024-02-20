@@ -1,27 +1,32 @@
 #!/usr/bin/env node
-const path = require('path');
-const { createRequestHandler } = require('@expo/server/adapter/express');
-const express = require('express');
-const compression = require('compression');
-const morgan = require('morgan');
-const WEBUI_ROOT = path.resolve(__dirname, '../../webui');
-const CLIENT_BUILD_DIR = path.join(WEBUI_ROOT, 'dist/client');
-const SERVER_BUILD_DIR = path.join(WEBUI_ROOT, 'dist/server');
-const app = express();
-app.use(compression());
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var path_1 = __importDefault(require("path"));
+var express_1 = require("@expo/server/adapter/express");
+var express_2 = __importDefault(require("express"));
+var compression_1 = __importDefault(require("compression"));
+var morgan_1 = __importDefault(require("morgan"));
+process.env.NODE_ENV = 'production';
+var WEBUI_ROOT = path_1.default.resolve(__dirname, '../../../webui');
+var CLIENT_BUILD_DIR = path_1.default.join(WEBUI_ROOT, 'dist/client');
+var SERVER_BUILD_DIR = path_1.default.join(WEBUI_ROOT, 'dist/server');
+var app = (0, express_2.default)();
+app.use((0, compression_1.default)());
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by');
-process.env.NODE_ENV = 'production';
-app.use(express.static(CLIENT_BUILD_DIR, {
+app.use(express_2.default.static(CLIENT_BUILD_DIR, {
     maxAge: '1h',
     extensions: ['html'],
 }));
-app.use(morgan('tiny'));
-app.all('*', createRequestHandler({
+app.use((0, morgan_1.default)('tiny'));
+app.all('*', (0, express_1.createRequestHandler)({
     build: SERVER_BUILD_DIR,
 }));
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Express server listening on port ${port}`);
+var port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.log("Express server listening on port ".concat(port));
 });
 //# sourceMappingURL=bin.js.map

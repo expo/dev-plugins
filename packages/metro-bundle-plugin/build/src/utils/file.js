@@ -1,45 +1,119 @@
-import events from 'events';
-import fs from 'fs';
-import readline from 'readline';
-export async function readFirstLine(filePath) {
-    const stream = fs.createReadStream(filePath);
-    const reader = readline.createInterface({ input: stream });
-    const contents = new Promise((resolve, reject) => {
-        reader.on('error', reject);
-        reader.on('line', (line) => {
-            reader.close();
-            resolve(line);
-        });
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
-    contents.finally(() => stream.close());
-    return await contents;
-}
-export async function mapLines(filePath, callback) {
-    const stream = fs.createReadStream(filePath);
-    const reader = readline.createInterface({ input: stream });
-    let lineNumber = 1;
-    reader.on('error', (error) => {
-        throw error;
-    });
-    reader.on('line', (contents) => {
-        callback(lineNumber++, contents);
-    });
-    await events.once(reader, 'close');
-}
-export async function readLine(filePath, line) {
-    const stream = fs.createReadStream(filePath);
-    const reader = readline.createInterface({ input: stream });
-    let lineNumber = 1;
-    const contents = new Promise((resolve, reject) => {
-        reader.on('error', reject);
-        reader.on('line', (contents) => {
-            if (lineNumber++ === line) {
-                reader.close();
-                resolve(contents);
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.readLine = exports.mapLines = exports.readFirstLine = void 0;
+var events_1 = __importDefault(require("events"));
+var fs_1 = __importDefault(require("fs"));
+var readline_1 = __importDefault(require("readline"));
+function readFirstLine(filePath) {
+    return __awaiter(this, void 0, void 0, function () {
+        var stream, reader, contents;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    stream = fs_1.default.createReadStream(filePath);
+                    reader = readline_1.default.createInterface({ input: stream });
+                    contents = new Promise(function (resolve, reject) {
+                        reader.on('error', reject);
+                        reader.on('line', function (line) {
+                            reader.close();
+                            resolve(line);
+                        });
+                    });
+                    contents.finally(function () { return stream.close(); });
+                    return [4 /*yield*/, contents];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
-    contents.finally(() => stream.close());
-    return await contents;
 }
+exports.readFirstLine = readFirstLine;
+function mapLines(filePath, callback) {
+    return __awaiter(this, void 0, void 0, function () {
+        var stream, reader, lineNumber;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    stream = fs_1.default.createReadStream(filePath);
+                    reader = readline_1.default.createInterface({ input: stream });
+                    lineNumber = 1;
+                    reader.on('error', function (error) {
+                        throw error;
+                    });
+                    reader.on('line', function (contents) {
+                        callback(lineNumber++, contents);
+                    });
+                    return [4 /*yield*/, events_1.default.once(reader, 'close')];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.mapLines = mapLines;
+function readLine(filePath, line) {
+    return __awaiter(this, void 0, void 0, function () {
+        var stream, reader, lineNumber, contents;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    stream = fs_1.default.createReadStream(filePath);
+                    reader = readline_1.default.createInterface({ input: stream });
+                    lineNumber = 1;
+                    contents = new Promise(function (resolve, reject) {
+                        reader.on('error', reject);
+                        reader.on('line', function (contents) {
+                            if (lineNumber++ === line) {
+                                reader.close();
+                                resolve(contents);
+                            }
+                        });
+                    });
+                    contents.finally(function () { return stream.close(); });
+                    return [4 /*yield*/, contents];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.readLine = readLine;
 //# sourceMappingURL=file.js.map

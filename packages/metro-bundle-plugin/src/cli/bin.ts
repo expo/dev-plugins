@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const { createRequestHandler } = require('@expo/server/adapter/express');
+import path from 'path';
+import { createRequestHandler } from '@expo/server/adapter/express';
 
-const express = require('express');
-const compression = require('compression');
-const morgan = require('morgan');
+import express from 'express';
+import compression from 'compression';
+import morgan from 'morgan';
 
-const WEBUI_ROOT = path.resolve(__dirname, '../../webui')
+process.env.NODE_ENV = 'production';
+
+const WEBUI_ROOT = path.resolve(__dirname, '../../../webui')
 const CLIENT_BUILD_DIR = path.join(WEBUI_ROOT, 'dist/client');
 const SERVER_BUILD_DIR = path.join(WEBUI_ROOT, 'dist/server');
 
@@ -17,8 +19,6 @@ app.use(compression());
 
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by');
-
-process.env.NODE_ENV = 'production';
 
 app.use(
   express.static(CLIENT_BUILD_DIR, {
