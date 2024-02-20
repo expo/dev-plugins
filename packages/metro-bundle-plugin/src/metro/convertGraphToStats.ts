@@ -11,6 +11,7 @@ type ConvertOptions = {
 };
 
 export type MetroStatsEntry = ReturnType<typeof convertGraphToStats>;
+export type MetroStatsModule = ReturnType<typeof convertModule>
 
 export function convertGraphToStats({ projectRoot, entryPoint, preModules, graph, options }: ConvertOptions) {
   return [
@@ -18,7 +19,7 @@ export function convertGraphToStats({ projectRoot, entryPoint, preModules, graph
     preModules.map((module) => convertModule(projectRoot, module)),
     convertGraph(projectRoot, graph),
     convertOptions(options),
-  ];
+  ] as const;
 }
 
 function convertOptions(options: ConvertOptions['options']) {
@@ -42,13 +43,22 @@ function convertGraph(projectRoot: string, graph: ConvertOptions['graph']) {
 }
 
 function convertModule(projectRoot: string, module: ConvertOptions['preModules'][0]) {
+  const nodeModuleName = getNodeModuleNameFromPath(module.path);
+
   return {
-    nodeModuleName: getNodeModuleNameFromPath(module.path),
+    nodeModuleName: nodeModuleName || '[unknown]',
+    isNodeModule: !!nodeModuleName,
     dependencies: Array.from(module.dependencies.values()).map((dependency) => (
       path.relative(projectRoot, dependency.absolutePath)
     )),
+    relativePath: path.relative(projectRoot, module.path),
+    absolutePath: module.path,
     size: getModuleOutputInBytes(module),
-    path: path.relative(projectRoot, module.path),
+    source: module.getSource().toString(),
+    output: module.output.map((output) => ({
+      type: output.type,
+      data: output.data,
+    })),
   };
 }
 

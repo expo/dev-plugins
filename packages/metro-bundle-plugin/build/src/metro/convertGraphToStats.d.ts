@@ -8,21 +8,40 @@ type ConvertOptions = {
     options: CustomSerializerParameters[3];
 };
 export type MetroStatsEntry = ReturnType<typeof convertGraphToStats>;
-export declare function convertGraphToStats({ projectRoot, entryPoint, preModules, graph, options }: ConvertOptions): (string | {
-    nodeModuleName: string | null;
+export type MetroStatsModule = ReturnType<typeof convertModule>;
+export declare function convertGraphToStats({ projectRoot, entryPoint, preModules, graph, options }: ConvertOptions): readonly [string, {
+    nodeModuleName: string;
+    isNodeModule: boolean;
     dependencies: string[];
+    relativePath: string;
+    absolutePath: string;
     size: number;
-    path: string;
-}[] | {
+    source: string;
+    output: {
+        type: string;
+        data: {
+            code: string;
+        };
+    }[];
+}[], {
     entryPoints: string[];
     dependencies: {
-        nodeModuleName: string | null;
+        nodeModuleName: string;
+        isNodeModule: boolean;
         dependencies: string[];
+        relativePath: string;
+        absolutePath: string;
         size: number;
-        path: string;
+        source: string;
+        output: {
+            type: string;
+            data: {
+                code: string;
+            };
+        }[];
     }[];
     transformOptions: Readonly<import("metro").TransformInputOptions>;
-} | {
+}, {
     processModuleFilter: undefined;
     createModuleId: undefined;
     getRunModuleStatement: undefined;
@@ -38,6 +57,21 @@ export declare function convertGraphToStats({ projectRoot, entryPoint, preModule
     serverRoot: string;
     sourceMapUrl?: string | undefined;
     sourceUrl?: string | undefined;
-})[];
+}];
+declare function convertModule(projectRoot: string, module: ConvertOptions['preModules'][0]): {
+    nodeModuleName: string;
+    isNodeModule: boolean;
+    dependencies: string[];
+    relativePath: string;
+    absolutePath: string;
+    size: number;
+    source: string;
+    output: {
+        type: string;
+        data: {
+            code: string;
+        };
+    }[];
+};
 export {};
 //# sourceMappingURL=convertGraphToStats.d.ts.map

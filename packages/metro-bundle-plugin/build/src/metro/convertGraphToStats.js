@@ -33,11 +33,19 @@ function convertGraph(projectRoot, graph) {
     return __assign(__assign({}, graph), { entryPoints: Array.from(graph.entryPoints.values()), dependencies: Array.from(graph.dependencies.values()).map(function (dependency) { return (convertModule(projectRoot, dependency)); }) });
 }
 function convertModule(projectRoot, module) {
+    var nodeModuleName = getNodeModuleNameFromPath(module.path);
     return {
-        nodeModuleName: getNodeModuleNameFromPath(module.path),
+        nodeModuleName: nodeModuleName || '[unknown]',
+        isNodeModule: !!nodeModuleName,
         dependencies: Array.from(module.dependencies.values()).map(function (dependency) { return (path_1.default.relative(projectRoot, dependency.absolutePath)); }),
+        relativePath: path_1.default.relative(projectRoot, module.path),
+        absolutePath: module.path,
         size: getModuleOutputInBytes(module),
-        path: path_1.default.relative(projectRoot, module.path),
+        source: module.getSource().toString(),
+        output: module.output.map(function (output) { return ({
+            type: output.type,
+            data: output.data,
+        }); }),
     };
 }
 function getModuleOutputInBytes(module) {
