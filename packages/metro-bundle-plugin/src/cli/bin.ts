@@ -17,6 +17,14 @@ const app = express();
 
 app.use(compression());
 
+// Fix to compensate for faulty server root
+app.use((req, res, next) => {
+  if (req.url.startsWith('/_expo/plugins/metro-bundle-plugin')) {
+    req.url = req.url.replace('/_expo/plugins/metro-bundle-plugin', '');
+  }
+  next();
+});
+
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by');
 
