@@ -41,11 +41,11 @@ function convertModule(projectRoot, module) {
         relativePath: path_1.default.relative(projectRoot, module.path),
         absolutePath: module.path,
         size: getModuleOutputInBytes(module),
-        source: module.getSource().toString(),
-        output: module.output.map(function (output) { return ({
-            type: output.type,
-            data: output.data,
-        }); }),
+        // source: module.getSource().toString(),
+        // output: module.output.map((output) => ({
+        //   type: output.type,
+        //   data: output.data,
+        // })),
     };
 }
 function getModuleOutputInBytes(module) {

@@ -16,13 +16,6 @@ export declare function convertGraphToStats({ projectRoot, entryPoint, preModule
     relativePath: string;
     absolutePath: string;
     size: number;
-    source: string;
-    output: {
-        type: string;
-        data: {
-            code: string;
-        };
-    }[];
 }[], {
     entryPoints: string[];
     dependencies: {
@@ -32,13 +25,6 @@ export declare function convertGraphToStats({ projectRoot, entryPoint, preModule
         relativePath: string;
         absolutePath: string;
         size: number;
-        source: string;
-        output: {
-            type: string;
-            data: {
-                code: string;
-            };
-        }[];
     }[];
     transformOptions: Readonly<import("metro").TransformInputOptions>;
 }, {
@@ -65,13 +51,6 @@ declare function convertModule(projectRoot: string, module: ConvertOptions['preM
     relativePath: string;
     absolutePath: string;
     size: number;
-    source: string;
-    output: {
-        type: string;
-        data: {
-            code: string;
-        };
-    }[];
 };
 export {};
 //# sourceMappingURL=convertGraphToStats.d.ts.map

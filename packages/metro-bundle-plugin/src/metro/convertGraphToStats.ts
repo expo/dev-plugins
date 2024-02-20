@@ -54,11 +54,11 @@ function convertModule(projectRoot: string, module: ConvertOptions['preModules']
     relativePath: path.relative(projectRoot, module.path),
     absolutePath: module.path,
     size: getModuleOutputInBytes(module),
-    source: module.getSource().toString(),
-    output: module.output.map((output) => ({
-      type: output.type,
-      data: output.data,
-    })),
+    // source: module.getSource().toString(),
+    // output: module.output.map((output) => ({
+    //   type: output.type,
+    //   data: output.data,
+    // })),
   };
 }
 
