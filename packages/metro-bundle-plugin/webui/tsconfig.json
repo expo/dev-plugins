@@ -3,11 +3,23 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "~/*": ["./src/*"],
-      "~plugin/*": ["../src/*"],
-    },
+      "~/*": [
+        "./src/*"
+      ],
+      "~plugin/*": [
+        "../src/*"
+      ]
+    }
   },
   "references": [
-    { "path": "../" }
+    {
+      "path": "../"
+    }
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ]
 }

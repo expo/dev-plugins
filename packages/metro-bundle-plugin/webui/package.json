@@ -7,9 +7,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "expo export --platform web"
+    "build": "EXPO_USE_METRO_WORKSPACE_ROOT=false expo export --platform web"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.22.2",
+    "echarts": "^5.5.0",
+    "echarts-for-react": "^3.0.2",
     "expo": "~50.0.6",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
