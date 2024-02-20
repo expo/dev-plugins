@@ -1,9 +1,20 @@
 {
-  "name": "metro-bundle-plugin",
+  "name": "@dev-plugins/metro-bundle-plugin",
   "version": "0.0.1",
-  "description": "Inspect the bundle stats from Metro", 
+  "description": "Inspect the bundle stats from Metro",
+  "keywords": [
+    "expo",
+    "devtools"
+  ],
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "build",
+    "dist",
+    "expo-module.config.json",
+    "metro.js",
+    "metro.d.ts"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "expo-module build",
@@ -14,17 +25,10 @@
     "web:dev": "cd webui && npx expo start -w",
     "web:export": "cd webui && npx expo export -p web --output-dir ../dist"
   },
-  "keywords": [
-    "expo",
-    "devtools"
-  ],
-  "files": [
-    "build",
-    "dist",
-    "expo-module.config.json"
-  ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "expo-router": "~3.4.7"
+  },
   "devDependencies": {
     "expo": "~50.0.1",
     "expo-module-scripts": "^3.1.0",
