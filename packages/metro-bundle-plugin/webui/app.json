@@ -1,10 +1,13 @@
 {
   "expo": {
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "output": "server"
     },
     "experiments": {
-      "baseUrl": "/_expo/plugins/metro-bundle-plugin"
+      "baseUrl": "/_expo/plugins/metro-bundle-plugin",
+      "tsconfigPaths": true,
+      "typedRoutes": true
     }
   }
 }

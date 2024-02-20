@@ -6,6 +6,7 @@
         "expo",
         "devtools"
     ],
+    "bin": "build/cli/bin.js",
     "main": "build/index.js",
     "types": "build/index.d.ts",
     "files": [
@@ -13,7 +14,8 @@
         "dist",
         "expo-module.config.json",
         "metro.js",
-        "metro.d.ts"
+        "metro.d.ts",
+        "webui/dist"
     ],
     "sideEffects": false,
     "scripts": {
@@ -27,7 +29,11 @@
     },
     "license": "MIT",
     "dependencies": {
-        "expo-router": "~3.4.7"
+        "@expo/server": "^0.3.1",
+        "compression": "^1.7.4",
+        "expo-router": "~3.4.7",
+        "express": "^4.18.2",
+        "morgan": "^1.10.0"
     },
     "devDependencies": {
         "expo": "~50.0.1",
