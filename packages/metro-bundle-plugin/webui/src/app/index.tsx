@@ -24,9 +24,8 @@ function useStatsModules(entry: number) {
   return useQuery<MetroStatsEntry[2]['dependencies']>({
     queryKey: [`bundle-graph-${entry}`],
     queryFn: () => (
-      fetch(`/api/stats/${entry}`)
+      fetch(`/api/stats/${entry}/bundle-graph`)
         .then((res) => res.json())
-        .then((stats) => stats.data?.[2].dependencies ?? [])
     ),
   });
 }
