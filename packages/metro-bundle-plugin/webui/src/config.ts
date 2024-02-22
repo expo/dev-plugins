@@ -1,8 +1,14 @@
 import { getStatsPath } from '~plugin/metro/createStatsFile';
 
 export function getStatsFile() {
-  // const projectRoot = process.cwd(); // Note(cedric): let's hope this works
-  // const statsFile = getStatsPath(projectRoot);
+  // Note(cedric): avoid inlining this value by desctructuring it
+  const { EXPO_METRO_BUNDLE_STATS_FILE } = process.env;
 
-  return '/Users/cedric/Desktop/test-metro-bundle-inspect/.expo/stats.json';
+  if (EXPO_METRO_BUNDLE_STATS_FILE) {
+    return EXPO_METRO_BUNDLE_STATS_FILE;
+  }
+
+  // Fall back to the default location from CWD
+  const projectRoot = process.cwd();
+  return getStatsPath(projectRoot);
 }

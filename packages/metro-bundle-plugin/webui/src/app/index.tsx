@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { TreemapGraph } from '~/components/TreemapGraph';
+import { useStatsContext } from '~/providers/stats';
 import { type MetroStatsEntry } from '~plugin/metro/convertGraphToStats';
 
-const entryId = 2;
-
 export default function GraphScreen() {
+  const { entryId } = useStatsContext();
   const stats = useStatsData(entryId);
   const modules = useMemo(() => stats.data?.[2].dependencies ?? [], [stats.data]);
 

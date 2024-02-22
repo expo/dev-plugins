@@ -1,6 +1,6 @@
 import * as echarts from 'echarts';
 import { useMemo } from 'react';
-import { formatFileSize } from '~/utils/string';
+import { formatFileSize } from '~/utils/formatString';
 import { type MetroStatsModule } from '~plugin/metro/convertGraphToStats';
 import { Graph } from './Graph';
 
