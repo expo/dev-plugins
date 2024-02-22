@@ -1,26 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
 import { TreemapGraph } from '~/components/TreemapGraph';
 import { useStatsContext } from '~/providers/stats';
 import { type MetroStatsEntry } from '~plugin/metro/convertGraphToStats';
 
 export default function GraphScreen() {
   const { entryId } = useStatsContext();
-  const stats = useStatsData(entryId);
-  const modules = useMemo(() => stats.data?.[2].dependencies ?? [], [stats.data]);
+  const modules = useStatsModules(entryId);
 
-  if (stats.isLoading) {
+  if (modules.isLoading) {
     return <div>Hang on!</div>;
   }
 
+  if (!modules.data) {
+    return <div>No data found</div>;
+  }
+
   return (
-    <TreemapGraph key={`bundle-graph-${entryId}`} modules={modules} />
+    <TreemapGraph key={`bundle-graph-${entryId}`} modules={modules.data} />
   );
 }
 
-function useStatsData(entry: number) {
-  return useQuery<MetroStatsEntry>({
+function useStatsModules(entry: number) {
+  return useQuery<MetroStatsEntry[2]['dependencies']>({
     queryKey: [`bundle-graph-${entry}`],
-    queryFn: () => fetch(`/api/stats/${entry}`).then((res) => res.json()),
+    queryFn: () => (
+      fetch(`/api/stats/${entry}`)
+        .then((res) => res.json())
+        .then((stats) => stats.data?.[2].dependencies ?? [])
+    ),
   });
 }
