@@ -87,7 +87,7 @@ function getCurrentState(client) {
                 lastUpdateAt: getTime(),
                 queries: getAllQueries(client),
                 mutations: getAllMutations(client),
-                cache: client.cache.extract(true),
+                cache: client?.cache.extract(true),
             };
             res(currentState);
         }, 0);
