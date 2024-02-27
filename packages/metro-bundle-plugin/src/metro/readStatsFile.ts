@@ -3,10 +3,15 @@ import fs from 'fs';
 import { mapLines, readFirstLine, readLine } from '../utils/file';
 import { getStatsMetdata } from './createStatsFile';
 import { type MetroStatsEntry } from './convertGraphToStats';
+import { env } from '../utils/env';
 
 export async function validateStatsFile(statsFile: string, metadata = getStatsMetdata()) {
   if (!fs.existsSync(statsFile)) {
     throw new Error(`Stats file "${statsFile}" not found.`);
+  }
+
+  if (env.EXPO_NO_STATS_VALIDATION) {
+    return;
   }
 
   const line = await readFirstLine(statsFile);
