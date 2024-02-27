@@ -1,6 +1,6 @@
 {
-    "name": "@dev-plugins/metro-bundle-plugin",
-    "version": "0.0.1",
+    "name": "@bycedric/prototype-cool-tool",
+    "version": "0.0.2",
     "description": "Inspect the bundle stats from Metro",
     "keywords": [
         "expo",
@@ -22,18 +22,20 @@
         "build": "expo-module build",
         "build:all": "expo-module prepare && cd webui && npx expo export -p web --output-dir ../dist",
         "clean": "expo-module clean",
-        "prepare": "expo-module prepare",
-        "prepublishOnly": "expo-module prepare && expo-module prepublishOnly && cd webui && npx expo export -p web --output-dir ../dist",
         "web:dev": "cd webui && npx expo start -w",
         "web:export": "cd webui && npx expo export -p web --output-dir ../dist"
     },
     "license": "MIT",
     "dependencies": {
         "@expo/server": "^0.3.1",
+        "arg": "^5.0.2",
         "compression": "^1.7.4",
         "expo-router": "~3.4.7",
         "express": "^4.18.2",
-        "morgan": "^1.10.0"
+        "freeport-async": "^2.0.0",
+        "getenv": "^1.0.0",
+        "morgan": "^1.10.0",
+        "open": "^8.4.2"
     },
     "devDependencies": {
         "@types/express": "^4.17.21",

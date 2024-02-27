@@ -43,6 +43,7 @@ exports.getStatsEntry = exports.listStatsEntries = exports.validateStatsFile = v
 var fs_1 = __importDefault(require("fs"));
 var file_1 = require("../utils/file");
 var createStatsFile_1 = require("./createStatsFile");
+var env_1 = require("../utils/env");
 function validateStatsFile(statsFile, metadata) {
     if (metadata === void 0) { metadata = (0, createStatsFile_1.getStatsMetdata)(); }
     return __awaiter(this, void 0, void 0, function () {
@@ -52,6 +53,9 @@ function validateStatsFile(statsFile, metadata) {
                 case 0:
                     if (!fs_1.default.existsSync(statsFile)) {
                         throw new Error("Stats file \"".concat(statsFile, "\" not found."));
+                    }
+                    if (env_1.env.EXPO_NO_STATS_VALIDATION) {
+                        return [2 /*return*/];
                     }
                     return [4 /*yield*/, (0, file_1.readFirstLine)(statsFile)];
                 case 1:

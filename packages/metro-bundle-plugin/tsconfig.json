@@ -5,7 +5,8 @@
     "outDir": "./build",
     "resolveJsonModule": true,
     "module": "CommonJS",
-    "target": "es5"
+    "target": "es5",
+    "composite": true
   },
   "include": ["./src", "./package.json"],
   "exclude": ["**/__mocks__/*", "**/__tests__/*"]

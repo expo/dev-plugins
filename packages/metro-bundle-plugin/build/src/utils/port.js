@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -40,48 +39,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var arg_1 = __importDefault(require("arg"));
-var open_1 = __importDefault(require("open"));
-var server_1 = require("./server");
-var resolveOptions_1 = require("./resolveOptions");
-var args = (0, arg_1.default)({
-    // Types
-    '--help': Boolean,
-    '--port': Number,
-    '--version': Boolean,
-    // Aliases
-    '-h': '--help',
-    '-p': '--port',
-    '-v': '--version',
-});
-if (args['--version']) {
-    console.log(require('../package.json').version);
-    process.exit(0);
-}
-if (args['--help']) {
-    console.log("\n    Usage\n      $ metro-bundle-plugin [statsFile]\n\n    Options\n      --port, -p      Port to listen on\n      --help, -h      Displays this message\n      --version, -v   Displays the current version\n  ");
-    process.exit(0);
-}
-process.on('SIGINT', function () { return process.exit(0); });
-process.on('SIGTERM', function () { return process.exit(0); });
-run();
-function run() {
+exports.getFreePort = void 0;
+var freeport_async_1 = __importDefault(require("freeport-async"));
+/**
+ * Find the closest free port to the given port number.
+ * This will increase the port until a free port has been found.
+ */
+function getFreePort(portStart) {
     return __awaiter(this, void 0, void 0, function () {
-        var options, server;
+        var port;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, resolveOptions_1.resolveOptions)(args)];
+                case 0: return [4 /*yield*/, (0, freeport_async_1.default)(portStart, { hostnames: [null, 'localhost'] })];
                 case 1:
-                    options = _a.sent();
-                    server = (0, server_1.createServer)(options);
-                    server.listen(options.port, function () {
-                        var href = "http://localhost:".concat(options.port);
-                        console.log("Metro bundle inspector is ready on ".concat(href));
-                        (0, open_1.default)(href);
-                    });
-                    return [2 /*return*/];
+                    port = _a.sent();
+                    if (!port) {
+                        throw new Error("Could not find a free port starting from ".concat(portStart, "."));
+                    }
+                    return [2 /*return*/, port];
             }
         });
     });
 }
-//# sourceMappingURL=bin.js.map
+exports.getFreePort = getFreePort;
+//# sourceMappingURL=port.js.map

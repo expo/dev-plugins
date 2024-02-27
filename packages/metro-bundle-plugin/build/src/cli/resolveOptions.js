@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -40,48 +39,72 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var arg_1 = __importDefault(require("arg"));
-var open_1 = __importDefault(require("open"));
-var server_1 = require("./server");
-var resolveOptions_1 = require("./resolveOptions");
-var args = (0, arg_1.default)({
-    // Types
-    '--help': Boolean,
-    '--port': Number,
-    '--version': Boolean,
-    // Aliases
-    '-h': '--help',
-    '-p': '--port',
-    '-v': '--version',
-});
-if (args['--version']) {
-    console.log(require('../package.json').version);
-    process.exit(0);
-}
-if (args['--help']) {
-    console.log("\n    Usage\n      $ metro-bundle-plugin [statsFile]\n\n    Options\n      --port, -p      Port to listen on\n      --help, -h      Displays this message\n      --version, -v   Displays the current version\n  ");
-    process.exit(0);
-}
-process.on('SIGINT', function () { return process.exit(0); });
-process.on('SIGTERM', function () { return process.exit(0); });
-run();
-function run() {
+exports.resolveOptions = void 0;
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+var createStatsFile_1 = require("../metro/createStatsFile");
+var readStatsFile_1 = require("../metro/readStatsFile");
+var port_1 = require("../utils/port");
+function resolveOptions(input) {
     return __awaiter(this, void 0, void 0, function () {
-        var options, server;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, resolveOptions_1.resolveOptions)(args)];
+        var _a, statsFile, port;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, Promise.all([
+                        resolveStatsFile(input),
+                        resolvePort(input),
+                    ])];
                 case 1:
-                    options = _a.sent();
-                    server = (0, server_1.createServer)(options);
-                    server.listen(options.port, function () {
-                        var href = "http://localhost:".concat(options.port);
-                        console.log("Metro bundle inspector is ready on ".concat(href));
-                        (0, open_1.default)(href);
-                    });
-                    return [2 /*return*/];
+                    _a = _b.sent(), statsFile = _a[0], port = _a[1];
+                    return [2 /*return*/, { statsFile: statsFile, port: port }];
             }
         });
     });
 }
-//# sourceMappingURL=bin.js.map
+exports.resolveOptions = resolveOptions;
+function resolveStatsFile(input) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function () {
+        var statsFile, error_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    statsFile = (_a = input._[0]) !== null && _a !== void 0 ? _a : (0, createStatsFile_1.getStatsPath)(process.cwd());
+                    if (!fs_1.default.existsSync(statsFile)) {
+                        throw new Error("Could not find stats file \"".concat(statsFile, "\"."));
+                    }
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, (0, readStatsFile_1.validateStatsFile)(statsFile)];
+                case 2:
+                    _b.sent();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _b.sent();
+                    throw new Error("Stats file is incompatible with this version.");
+                case 4: return [2 /*return*/, path_1.default.resolve(statsFile)];
+            }
+        });
+    });
+}
+function resolvePort(input) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function () {
+        var _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    if (!((_a = input['--port']) !== null && _a !== void 0)) return [3 /*break*/, 1];
+                    _b = _a;
+                    return [3 /*break*/, 3];
+                case 1: return [4 /*yield*/, (0, port_1.getFreePort)(3000)];
+                case 2:
+                    _b = _c.sent();
+                    _c.label = 3;
+                case 3: return [2 /*return*/, _b];
+            }
+        });
+    });
+}
+//# sourceMappingURL=resolveOptions.js.map

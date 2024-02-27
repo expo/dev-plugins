@@ -20,7 +20,7 @@ function convertGraphToStats(_a) {
     var projectRoot = _a.projectRoot, entryPoint = _a.entryPoint, preModules = _a.preModules, graph = _a.graph, options = _a.options;
     return [
         path_1.default.relative(projectRoot, entryPoint),
-        preModules.map(function (module) { return convertModule(projectRoot, module); }),
+        preModules.map(function (module) { return convertModule(projectRoot, graph, module); }),
         convertGraph(projectRoot, graph),
         convertOptions(options),
     ];
@@ -30,22 +30,25 @@ function convertOptions(options) {
     return __assign(__assign({}, options), { processModuleFilter: undefined, createModuleId: undefined, getRunModuleStatement: undefined, shouldAddToIgnoreList: undefined });
 }
 function convertGraph(projectRoot, graph) {
-    return __assign(__assign({}, graph), { entryPoints: Array.from(graph.entryPoints.values()), dependencies: Array.from(graph.dependencies.values()).map(function (dependency) { return (convertModule(projectRoot, dependency)); }) });
+    return __assign(__assign({}, graph), { entryPoints: Array.from(graph.entryPoints.values()), dependencies: Array.from(graph.dependencies.values()).map(function (dependency) { return (convertModule(projectRoot, graph, dependency)); }) });
 }
-function convertModule(projectRoot, module) {
+function convertModule(projectRoot, graph, module) {
     var nodeModuleName = getNodeModuleNameFromPath(module.path);
     return {
         nodeModuleName: nodeModuleName || '[unknown]',
         isNodeModule: !!nodeModuleName,
-        dependencies: Array.from(module.dependencies.values()).map(function (dependency) { return (path_1.default.relative(projectRoot, dependency.absolutePath)); }),
         relativePath: path_1.default.relative(projectRoot, module.path),
         absolutePath: module.path,
         size: getModuleOutputInBytes(module),
-        // source: module.getSource().toString(),
-        // output: module.output.map((output) => ({
-        //   type: output.type,
-        //   data: output.data,
-        // })),
+        dependencies: Array.from(module.dependencies.values()).map(function (dependency) { return (path_1.default.relative(projectRoot, dependency.absolutePath)); }),
+        inverseDependencies: Array.from(module.inverseDependencies)
+            .filter(function (dependencyName) { return graph.dependencies.has(dependencyName); })
+            .map(function (dependencyName) { return path_1.default.relative(projectRoot, dependencyName); }),
+        source: module.getSource().toString(),
+        output: module.output.map(function (output) { return ({
+            type: output.type,
+            data: output.data,
+        }); }),
     };
 }
 function getModuleOutputInBytes(module) {
