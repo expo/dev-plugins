@@ -16,7 +16,7 @@ export type MetroStatsModule = ReturnType<typeof convertModule>
 export function convertGraphToStats({ projectRoot, entryPoint, preModules, graph, options }: ConvertOptions) {
   return [
     path.relative(projectRoot, entryPoint),
-    preModules.map((module) => convertModule(projectRoot, module)),
+    preModules.map((module) => convertModule(projectRoot, graph, module)),
     convertGraph(projectRoot, graph),
     convertOptions(options),
   ] as const;
@@ -37,28 +37,32 @@ function convertGraph(projectRoot: string, graph: ConvertOptions['graph']) {
     ...graph,
     entryPoints: Array.from(graph.entryPoints.values()),
     dependencies: Array.from(graph.dependencies.values()).map((dependency) => (
-      convertModule(projectRoot, dependency)
+      convertModule(projectRoot, graph, dependency)
     )),
   };
 }
 
-function convertModule(projectRoot: string, module: ConvertOptions['preModules'][0]) {
+function convertModule(projectRoot: string, graph: ConvertOptions['graph'], module: ConvertOptions['preModules'][0]) {
   const nodeModuleName = getNodeModuleNameFromPath(module.path);
 
   return {
     nodeModuleName: nodeModuleName || '[unknown]',
     isNodeModule: !!nodeModuleName,
-    dependencies: Array.from(module.dependencies.values()).map((dependency) => (
-      path.relative(projectRoot, dependency.absolutePath)
-    )),
     relativePath: path.relative(projectRoot, module.path),
     absolutePath: module.path,
     size: getModuleOutputInBytes(module),
-    // source: module.getSource().toString(),
-    // output: module.output.map((output) => ({
-    //   type: output.type,
-    //   data: output.data,
-    // })),
+    dependencies: Array.from(module.dependencies.values()).map((dependency) => (
+      path.relative(projectRoot, dependency.absolutePath)
+    )),
+    inverseDependencies: Array.from(module.inverseDependencies)
+      .filter((dependencyName) => graph.dependencies.has(dependencyName))
+      .map((dependencyName) => path.relative(projectRoot, dependencyName)),
+
+    source: module.getSource().toString(),
+    output: module.output.map((output) => ({
+      type: output.type,
+      data: output.data,
+    })),
   };
 }
 
