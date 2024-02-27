@@ -49,7 +49,7 @@ export function TreemapGraph(props: TreemapGraphProps) {
       onEvents={{
         click({ event, data }: any) {
           const shouldFireClick = event.event.altKey || event.event.ctrlKey || event.event.metaKey;
-          if (data.path && shouldFireClick) {
+          if (data?.path && shouldFireClick) {
             props.onModuleClick(data.path);
           }
         },

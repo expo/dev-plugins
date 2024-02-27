@@ -6,10 +6,10 @@ import ChevronUpIcon from 'lucide-react/dist/esm/icons/chevron-up';
 import ChevronDownIcon from 'lucide-react/dist/esm/icons/chevron-down';
 
 import { ComponentProps } from 'react';
-import { useStatsContext } from '~/providers/stats';
+import { useStatsEntryContext } from '~/providers/stats';
 
 export function StatsEntrySelect() {
-  const { entryId, setEntryId, entries } = useStatsContext();
+  const { entryId, setEntryId, entries } = useStatsEntryContext();
 
   function onEntryChange(value: string) {
     setEntryId(Number(value));

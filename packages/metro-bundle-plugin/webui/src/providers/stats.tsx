@@ -2,32 +2,33 @@ import { useQuery } from '@tanstack/react-query';
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
 import { listStatsEntries } from '~plugin/metro/readStatsFile';
 
-type StatsContext = {
+type StatsEntryContext = {
   entryId: number;
   setEntryId: (id: number) => void;
-  entries?: ReturnType<typeof useStatsEntries>;
+  entries?: ReturnType<typeof useStatsEntriesData>;
 };
 
-export const statsContext = createContext<StatsContext>({ 
+export const statsEntryContext = createContext<StatsEntryContext>({ 
   entryId: 2,
   setEntryId: () => {},
   entries: undefined,
 });
 
-export const useStatsContext = () => useContext(statsContext);
+export const useStatsEntryContext = () => useContext(statsEntryContext);
 
-export function StatsProvider({ children }: PropsWithChildren) {
+export function StatsEntryProvider({ children }: PropsWithChildren) {
+  const entries = useStatsEntriesData();
   const [entryId, setEntryId] = useState(2);
-  const entries = useStatsEntries();
   
   return (
-    <statsContext.Provider value={{ entryId, setEntryId, entries }}>
+    <statsEntryContext.Provider value={{ entryId, setEntryId, entries }}>
       {children}
-    </statsContext.Provider>
+    </statsEntryContext.Provider>
   )
 }
 
-function useStatsEntries() {
+/** Load all available stats entries from API */
+function useStatsEntriesData() {
   return useQuery<Awaited<ReturnType<typeof listStatsEntries>>>({
     queryKey: ['stats-entries'],
     queryFn: () => fetch('/api/stats').then((res) => res.json()),

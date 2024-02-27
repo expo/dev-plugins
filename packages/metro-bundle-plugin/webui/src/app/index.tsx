@@ -1,24 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 
+import { StatsModuleFilter } from '~/components/forms/StatsModuleFilter';
 import { TreemapGraph } from '~/components/graphs/TreemapGraph';
-import { LoadingIndicator } from '~/components/indicators/Loading';
-import { useStatsContext } from '~/providers/stats';
-import { type MetroStatsEntry } from '~plugin/metro/convertGraphToStats';
+import { type ModuleFilters, useModuleFilterContext, filtersToUrlParams } from '~/providers/modules';
+import { useStatsEntryContext } from '~/providers/stats';
+import { type MetroStatsModule } from '~plugin/metro/convertGraphToStats';
 
 export default function GraphScreen() {
-  const { entryId } = useStatsContext();
-  const modules = useStatsModules(entryId);
+  const { entryId } = useStatsEntryContext();
+  const { filters } = useModuleFilterContext();
+
+  const graph = useBundleGraphData(entryId, filters);
   const router = useRouter();
-
-  if (modules.isLoading) {
-    return <LoadingIndicator />;
-  }
-
-  // TODO(cedric): improve error handling
-  if (!modules.data) {
-    return <div>No data found</div>;
-  }
 
   function onInspectModule(absolutePath: string) {
     router.push({
@@ -29,22 +23,27 @@ export default function GraphScreen() {
 
   return (
     <>
+      <StatsModuleFilter />
       <TreemapGraph
         key={`bundle-graph-${entryId}`}
-        modules={modules.data}
+        modules={graph.data ?? []}
         onModuleClick={onInspectModule}
       />
     </>
   );
 }
 
-// TODO(cedric): move to dedicated file
-export function useStatsModules(entry: number) {
-  return useQuery<MetroStatsEntry[2]['dependencies']>({
-    queryKey: [`bundle-graph-${entry}`],
-    queryFn: () => (
-      fetch(`/api/stats/${entry}/bundle-graph`)
-        .then((res) => res.json())
-    ),
+/** Load the bundle graph data from API, with default or custom filters */
+function useBundleGraphData(entry: number, filters?: ModuleFilters) {
+  return useQuery<MetroStatsModule[]>({
+    queryKey: [`bundle-graph`, entry, filters],
+    queryFn: ({ queryKey }) => {
+      const [_key, entry, filters] = queryKey as [string, number, ModuleFilters | undefined];
+      const url = !!filters
+        ? `/api/stats/${entry}/modules?${filtersToUrlParams(filters)}`
+        : `/api/stats/${entry}/modules`;
+
+      return fetch(url).then((res) => res.json())
+    },
   });
 }
