@@ -3,23 +3,32 @@
   "version": "0.0.1-private",
   "main": "src/index.ts",
   "scripts": {
-    "start": "expo start",
+    "start": "EXPO_METRO_BUNDLE_STATS_FILE=\"/Users/cedric/Desktop/test-metro-bundle-inspect/.expo/stats.json\" expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build": "EXPO_USE_METRO_WORKSPACE_ROOT=false expo export --platform web"
   },
   "dependencies": {
+    "@expo/styleguide": "^8.2.2",
+    "@expo/styleguide-native": "^7.0.1",
+    "@radix-ui/react-select": "^2.0.0",
+    "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-query": "^5.22.2",
+    "classnames": "^2.5.1",
     "echarts": "^5.5.0",
     "echarts-for-react": "^3.0.2",
     "expo": "~50.0.6",
     "expo-status-bar": "~1.11.1",
+    "lucide-react": "^0.336.0",
     "nativewind": "^4.0.36",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
-    "react-native-web": "~0.19.6"
+    "react-native-reanimated": "~3.6.2",
+    "react-native-svg": "14.1.0",
+    "react-native-web": "~0.19.6",
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

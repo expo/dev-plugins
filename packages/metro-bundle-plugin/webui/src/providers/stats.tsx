@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
-import { getStatsEntry } from '~plugin/metro/readStatsFile';
+import { listStatsEntries } from '~plugin/metro/readStatsFile';
 
 type StatsContext = {
   entryId: number;
@@ -28,7 +28,7 @@ export function StatsProvider({ children }: PropsWithChildren) {
 }
 
 function useStatsEntries() {
-  return useQuery<ReturnType<typeof getStatsEntry>>({
+  return useQuery<Awaited<ReturnType<typeof listStatsEntries>>>({
     queryKey: ['stats-entries'],
     queryFn: () => fetch('/api/stats').then((res) => res.json()),
   });

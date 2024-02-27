@@ -6,6 +6,7 @@ import { Graph } from './Graph';
 
 type TreemapGraphProps = {
   modules: MetroStatsModule[];
+  onModuleClick: (absolutePath: string) => void;
 };
 
 const ICON_STRINGS = {
@@ -45,6 +46,14 @@ export function TreemapGraph(props: TreemapGraphProps) {
   return (
     <Graph
       theme="dark"
+      onEvents={{
+        click({ event, data }: any) {
+          const shouldFireClick = event.event.altKey || event.event.ctrlKey || event.event.metaKey;
+          if (data.path && shouldFireClick) {
+            props.onModuleClick(data.path);
+          }
+        },
+      }}
       option={{
         backgroundColor: 'transparent',
         tooltip: {

@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: var(--expo-theme-background-screen);
+  color: var(--expo-theme-text-default);
+}

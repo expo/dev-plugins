@@ -1,5 +1,6 @@
 {
   "expo": {
+    "userInterfaceStyle": "dark",
     "web": {
       "bundler": "metro",
       "output": "server"

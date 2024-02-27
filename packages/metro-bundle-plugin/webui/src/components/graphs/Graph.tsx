@@ -11,7 +11,7 @@ export function Graph(props: ComponentProps<typeof ReactECharts>) {
   };
 
   return (
-    <div ref={container} style={{ flex: 1 }}>
+    <div ref={container} className="flex-1">
       <ReactECharts
         lazyUpdate
         {...props}
