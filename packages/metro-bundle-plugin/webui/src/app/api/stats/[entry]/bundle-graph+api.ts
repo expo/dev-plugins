@@ -1,25 +1,20 @@
-import { ExpoRequest, ExpoResponse } from 'expo-router/server';
-import { getStatsFile } from '~/config';
+import { resolveStatsFile } from '~/config';
 import { getStatsEntry, validateStatsFile } from '~plugin/metro/readStatsFile';
 
-export async function GET(request: ExpoRequest) {
-  const statsFile = getStatsFile();
-  // const projectRoot = process.cwd(); // Note(cedric): let's hope this works
-  // const statsFile = getStatsPath(projectRoot);
+export async function GET(request: Request, params: Record<'entry', string>) {
+  const statsFile = resolveStatsFile();
 
   try {
     await validateStatsFile(statsFile);
   } catch (error: any) {
-    return ExpoResponse.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: error.message }, { status: 500 });
   }
 
-  const entry = request.expoUrl.searchParams.get('entry');
-  const entryId = entry ? parseInt(entry, 10) : null;
-  
+  const entryId = params.entry ? parseInt(params.entry, 10) : null;
   if (!entryId || Number.isNaN(entryId) || entryId <= 1) {
-    return ExpoResponse.json({ error: `Stats entry "${entry}" not found.`});
+    return Response.json({ error: `Stats entry "${params.entry}" not found.`});
   }
 
   const data = await getStatsEntry(statsFile, entryId);
-  return ExpoResponse.json(data?.[2].dependencies ?? []);
+  return Response.json(data?.[2].dependencies ?? []);
 }
