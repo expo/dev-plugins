@@ -1,50 +1,54 @@
 #!/usr/bin/env node
+import arg from 'arg';
+import open from 'open';
 
-import path from 'path';
-import { createRequestHandler } from '@expo/server/adapter/express';
+import { createServer } from './server';
+import { resolveOptions } from './resolveOptions';
 
-import express from 'express';
-import compression from 'compression';
-import morgan from 'morgan';
+export type Input = typeof args;
 
-process.env.NODE_ENV = 'production';
-
-const WEBUI_ROOT = path.resolve(__dirname, '../../../webui')
-const CLIENT_BUILD_DIR = path.join(WEBUI_ROOT, 'dist/client');
-const SERVER_BUILD_DIR = path.join(WEBUI_ROOT, 'dist/server');
-
-const app = express();
-
-app.use(compression());
-
-// Fix to compensate for faulty server root
-app.use((req, res, next) => {
-  if (req.url.startsWith('/_expo/plugins/metro-bundle-plugin')) {
-    req.url = req.url.replace('/_expo/plugins/metro-bundle-plugin', '');
-  }
-  next();
+const args = arg({
+  // Types
+  '--help': Boolean,
+  '--port': Number,
+  '--version': Boolean,
+  // Aliases
+  '-h': '--help',
+  '-p': '--port',
+  '-v': '--version',
 });
 
-// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
-app.disable('x-powered-by');
+if (args['--version']) {
+  console.log(require('../package.json').version);
+  process.exit(0);
+}
 
-app.use(
-  express.static(CLIENT_BUILD_DIR, {
-    maxAge: '1h',
-    extensions: ['html'],
-  })
-);
+if (args['--help']) {
+  console.log(`
+    Usage
+      $ metro-bundle-plugin [statsFile]
 
-app.use(morgan('tiny'));
+    Options
+      --port, -p      Port to listen on
+      --help, -h      Displays this message
+      --version, -v   Displays the current version
+  `);
+  process.exit(0);
+}
 
-app.all(
-  '*',
-  createRequestHandler({
-    build: SERVER_BUILD_DIR,
-  })
-);
-const port = process.env.PORT || 3000;
+process.on('SIGINT', () => process.exit(0));
+process.on('SIGTERM', () => process.exit(0));
 
-app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
-});
+run();
+
+async function run() {
+  const options = await resolveOptions(args);
+  const server = createServer(options);
+
+  server.listen(options.port, () => {
+    const href = `http://localhost:${options.port}`;
+
+    console.log(`Metro bundle inspector is ready on ${href}`);
+    open(href);
+  });
+}
