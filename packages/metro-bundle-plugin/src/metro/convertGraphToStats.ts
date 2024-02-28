@@ -55,8 +55,11 @@ function convertModule(projectRoot: string, graph: ConvertOptions['graph'], modu
       path.relative(projectRoot, dependency.absolutePath)
     )),
     inverseDependencies: Array.from(module.inverseDependencies)
-      .filter((dependencyName) => graph.dependencies.has(dependencyName))
-      .map((dependencyName) => path.relative(projectRoot, dependencyName)),
+      .filter((dependencyPath) => graph.dependencies.has(dependencyPath))
+      .map((dependencyPath) => ({
+        relativePath: path.relative(projectRoot, dependencyPath),
+        absolutePath: dependencyPath,
+      })),
 
     source: module.getSource().toString(),
     output: module.output.map((output) => ({

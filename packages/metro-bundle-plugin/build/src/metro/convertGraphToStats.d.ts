@@ -16,7 +16,10 @@ export declare function convertGraphToStats({ projectRoot, entryPoint, preModule
     absolutePath: string;
     size: number;
     dependencies: string[];
-    inverseDependencies: string[];
+    inverseDependencies: {
+        relativePath: string;
+        absolutePath: string;
+    }[];
     source: string;
     output: {
         type: string;
@@ -33,7 +36,10 @@ export declare function convertGraphToStats({ projectRoot, entryPoint, preModule
         absolutePath: string;
         size: number;
         dependencies: string[];
-        inverseDependencies: string[];
+        inverseDependencies: {
+            relativePath: string;
+            absolutePath: string;
+        }[];
         source: string;
         output: {
             type: string;
@@ -67,7 +73,10 @@ declare function convertModule(projectRoot: string, graph: ConvertOptions['graph
     absolutePath: string;
     size: number;
     dependencies: string[];
-    inverseDependencies: string[];
+    inverseDependencies: {
+        relativePath: string;
+        absolutePath: string;
+    }[];
     source: string;
     output: {
         type: string;

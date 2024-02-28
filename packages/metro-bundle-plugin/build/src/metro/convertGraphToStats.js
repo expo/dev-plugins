@@ -42,8 +42,11 @@ function convertModule(projectRoot, graph, module) {
         size: getModuleOutputInBytes(module),
         dependencies: Array.from(module.dependencies.values()).map(function (dependency) { return (path_1.default.relative(projectRoot, dependency.absolutePath)); }),
         inverseDependencies: Array.from(module.inverseDependencies)
-            .filter(function (dependencyName) { return graph.dependencies.has(dependencyName); })
-            .map(function (dependencyName) { return path_1.default.relative(projectRoot, dependencyName); }),
+            .filter(function (dependencyPath) { return graph.dependencies.has(dependencyPath); })
+            .map(function (dependencyPath) { return ({
+            relativePath: path_1.default.relative(projectRoot, dependencyPath),
+            absolutePath: dependencyPath,
+        }); }),
         source: module.getSource().toString(),
         output: module.output.map(function (output) { return ({
             type: output.type,
