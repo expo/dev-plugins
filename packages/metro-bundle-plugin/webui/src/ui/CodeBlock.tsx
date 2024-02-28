@@ -25,7 +25,7 @@ export function CodeBlockSection({ children }: PropsWithChildren) {
 export function CodeBlockHeader({ children }: { children: string }) {
   return (
     <div className="flex bg-default min-h-[40px] pl-4 border-b border-default">
-      <p className="flex items-center text-lg select-none font-medium truncate">{children}</p>
+      <h3 className="flex items-center text-md select-none font-medium truncate">{children}</h3>
     </div>
   );
 }
@@ -53,9 +53,11 @@ export function guessLanguageFromPath(path: string) {
   const extension = path.split('.').pop();
   switch (extension) {
     case 'ts':
+      return 'ts';
     case 'tsx':
       return 'tsx';
     case 'js':
+      return 'js';
     case 'jsx':
       return 'jsx';
     case 'json':

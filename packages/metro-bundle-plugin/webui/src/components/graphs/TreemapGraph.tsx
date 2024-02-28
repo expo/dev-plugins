@@ -1,7 +1,7 @@
 import * as echarts from 'echarts';
 import { useMemo } from 'react';
-import { formatFileSize } from '~/utils/formatString';
 import { Graph } from './Graph';
+import { formatFileSize } from '~/utils/formatString';
 import { type PartialModule } from '~/app/api/stats/[entry]/modules/index+api';
 
 type TreemapGraphProps = {
@@ -155,8 +155,8 @@ export function TreemapGraph(props: TreemapGraphProps) {
             breadcrumb: {
               show: true,
               height: 36,
-              left: 8,
-              top: 8,
+              left: 32,
+              top: 16,
               emptyItemWidth: 25,
               itemStyle: {
                 color: '#000',

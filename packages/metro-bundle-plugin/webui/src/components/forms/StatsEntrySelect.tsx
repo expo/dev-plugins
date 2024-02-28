@@ -5,8 +5,8 @@ import ChevronUpIcon from 'lucide-react/dist/esm/icons/chevron-up';
 // @ts-expect-error
 import ChevronDownIcon from 'lucide-react/dist/esm/icons/chevron-down';
 
-import { ComponentProps } from 'react';
 import { useStatsEntryContext } from '~/providers/stats';
+import { Button } from '~/ui/Button';
 
 export function StatsEntrySelect() {
   const { entryId, setEntryId, entries } = useStatsEntryContext();
@@ -17,17 +17,13 @@ export function StatsEntrySelect() {
 
   return (
     <Select.Root value={String(entryId)} onValueChange={onEntryChange}>
-      <Select.Trigger
-        className={cn(
-          'relative z-40 flex cursor-pointer select-none items-center justify-between rounded-sm px-2 py-1 outline-0',
-          'hocus:bg-hover'
-        )}>
-        <span className="color-palette-red12">
+      <Select.Trigger asChild>
+        <Button variant="quaternary" size="sm">
           <Select.Value placeholder="Select bundle to inspect" />
-        </span>
-        <Select.Icon className="text-icon-default">
-          <ChevronDownIcon size={16} className="m-1 align-middle" />
-        </Select.Icon>
+          <Select.Icon className="text-icon-default">
+            <ChevronDownIcon size={16} className="m-1 mr-0 align-middle" />
+          </Select.Icon>
+        </Button>
       </Select.Trigger>
       <Select.Portal>
         <Select.Content
@@ -43,9 +39,11 @@ export function StatsEntrySelect() {
           </Select.ScrollUpButton>
           <Select.Viewport className="SelectViewport">
             {entries?.data?.map((entry) => (
-              <StatsEntryItem key={entry.id} value={String(entry.id)}>
-                {entry.name}
-              </StatsEntryItem>
+              <Select.Item key={entry.id} value={String(entry.id)} asChild>
+                <Button variant="quaternary" size="sm" className="w-full">
+                  <Select.ItemText>{entry.name}</Select.ItemText>
+                </Button>
+              </Select.Item>
             ))}
           </Select.Viewport>
           <Select.ScrollDownButton className="SelectScrollButton">
@@ -54,22 +52,5 @@ export function StatsEntrySelect() {
         </Select.Content>
       </Select.Portal>
     </Select.Root>
-  );
-}
-
-function StatsEntryItem({ children, ...props }: ComponentProps<typeof Select.Item>) {
-  return (
-    <Select.Item
-      aria-disabled={props.disabled}
-      className={cn(
-        'relative z-40 flex cursor-pointer select-none items-center justify-between rounded-sm px-2 py-1 outline-0',
-        'hocus:bg-hover',
-        props.disabled && 'cursor-default opacity-60 hocus:bg-default'
-      )}
-      {...props}>
-      <Select.ItemText asChild>
-        <span className="font-normal text-default text-[13px] leading-[1.6154] tracking-[-0.003rem]">{children}</span>
-      </Select.ItemText>
-    </Select.Item>
   );
 }

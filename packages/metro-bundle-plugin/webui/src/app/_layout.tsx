@@ -3,7 +3,7 @@ import { useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
 
 import { StatsEntrySelect } from '~/components/forms/StatsEntrySelect';
-import { Page } from '~/ui/Page';
+import { Page, PageContent, PageNav } from '~/ui/Page';
 import { QueryProvider } from '~/providers/query';
 import { StatsEntryProvider } from '~/providers/stats';
 
@@ -19,12 +19,12 @@ export default function RootLayout() {
       <StatsEntryProvider>
         <ModuleFilterProvider>
           <Page>
-            <Page.Header>
+            <PageNav>
               <StatsEntrySelect />
-            </Page.Header>
-            <Page.Content>
+            </PageNav>
+            <PageContent>
               <Slot />
-            </Page.Content>
+            </PageContent>
           </Page>
         </ModuleFilterProvider>
       </StatsEntryProvider>
