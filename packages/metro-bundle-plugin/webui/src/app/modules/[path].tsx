@@ -35,18 +35,22 @@ export default function ModulePage() {
       </PageHeader>
 
       <div className="mx-8">
-        <h2>Imported from</h2>
-        <ul style={{ listStyle: 'initial' }} className="mb-6">
-          {module.data.inverseDependencies.map(({ absolutePath, relativePath }) => (
-            <li key={absolutePath} className="ml-4">
-              <Link
-                className="text-link hover:underline"
-                href={{ pathname: '/modules/[path]', params: { path: absolutePath } }}>
-                {relativePath}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {!!module.data.inverseDependencies.length && (
+          <div className="my-4">
+            <p className="text-md">It's being imported from:</p>
+            <ul style={{ listStyle: 'initial' }} className="mb-6">
+              {module.data.inverseDependencies.map(({ absolutePath, relativePath }) => (
+                <li key={absolutePath} className="ml-4">
+                  <Link
+                    className="text-link hover:underline"
+                    href={{ pathname: '/modules/[path]', params: { path: absolutePath } }}>
+                    {relativePath}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <CodeBlock>
           <CodeBlockSection>
@@ -72,11 +76,25 @@ function ModuleSummary({ module }: { module: MetroStatsModule }) {
 
   return (
     <div className="font-sm text-secondary">
-      <span>module</span>
+      {module.isNodeModule && (
+        <>
+          <span>{module.nodeModuleName}</span>
+          <span className="text-tertiary mx-2 select-none">—</span>
+        </>
+      )}
+      <span>{getModuleType(module)}</span>
       <span className="text-tertiary mx-2 select-none">—</span>
       <span>{inputSize}</span>
     </div>
   );
+}
+
+function getModuleType(module: MetroStatsModule) {
+  const type = module.relativePath.includes('?ctx=')
+    ? 'require.context'
+    : 'file';
+
+  return module.isNodeModule ? `package ${type}` : type;
 }
 
 /** Load the module data from API, by path reference only */
