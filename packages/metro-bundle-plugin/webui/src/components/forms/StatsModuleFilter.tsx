@@ -31,8 +31,13 @@ export function StatsModuleFilter() {
     setFilters(formData);
   }
 
+  function onDialogChange(isOpen: boolean) {
+    setDialogOpen(isOpen);
+    if (!isOpen) setFormData(filters);
+  }
+
   return (
-    <Sheet open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Sheet open={dialogOpen} onOpenChange={onDialogChange}>
       <SheetTrigger asChild>
         <button className="text-violet11 shadow-blackA4 hover:bg-mauve3 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-white px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none">
           Filter

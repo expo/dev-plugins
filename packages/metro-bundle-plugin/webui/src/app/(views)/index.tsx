@@ -5,7 +5,7 @@ import { StatsModuleFilter } from '~/components/forms/StatsModuleFilter';
 import { TreemapGraph } from '~/components/graphs/TreemapGraph';
 import { type ModuleFilters, useModuleFilterContext, filtersToUrlParams } from '~/providers/modules';
 import { useStatsEntryContext } from '~/providers/stats';
-import { type PartialModule } from './api/stats/[entry]/modules/index+api';
+import { type PartialModule } from '~/app/api/stats/[entry]/modules/index+api';
 
 export default function GraphScreen() {
   const { entryId } = useStatsEntryContext();
