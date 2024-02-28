@@ -3,7 +3,7 @@ import { useColorScheme } from 'nativewind';
 import { useEffect } from 'react';
 
 import { StatsEntrySelect } from '~/components/forms/StatsEntrySelect';
-import { Page } from '~/components/Page';
+import { Page } from '~/ui/Page';
 import { QueryProvider } from '~/providers/query';
 import { StatsEntryProvider } from '~/providers/stats';
 

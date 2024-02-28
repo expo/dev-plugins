@@ -24,7 +24,7 @@ export const moduleFilterContext = createContext<ModuleFilterContext>({
 });
 
 export function ModuleFilterProvider({ children }: PropsWithChildren) {
-  const [filters, setFilters] = useReducer(reducer, DEFAULT_FILTERS);
+  const [filters, setFilters] = useModuleFilterReducer();
 
   return (
     <moduleFilterContext.Provider value={{ filters, setFilters }}>
@@ -34,9 +34,10 @@ export function ModuleFilterProvider({ children }: PropsWithChildren) {
 }
 
 export const useModuleFilterContext = () => useContext(moduleFilterContext);
+export const useModuleFilterReducer = (filters = DEFAULT_FILTERS) => useReducer(moduleFilterReducer, filters);
 
 /** Keep track of the filters and update non-undefined properties */
-function reducer(state: ModuleFilters, action: Partial<ModuleFilters>): ModuleFilters {
+export function moduleFilterReducer(state: ModuleFilters, action: Partial<ModuleFilters>): ModuleFilters {
   const nextState = { ...state };
 
   if (action.types !== undefined) nextState.types = action.types;

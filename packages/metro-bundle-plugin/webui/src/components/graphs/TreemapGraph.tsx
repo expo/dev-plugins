@@ -1,11 +1,11 @@
 import * as echarts from 'echarts';
 import { useMemo } from 'react';
 import { formatFileSize } from '~/utils/formatString';
-import { type MetroStatsModule } from '~plugin/metro/convertGraphToStats';
 import { Graph } from './Graph';
+import { type PartialModule } from '~/app/api/stats/[entry]/modules/index+api';
 
 type TreemapGraphProps = {
-  modules: MetroStatsModule[];
+  modules: PartialModule[];
   onModuleClick: (absolutePath: string) => void;
 };
 
@@ -253,7 +253,7 @@ type TreemapItem = {
   isNodeModuleRoot?: boolean;
 };
 
-function createModuleTree(paths: MetroStatsModule[]): {
+function createModuleTree(paths: PartialModule[]): {
   data: TreemapItem[];
   maxDepth: number;
   maxNodeModules: number;

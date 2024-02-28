@@ -5,6 +5,9 @@ import { filtersFromUrlParams } from '~/providers/modules';
 import { type MetroStatsModule, type MetroStatsEntry } from '~plugin/metro/convertGraphToStats';
 import { getStatsEntry, validateStatsFile } from '~plugin/metro/readStatsFile';
 
+/** The partial module data, when listing all available modules from a stats entry */
+export type PartialModule = Omit<MetroStatsModule, 'source' | 'output'>;
+
 export async function GET(request: Request, params: Record<'entry', string>) {
   const statsFile = resolveStatsFile();
 
