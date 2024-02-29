@@ -18,13 +18,6 @@ function createServer(options) {
     process.env.EXPO_METRO_BUNDLE_STATS_FILE = options.statsFile;
     var app = (0, express_2.default)();
     app.use((0, compression_1.default)());
-    // Fix to compensate for faulty server root
-    app.use(function (req, res, next) {
-        if (req.url.startsWith('/_expo/plugins/metro-bundle-plugin')) {
-            req.url = req.url.replace('/_expo/plugins/metro-bundle-plugin', '');
-        }
-        next();
-    });
     // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
     app.disable('x-powered-by');
     app.use(express_2.default.static(CLIENT_BUILD_DIR, {

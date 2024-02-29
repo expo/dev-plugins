@@ -6,7 +6,6 @@
       "output": "server"
     },
     "experiments": {
-      "baseUrl": "/_expo/plugins/metro-bundle-plugin",
       "tsconfigPaths": true,
       "typedRoutes": true
     }
