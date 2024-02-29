@@ -49,6 +49,8 @@ async function run() {
     const href = `http://localhost:${options.port}`;
 
     console.log(`Metro bundle inspector is ready on ${href}`);
+    console.log('Loaded stats file:');
+    console.log(`  ${options.statsFile}`);
     open(href);
   });
 }

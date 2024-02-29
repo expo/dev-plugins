@@ -77,6 +77,8 @@ function run() {
                     server.listen(options.port, function () {
                         var href = "http://localhost:".concat(options.port);
                         console.log("Metro bundle inspector is ready on ".concat(href));
+                        console.log('Loaded stats file:');
+                        console.log("  ".concat(options.statsFile));
                         (0, open_1.default)(href);
                     });
                     return [2 /*return*/];

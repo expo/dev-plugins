@@ -26,7 +26,11 @@ export default function ModulePage() {
 
   if (!module.data || module.isError) {
     // TODO: improve
-    return <div>Module not found</div>;
+    return (
+      <div className="flex flex-1 flex-col justify-center items-center">
+        <h2 className="text-slate-50 font-bold text-lg">Module not found</h2>
+      </div>
+    );
   }
 
   return (
@@ -111,12 +115,18 @@ function getModuleType(module: MetroStatsModule) {
 function useModuleData(entry: number, path: string) {
   return useQuery<MetroStatsModule>({
     queryKey: [`module`, entry, path],
-    queryFn: ({ queryKey }) => {
+    queryFn: async ({ queryKey }) => {
       const [_key, entry, path] = queryKey as [string, number, string];
-      return fetch(`/api/stats/${entry}/modules`, {
+      const response = await fetch(`/api/stats/${entry}/modules`, {
         method: 'POST',
         body: JSON.stringify({ path }),
-      }).then((res) => res.json());
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+
+      throw new Error(`Failed to load module data: ${response.status}`);
     },
   });
 }
