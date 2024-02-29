@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-import { getStatsPath } from '../metro/createStatsFile';
+import { getStatsPath } from '../metro/serializeStatsFile';
 import { type Input } from './bin';
-import { validateStatsFile } from '../metro/readStatsFile';
+import { validateStatsFile } from '../metro/serializeStatsFile';
 import { getFreePort } from '../utils/port';
 
 export type Options = Awaited<ReturnType<typeof resolveOptions>>;

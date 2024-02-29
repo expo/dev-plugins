@@ -10,8 +10,7 @@ export type ModuleFilters = {
 };
 
 const DEFAULT_FILTERS: ModuleFilters = {
-  // types: ['project', 'node_modules'],
-  types: ['project'],
+  types: ['project', 'node_modules'],
 };
 
 type ModuleFilterContext = {

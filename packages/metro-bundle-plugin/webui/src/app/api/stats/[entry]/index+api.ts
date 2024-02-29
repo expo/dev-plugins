@@ -1,5 +1,5 @@
 import { resolveStatsFile } from '~/config';
-import { getStatsEntry, validateStatsFile } from '~plugin/metro/readStatsFile';
+import { getStatsEntry, validateStatsFile } from '~plugin/metro/serializeStatsFile';
 
 export async function GET(request: Request, params: Record<'entry', string>) {
   const statsFile = resolveStatsFile();

@@ -1,6 +1,6 @@
 import { type MetroConfig } from 'metro-config';
 import { convertGraphToStats } from './convertGraphToStats';
-import { addStatsEntry, createStatsFile } from './createStatsFile';
+import { addStatsEntry, createStatsFile } from './serializeStatsFile';
 
 export function withMetroBundleConfig(config: MetroConfig) {
   if (!config.projectRoot) {

@@ -2,7 +2,7 @@ import { Link, useLocalSearchParams } from 'expo-router';
 
 import { useQuery } from '@tanstack/react-query';
 import { type MetroStatsModule } from '~plugin/metro/convertGraphToStats';
-import { useStatsEntryContext } from '~/providers/stats';
+import { StatsEntry, useStatsEntryContext } from '~/providers/stats';
 import {
   CodeBlock,
   CodeBlockContent,
@@ -12,10 +12,10 @@ import {
 } from '~/ui/CodeBlock';
 import { PageHeader, PageTitle } from '~/ui/Page';
 import { formatFileSize } from '~/utils/formatString';
-import { useMemo } from 'react';
+import { Tag } from '~/ui/Tag';
 
 export default function ModulePage() {
-  const { entryId } = useStatsEntryContext();
+  const { entryId, entry } = useStatsEntryContext();
   const { path: absolutePath } = useLocalSearchParams<{ path: string }>();
   const module = useModuleData(entryId, absolutePath);
 
@@ -30,14 +30,14 @@ export default function ModulePage() {
           <h1 className="text-slate-50 font-bold text-lg mr-4" title={module.data.absolutePath}>
             {module.data.relativePath}
           </h1>
-          <ModuleSummary module={module.data} />
+          <ModuleSummary platform={entry?.platform} module={module.data} />
         </PageTitle>
       </PageHeader>
 
       <div className="mx-8">
         {!!module.data.inverseDependencies.length && (
           <div className="my-4">
-            <p className="text-md">It's being imported from:</p>
+            <p className="text-md">Imported from:</p>
             <ul style={{ listStyle: 'initial' }} className="mb-6">
               {module.data.inverseDependencies.map(({ absolutePath, relativePath }) => (
                 <li key={absolutePath} className="ml-4">
@@ -71,20 +71,24 @@ export default function ModulePage() {
   );
 }
 
-function ModuleSummary({ module }: { module: MetroStatsModule }) {
-  const inputSize = useMemo(() => formatFileSize(module.size), [module.size]);
-
+function ModuleSummary({ module, platform }: { module: MetroStatsModule; platform?: StatsEntry['platform'] }) {
   return (
     <div className="font-sm text-secondary">
+      {!!platform && (
+        <>
+          <Tag variant={platform} />
+          <span className="text-tertiary mx-2 select-none">-</span>
+        </>
+      )}
       {module.isNodeModule && (
         <>
           <span>{module.nodeModuleName}</span>
-          <span className="text-tertiary mx-2 select-none">—</span>
+          <span className="text-tertiary mx-2 select-none">-</span>
         </>
       )}
       <span>{getModuleType(module)}</span>
-      <span className="text-tertiary mx-2 select-none">—</span>
-      <span>{inputSize}</span>
+      <span className="text-tertiary mx-2 select-none">-</span>
+      <span>{formatFileSize(module.size)}</span>
     </div>
   );
 }

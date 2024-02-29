@@ -17,13 +17,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.convertGraphToStats = void 0;
 var path_1 = __importDefault(require("path"));
 function convertGraphToStats(_a) {
+    var _b;
     var projectRoot = _a.projectRoot, entryPoint = _a.entryPoint, preModules = _a.preModules, graph = _a.graph, options = _a.options;
-    return [
-        path_1.default.relative(projectRoot, entryPoint),
-        preModules.map(function (module) { return convertModule(projectRoot, graph, module); }),
-        convertGraph(projectRoot, graph),
-        convertOptions(options),
-    ];
+    return {
+        projectRoot: projectRoot,
+        entryPoint: entryPoint,
+        platform: (_b = graph.transformOptions.platform) !== null && _b !== void 0 ? _b : 'unknown',
+        preModules: preModules.map(function (module) { return convertModule(projectRoot, graph, module); }),
+        graph: convertGraph(projectRoot, graph),
+        options: convertOptions(options),
+    };
 }
 exports.convertGraphToStats = convertGraphToStats;
 function convertOptions(options) {

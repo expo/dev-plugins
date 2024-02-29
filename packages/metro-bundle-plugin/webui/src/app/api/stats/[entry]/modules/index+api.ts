@@ -3,7 +3,7 @@ import picomatch from 'picomatch';
 import { resolveStatsFile } from '~/config';
 import { filtersFromUrlParams } from '~/providers/modules';
 import { type MetroStatsModule, type MetroStatsEntry } from '~plugin/metro/convertGraphToStats';
-import { getStatsEntry, validateStatsFile } from '~plugin/metro/readStatsFile';
+import { getStatsEntry, validateStatsFile } from '~plugin/metro/serializeStatsFile';
 
 /** The partial module data, when listing all available modules from a stats entry */
 export type PartialModule = Omit<MetroStatsModule, 'source' | 'output'>;
@@ -21,8 +21,22 @@ export async function GET(request: Request, params: Record<'entry', string>) {
   if (!entryId || Number.isNaN(entryId) || entryId <= 1) {
     return Response.json({ error: `Stats entry "${params.entry}" not found.`});
   }
+  
+  const entry = await getStatsEntry(statsFile, entryId);
+  const filteredModules = filterModules(request, entry);
 
-  return Response.json(filterModules(request, await getStatsEntry(statsFile, entryId)));
+  return Response.json({  
+    metadata: {
+      platform: entry.platform,
+      size: entry.graph.dependencies.reduce((size, module) => size + module.size, 0),
+      modulesCount: entry.graph.dependencies.length,
+    },
+    data: {
+      size: filteredModules.reduce((size, module) => size + module.size, 0),
+      modulesCount: filteredModules.length,
+      modules: filteredModules,
+    },
+  });
 }
 
 /**
@@ -34,11 +48,9 @@ export async function GET(request: Request, params: Record<'entry', string>) {
 function filterModules(request: Request, stats?: MetroStatsEntry) {
   if (!stats) return [];
 
-  const options = stats[3];
-  const modules = stats[2].dependencies ?? [];
   const filters = filtersFromUrlParams(new URL(request.url).searchParams)
 
-  let filteredModules = modules;
+  let filteredModules = stats.graph.dependencies ?? [];
   
   if (!filters.types.includes('node_modules')) {
     filteredModules = filteredModules.filter((module) => !module.isNodeModule);
@@ -46,7 +58,7 @@ function filterModules(request: Request, stats?: MetroStatsEntry) {
 
   if (filters.include || filters.exclude) {
     const matcher = picomatch(prefixPattern(filters.include || null) ?? '**', {
-      cwd: options.serverRoot ?? options.projectRoot,
+      cwd: stats.options.serverRoot ?? stats.options.projectRoot,
       nocase: true,
       ignore: prefixPattern(filters.exclude || null),
     });
@@ -91,7 +103,7 @@ export async function POST(request: Request, params: Record<'entry', string>) {
   }
 
   const statsEntry = await getStatsEntry(statsFile, entryId);
-  const moduleEntry = findModule(statsEntry[2].dependencies, moduleRef);
+  const moduleEntry = findModule(statsEntry.graph.dependencies, moduleRef);
 
   return moduleEntry 
     ? Response.json(moduleEntry) 

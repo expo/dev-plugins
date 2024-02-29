@@ -1,4 +1,4 @@
-import { getStatsPath } from '~plugin/metro/createStatsFile';
+import { getStatsPath } from '~plugin/metro/serializeStatsFile';
 
 export function resolveStatsFile() {
   // Note(cedric): avoid inlining this value by desctructuring it

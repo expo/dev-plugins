@@ -42,8 +42,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolveOptions = void 0;
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
-var createStatsFile_1 = require("../metro/createStatsFile");
-var readStatsFile_1 = require("../metro/readStatsFile");
+var serializeStatsFile_1 = require("../metro/serializeStatsFile");
+var serializeStatsFile_2 = require("../metro/serializeStatsFile");
 var port_1 = require("../utils/port");
 function resolveOptions(input) {
     return __awaiter(this, void 0, void 0, function () {
@@ -69,14 +69,14 @@ function resolveStatsFile(input) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    statsFile = (_a = input._[0]) !== null && _a !== void 0 ? _a : (0, createStatsFile_1.getStatsPath)(process.cwd());
+                    statsFile = (_a = input._[0]) !== null && _a !== void 0 ? _a : (0, serializeStatsFile_1.getStatsPath)(process.cwd());
                     if (!fs_1.default.existsSync(statsFile)) {
                         throw new Error("Could not find stats file \"".concat(statsFile, "\"."));
                     }
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, (0, readStatsFile_1.validateStatsFile)(statsFile)];
+                    return [4 /*yield*/, (0, serializeStatsFile_2.validateStatsFile)(statsFile)];
                 case 2:
                     _b.sent();
                     return [3 /*break*/, 4];

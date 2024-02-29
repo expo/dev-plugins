@@ -14,12 +14,14 @@ export type MetroStatsEntry = ReturnType<typeof convertGraphToStats>;
 export type MetroStatsModule = ReturnType<typeof convertModule>
 
 export function convertGraphToStats({ projectRoot, entryPoint, preModules, graph, options }: ConvertOptions) {
-  return [
-    path.relative(projectRoot, entryPoint),
-    preModules.map((module) => convertModule(projectRoot, graph, module)),
-    convertGraph(projectRoot, graph),
-    convertOptions(options),
-  ] as const;
+  return {
+    projectRoot,
+    entryPoint,
+    platform: graph.transformOptions.platform ?? 'unknown',
+    preModules: preModules.map((module) => convertModule(projectRoot, graph, module)),
+    graph: convertGraph(projectRoot, graph),
+    options: convertOptions(options),
+  };
 }
 
 function convertOptions(options: ConvertOptions['options']) {

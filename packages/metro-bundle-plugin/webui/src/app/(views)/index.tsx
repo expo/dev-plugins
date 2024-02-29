@@ -10,9 +10,9 @@ import {
 } from '~/providers/modules';
 import { useStatsEntryContext } from '~/providers/stats';
 import { type PartialModule } from '~/app/api/stats/[entry]/modules/index+api';
-import { useMemo } from 'react';
 import { formatFileSize } from '~/utils/formatString';
-import { Page, PageHeader, PageTitle } from '~/ui/Page';
+import { PageHeader, PageTitle } from '~/ui/Page';
+import { Tag } from '~/ui/Tag';
 
 export default function GraphScreen() {
   const { entryId } = useStatsEntryContext();
@@ -33,38 +33,56 @@ export default function GraphScreen() {
       <PageHeader>
         <PageTitle>
           <h1 className="text-lg font-bold mr-4">Bundle</h1>
-          {graph.data?.length && <BundleSummary modules={graph.data} />}
+          {!!graph.data && <BundleSummary data={graph.data} />}
         </PageTitle>
         <StatsModuleFilter />
       </PageHeader>
       <TreemapGraph
         key={`bundle-graph-${entryId}`}
-        modules={graph.data ?? []}
+        modules={graph.data?.data?.modules ?? []}
         onModuleClick={onInspectModule}
       />
     </div>
   );
 }
 
-function BundleSummary({ modules }: { modules: PartialModule[] }) {
-  const totalModules = useMemo(() => `${modules.length} ${modules.length === 1 ? 'module' : 'modules'}`, [modules]);
-  const totalSize = useMemo(
-    () => formatFileSize(modules.reduce((size, module) => size + module.size, 0)),
-    [modules]
-  );
-
+function BundleSummary({ data }: { data: ModulesAPIResponse }) {
   return (
-    <div className="font-sm text-secondary">
-      <span>{totalModules}</span>
-      <span className="text-tertiary mx-2 select-none">—</span>
-      <span>{totalSize}</span>
+    <div className="font-sm text-secondary inline-block">
+      <Tag variant={data.metadata.platform} />
+      <span className="text-tertiary mx-2 select-none">-</span>
+      <span>{data.metadata.modulesCount} modules</span>
+      <span className="text-tertiary mx-2 select-none">-</span>
+      <span>{formatFileSize(data.metadata.size)}</span>
+      {data.metadata.modulesCount !== data.data.modulesCount && (
+        <div className="text-tertiary italic inline">
+          <span className="mx-2 select-none">—</span>
+          <span className="mr-2 select-none italic ">filtered:</span>
+          <span>{data.data.modulesCount} modules</span>
+          <span className="mx-2 select-none">-</span>
+          <span>{formatFileSize(data.data.size)}</span>
+        </div>
+      )}
     </div>
   );
 }
 
+type ModulesAPIResponse = {
+  metadata: {
+    platform: 'android' | 'ios' | 'web',
+    size: number,
+    modulesCount: number,
+  };
+  data: {
+    size: number;
+    modulesCount: number;
+    modules: PartialModule[];
+  };
+};
+
 /** Load the bundle graph data from API, with default or custom filters */
 function useBundleGraphData(entry: number, filters?: ModuleFilters) {
-  return useQuery<PartialModule[]>({
+  return useQuery<ModulesAPIResponse>({
     queryKey: [`bundle-graph`, entry, filters],
     queryFn: ({ queryKey }) => {
       const [_key, entry, filters] = queryKey as [string, number, ModuleFilters | undefined];

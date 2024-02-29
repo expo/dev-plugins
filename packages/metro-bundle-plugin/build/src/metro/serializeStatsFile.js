@@ -39,13 +39,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStatsEntry = exports.listStatsEntries = exports.validateStatsFile = void 0;
+exports.getStatsEntry = exports.listStatsEntries = exports.addStatsEntry = exports.createStatsFile = exports.validateStatsFile = exports.getStatsMetdata = exports.getStatsPath = void 0;
 var fs_1 = __importDefault(require("fs"));
-var file_1 = require("../utils/file");
-var createStatsFile_1 = require("./createStatsFile");
+var path_1 = __importDefault(require("path"));
+var package_json_1 = require("../../package.json");
 var env_1 = require("../utils/env");
+var file_1 = require("../utils/file");
+/** The default location of the metro stats file */
+function getStatsPath(projectRoot) {
+    return path_1.default.join(projectRoot, '.expo/stats.json');
+}
+exports.getStatsPath = getStatsPath;
+/** The information to validate if a stats file is compatible with this library version */
+function getStatsMetdata() {
+    return { name: package_json_1.name, version: package_json_1.version };
+}
+exports.getStatsMetdata = getStatsMetdata;
+/** Validate if the stats file is compatible with this library version */
 function validateStatsFile(statsFile, metadata) {
-    if (metadata === void 0) { metadata = (0, createStatsFile_1.getStatsMetdata)(); }
+    if (metadata === void 0) { metadata = getStatsMetdata(); }
     return __awaiter(this, void 0, void 0, function () {
         var line, data;
         return __generator(this, function (_a) {
@@ -71,24 +83,81 @@ function validateStatsFile(statsFile, metadata) {
 }
 exports.validateStatsFile = validateStatsFile;
 /**
+ * Create or overwrite the stats file with basic metadata.
+ * This metdata is used by the API to determine version compatibility.
+ */
+function createStatsFile(projectRoot) {
+    return __awaiter(this, void 0, void 0, function () {
+        var filePath;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    filePath = getStatsPath(projectRoot);
+                    return [4 /*yield*/, fs_1.default.promises.mkdir(path_1.default.dirname(filePath), { recursive: true })];
+                case 1:
+                    _a.sent();
+                    return [4 /*yield*/, fs_1.default.promises.writeFile(filePath, JSON.stringify(getStatsMetdata()) + '\n')];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.createStatsFile = createStatsFile;
+/**
+ * Add a new stats entry to the stats file.
+ * This is appended on a new line, so we can load the stats selectively.
+ */
+function addStatsEntry(projectRoot, stats) {
+    return __awaiter(this, void 0, void 0, function () {
+        var entry;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    entry = JSON.stringify([
+                        stats.platform,
+                        stats.projectRoot,
+                        stats.entryPoint,
+                        stats.preModules,
+                        stats.graph,
+                        stats.options,
+                    ]);
+                    console.log('Adding stats entry for platform', stats.platform);
+                    return [4 /*yield*/, fs_1.default.promises.appendFile(getStatsPath(projectRoot), entry + '\n')];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.addStatsEntry = addStatsEntry;
+/**
  * List all stats entries without parsing the data.
  * This only reads the bundle name, and adds a line number as ID.
  */
 function listStatsEntries(statsFile) {
     return __awaiter(this, void 0, void 0, function () {
-        var entries, bundlePattern;
+        var bundlePattern, entries;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    bundlePattern = /^\["([^"]+)","([^"]+)","([^"]+)/;
                     entries = [];
-                    bundlePattern = /^\["([^"]+)/;
                     return [4 /*yield*/, (0, file_1.mapLines)(statsFile, function (index, line) {
                             var _a;
                             if (index === 1)
                                 return;
-                            var _b = (_a = line.match(bundlePattern)) !== null && _a !== void 0 ? _a : [], _ = _b[0], name = _b[1];
-                            if (name) {
-                                entries.push({ id: index, name: name });
+                            var _b = (_a = line.match(bundlePattern)) !== null && _a !== void 0 ? _a : [], _ = _b[0], platform = _b[1], projectRoot = _b[2], entryPoint = _b[3];
+                            if (platform && projectRoot && entryPoint) {
+                                entries.push({
+                                    id: index,
+                                    platform: platform,
+                                    projectRoot: projectRoot,
+                                    absolutePath: entryPoint,
+                                    relativePath: path_1.default.relative(projectRoot, entryPoint),
+                                });
                             }
                         })];
                 case 1:
@@ -104,7 +173,7 @@ exports.listStatsEntries = listStatsEntries;
  */
 function getStatsEntry(statsFile, id) {
     return __awaiter(this, void 0, void 0, function () {
-        var line;
+        var line, list;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, file_1.readLine)(statsFile, id)];
@@ -113,10 +182,18 @@ function getStatsEntry(statsFile, id) {
                     if (!line) {
                         throw new Error("Stats entry \"".concat(id, "\" not found."));
                     }
-                    return [2 /*return*/, JSON.parse(line)];
+                    list = JSON.parse(line);
+                    return [2 /*return*/, {
+                            platform: list[0],
+                            projectRoot: list[1],
+                            entryPoint: list[2],
+                            preModules: list[3],
+                            graph: list[4],
+                            options: list[5],
+                        }];
             }
         });
     });
 }
 exports.getStatsEntry = getStatsEntry;
-//# sourceMappingURL=readStatsFile.js.map
+//# sourceMappingURL=serializeStatsFile.js.map
