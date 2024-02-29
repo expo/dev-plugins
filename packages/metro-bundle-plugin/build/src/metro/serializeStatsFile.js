@@ -88,16 +88,31 @@ exports.validateStatsFile = validateStatsFile;
  */
 function createStatsFile(projectRoot) {
     return __awaiter(this, void 0, void 0, function () {
-        var filePath;
+        var filePath, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     filePath = getStatsPath(projectRoot);
-                    return [4 /*yield*/, fs_1.default.promises.mkdir(path_1.default.dirname(filePath), { recursive: true })];
+                    if (!fs_1.default.existsSync(filePath)) return [3 /*break*/, 6];
+                    _a.label = 1;
                 case 1:
+                    _a.trys.push([1, 3, , 5]);
+                    return [4 /*yield*/, validateStatsFile(filePath)];
+                case 2:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 3:
+                    error_1 = _a.sent();
+                    return [4 /*yield*/, fs_1.default.promises.writeFile(filePath, JSON.stringify(getStatsMetdata()) + '\n')];
+                case 4:
+                    _a.sent();
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
+                case 6: return [4 /*yield*/, fs_1.default.promises.mkdir(path_1.default.dirname(filePath), { recursive: true })];
+                case 7:
                     _a.sent();
                     return [4 /*yield*/, fs_1.default.promises.writeFile(filePath, JSON.stringify(getStatsMetdata()) + '\n')];
-                case 2:
+                case 8:
                     _a.sent();
                     return [2 /*return*/];
             }
@@ -115,16 +130,15 @@ function addStatsEntry(projectRoot, stats) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    entry = JSON.stringify([
-                        stats.platform,
-                        stats.projectRoot,
-                        stats.entryPoint,
-                        stats.preModules,
-                        stats.graph,
-                        stats.options,
-                    ]);
-                    console.log('Adding stats entry for platform', stats.platform);
-                    return [4 /*yield*/, fs_1.default.promises.appendFile(getStatsPath(projectRoot), entry + '\n')];
+                    entry = [
+                        JSON.stringify(stats.platform),
+                        JSON.stringify(stats.projectRoot),
+                        JSON.stringify(stats.entryPoint),
+                        JSON.stringify(stats.preModules),
+                        JSON.stringify(stats.graph),
+                        JSON.stringify(stats.options),
+                    ];
+                    return [4 /*yield*/, fs_1.default.promises.appendFile(getStatsPath(projectRoot), "[".concat(entry.join(','), "]") + '\n')];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];

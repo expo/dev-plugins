@@ -1,6 +1,6 @@
 {
-    "name": "@bycedric/prototype-cool-tool",
-    "version": "0.0.2",
+    "name": "@bycedric/inspect-test",
+    "version": "0.1.0",
     "description": "Inspect the bundle stats from Metro",
     "keywords": [
         "expo",

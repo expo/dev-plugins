@@ -43,6 +43,16 @@ export async function validateStatsFile(statsFile: string, metadata = getStatsMe
 export async function createStatsFile(projectRoot: string) {
   const filePath = getStatsPath(projectRoot);
 
+  if (fs.existsSync(filePath)) {
+    try {
+      await validateStatsFile(filePath);
+    } catch (error) {
+      await fs.promises.writeFile(filePath, JSON.stringify(getStatsMetdata()) + '\n');
+    }
+
+    return;
+  }
+
   await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
   await fs.promises.writeFile(filePath, JSON.stringify(getStatsMetdata()) + '\n');
 }
@@ -53,18 +63,16 @@ export async function createStatsFile(projectRoot: string) {
  */
 export async function addStatsEntry(projectRoot: string, stats: MetroStatsEntry) {
   // NOTE(cedric): Convert the object to an array to partially read when necessary
-  const entry = JSON.stringify([
-    stats.platform,
-    stats.projectRoot,
-    stats.entryPoint,
-    stats.preModules,
-    stats.graph,
-    stats.options,
-  ]);
+  const entry = [
+    JSON.stringify(stats.platform),
+    JSON.stringify(stats.projectRoot),
+    JSON.stringify(stats.entryPoint),
+    JSON.stringify(stats.preModules),
+    JSON.stringify(stats.graph),
+    JSON.stringify(stats.options),
+  ];
 
-  console.log('Adding stats entry for platform', stats.platform);
-
-  await fs.promises.appendFile(getStatsPath(projectRoot), entry + '\n');
+  await fs.promises.appendFile(getStatsPath(projectRoot), `[${entry.join(',')}]` + '\n');
 }
 
 /**
