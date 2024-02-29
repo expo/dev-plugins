@@ -57,6 +57,8 @@ export async function createStatsFile(projectRoot: string) {
   await fs.promises.writeFile(filePath, JSON.stringify(getStatsMetdata()) + '\n');
 }
 
+const writeQueue = Promise.resolve();
+
 /**
  * Add a new stats entry to the stats file.
  * This is appended on a new line, so we can load the stats selectively.
@@ -70,9 +72,9 @@ export async function addStatsEntry(projectRoot: string, stats: MetroStatsEntry)
     JSON.stringify(stats.preModules),
     JSON.stringify(stats.graph),
     JSON.stringify(stats.options),
-  ];
+  ].join(',');
 
-  await fs.promises.appendFile(getStatsPath(projectRoot), `[${entry.join(',')}]` + '\n');
+  await writeQueue.then(() => fs.promises.appendFile(getStatsPath(projectRoot), `[${entry}]` + '\n'));
 }
 
 /**
