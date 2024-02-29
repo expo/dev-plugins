@@ -13,13 +13,19 @@ import {
 import { PageHeader, PageTitle } from '~/ui/Page';
 import { formatFileSize } from '~/utils/formatString';
 import { Tag } from '~/ui/Tag';
+import { Skeleton } from '~/ui/Skeleton';
 
 export default function ModulePage() {
   const { entryId, entry } = useStatsEntryContext();
   const { path: absolutePath } = useLocalSearchParams<{ path: string }>();
   const module = useModuleData(entryId, absolutePath);
 
+  if (module.isLoading) {
+    return <ModulePageSkeleton />;
+  }
+
   if (!module.data) {
+    // TODO: improve
     return <div>Module not found</div>;
   }
 
@@ -113,4 +119,21 @@ function useModuleData(entry: number, path: string) {
       }).then((res) => res.json());
     },
   });
+}
+
+function ModulePageSkeleton() {
+  return (
+    <div className="flex flex-1 flex-col overflow-auto">
+      <PageHeader>
+        <PageTitle>
+          <Skeleton className="w-48 h-6 bg-selected" />
+          <Skeleton className="w-96 h-6 mx-2" />
+        </PageTitle>
+      </PageHeader>
+
+      <div className="mx-8 flex-1">
+        <Skeleton className="h-full rounded-md" />
+      </div>
+    </div>
+  );
 }
