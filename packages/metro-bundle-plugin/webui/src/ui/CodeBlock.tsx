@@ -1,11 +1,6 @@
 import { type PropsWithChildren } from 'react';
 import { Highlight, type PrismTheme } from 'prism-react-renderer';
 
-// NOTE(cedric): these are not imported by `@expo/styleguide/dist/expo-theme.css`,
-// but they are required for the syntax highlighting
-import '@radix-ui/colors/gray.css';
-import '@radix-ui/colors/grayDark.css';
-
 export function CodeBlock({ children }: PropsWithChildren) {
   return (
     <div className="grid grid-cols-2 auto-rows-fr md:grid-cols-2 md:auto-rows-auto max-h-[820px]">
