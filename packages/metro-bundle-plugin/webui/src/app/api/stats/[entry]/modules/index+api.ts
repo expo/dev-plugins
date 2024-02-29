@@ -19,7 +19,7 @@ export async function GET(request: Request, params: Record<'entry', string>) {
 
   const entryId = params.entry ? parseInt(params.entry, 10) : null;
   if (!entryId || Number.isNaN(entryId) || entryId <= 1) {
-    return Response.json({ error: `Stats entry "${params.entry}" not found.`});
+    return Response.json({ error: `Stats entry "${params.entry}" not found.`}, { status: 404 });
   }
   
   const entry = await getStatsEntry(statsFile, entryId);
@@ -94,12 +94,12 @@ export async function POST(request: Request, params: Record<'entry', string>) {
 
   const entryId = params.entry ? parseInt(params.entry, 10) : null;
   if (!entryId || Number.isNaN(entryId) || entryId <= 1) {
-    return Response.json({ error: `Stats entry "${params.entry}" not found.`});
+    return Response.json({ error: `Stats entry "${params.entry}" not found.`}, { status: 404 });
   }
 
   const moduleRef: string | undefined = (await request.json()).path;
   if (!moduleRef) {
-    return Response.json({ error: `Module ID not provided, expected a "path" property.`});
+    return Response.json({ error: `Module ID not provided, expected a "path" property.`}, { status: 406 });
   }
 
   const statsEntry = await getStatsEntry(statsFile, entryId);
@@ -107,7 +107,7 @@ export async function POST(request: Request, params: Record<'entry', string>) {
 
   return moduleEntry 
     ? Response.json(moduleEntry) 
-    : Response.json({ error: `Module "${moduleRef}" not found.`});
+    : Response.json({ error: `Module "${moduleRef}" not found.`}, { status: 404 });
 }
 
 function findModule(modules: MetroStatsModule[], path: string) {

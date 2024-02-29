@@ -24,7 +24,7 @@ export default function ModulePage() {
     return <ModulePageSkeleton />;
   }
 
-  if (!module.data) {
+  if (!module.data || module.isError) {
     // TODO: improve
     return <div>Module not found</div>;
   }

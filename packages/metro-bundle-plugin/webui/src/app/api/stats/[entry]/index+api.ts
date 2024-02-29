@@ -12,7 +12,7 @@ export async function GET(request: Request, params: Record<'entry', string>) {
 
   const entryId = params.entry ? parseInt(params.entry, 10) : null;
   if (!entryId || Number.isNaN(entryId) || entryId <= 1) {
-    return Response.json({ error: `Stats entry "${params.entry}" not found.`});
+    return Response.json({ error: `Stats entry "${params.entry}" not found.`}, { status: 404 });
   }
 
   return Response.json(await getStatsEntry(statsFile, entryId));
