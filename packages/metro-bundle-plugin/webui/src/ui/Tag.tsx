@@ -34,6 +34,7 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>(
   ({ className, variant, size, children, ...props }, ref) => {
     if (variant === 'android') children = 'Android';
     if (variant === 'ios') children = 'iOS';
+    if (variant === 'web') children = 'Web';
 
     return (
       <span className={cn(tagVariants({ variant, size }), className)} ref={ref} {...props}>

@@ -120,6 +120,7 @@ function createStatsFile(projectRoot) {
     });
 }
 exports.createStatsFile = createStatsFile;
+var writeQueue = Promise.resolve();
 /**
  * Add a new stats entry to the stats file.
  * This is appended on a new line, so we can load the stats selectively.
@@ -130,15 +131,15 @@ function addStatsEntry(projectRoot, stats) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    entry = [
-                        JSON.stringify(stats.platform),
-                        JSON.stringify(stats.projectRoot),
-                        JSON.stringify(stats.entryPoint),
-                        JSON.stringify(stats.preModules),
-                        JSON.stringify(stats.graph),
-                        JSON.stringify(stats.options),
-                    ];
-                    return [4 /*yield*/, fs_1.default.promises.appendFile(getStatsPath(projectRoot), "[".concat(entry.join(','), "]") + '\n')];
+                    entry = JSON.stringify([
+                        stats.platform,
+                        stats.projectRoot,
+                        stats.entryPoint,
+                        stats.preModules,
+                        stats.graph,
+                        stats.options,
+                    ]);
+                    return [4 /*yield*/, writeQueue.then(function () { return fs_1.default.promises.appendFile(getStatsPath(projectRoot), "".concat(entry, "\n")); })];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];

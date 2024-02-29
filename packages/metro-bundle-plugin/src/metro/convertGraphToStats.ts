@@ -46,6 +46,7 @@ function convertGraph(projectRoot: string, graph: ConvertOptions['graph']) {
 
 function convertModule(projectRoot: string, graph: ConvertOptions['graph'], module: ConvertOptions['preModules'][0]) {
   const nodeModuleName = getNodeModuleNameFromPath(module.path);
+  const isTextFile = ['.js', '.mjs', '.cjs', '.ts', '.jsx', '.tsx', '.json'].includes(path.extname(module.path));
 
   return {
     nodeModuleName: nodeModuleName || '[unknown]',
@@ -63,10 +64,10 @@ function convertModule(projectRoot: string, graph: ConvertOptions['graph'], modu
         absolutePath: dependencyPath,
       })),
 
-    source: module.getSource().toString(),
+    source: isTextFile ? module.getSource().toString('utf-8') : '[binary file]',
     output: module.output.map((output) => ({
       type: output.type,
-      data: output.data,
+      data: { code: output.data.code }, // Avoid adding source maps, this is too big for json
     })),
   };
 }

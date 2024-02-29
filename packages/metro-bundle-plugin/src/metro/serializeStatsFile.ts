@@ -64,17 +64,16 @@ const writeQueue = Promise.resolve();
  * This is appended on a new line, so we can load the stats selectively.
  */
 export async function addStatsEntry(projectRoot: string, stats: MetroStatsEntry) {
-  // NOTE(cedric): Convert the object to an array to partially read when necessary
-  const entry = [
-    JSON.stringify(stats.platform),
-    JSON.stringify(stats.projectRoot),
-    JSON.stringify(stats.entryPoint),
-    JSON.stringify(stats.preModules),
-    JSON.stringify(stats.graph),
-    JSON.stringify(stats.options),
-  ].join(',');
+  const entry = JSON.stringify([
+    stats.platform,
+    stats.projectRoot,
+    stats.entryPoint,
+    stats.preModules,
+    stats.graph,
+    stats.options,
+  ]);
 
-  await writeQueue.then(() => fs.promises.appendFile(getStatsPath(projectRoot), `[${entry}]` + '\n'));
+  await writeQueue.then(() => fs.promises.appendFile(getStatsPath(projectRoot), `${entry}\n`));
 }
 
 /**
