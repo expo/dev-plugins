@@ -2,7 +2,7 @@ import { App } from "antd";
 import { usePluginStore } from "./usePluginStore";
 import { useEffect, useState } from "react";
 import { KeyValueStorageTable } from "./KeyValueStorageTable";
-import { DevToolsPluginClient } from "expo/build/devtools/DevToolsPluginClient";
+import { DevToolsPluginClient } from "expo/devtools";
 
 export const MMKVStorageTable = ({client}: {client: DevToolsPluginClient}) => {
     const { message } = App.useApp();

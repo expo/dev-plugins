@@ -1,5 +1,4 @@
-import { DevToolsPluginClient } from "expo/build/devtools/DevToolsPluginClient";
-import { useDevToolsPluginClient } from "expo/devtools";
+import { DevToolsPluginClient, useDevToolsPluginClient } from "expo/devtools";
 import { useEffect, useState } from "react";
 
 
