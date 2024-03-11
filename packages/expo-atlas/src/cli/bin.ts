@@ -26,7 +26,7 @@ if (args['--version']) {
 if (args['--help']) {
   console.log(`
     Usage
-      $ metro-bundle-plugin [statsFile]
+      $ expo-atlas [statsFile]
 
     Options
       --port, -p      Port to listen on

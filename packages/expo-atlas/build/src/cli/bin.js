@@ -59,7 +59,7 @@ if (args['--version']) {
     process.exit(0);
 }
 if (args['--help']) {
-    console.log("\n    Usage\n      $ metro-bundle-plugin [statsFile]\n\n    Options\n      --port, -p      Port to listen on\n      --help, -h      Displays this message\n      --version, -v   Displays the current version\n  ");
+    console.log("\n    Usage\n      $ expo-atlas [statsFile]\n\n    Options\n      --port, -p      Port to listen on\n      --help, -h      Displays this message\n      --version, -v   Displays the current version\n  ");
     process.exit(0);
 }
 process.on('SIGINT', function () { return process.exit(0); });

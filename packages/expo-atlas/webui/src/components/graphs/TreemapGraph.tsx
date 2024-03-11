@@ -1,5 +1,6 @@
 import * as echarts from 'echarts';
 import { useMemo } from 'react';
+
 import { Graph } from './Graph';
 import { formatFileSize } from '~/utils/formatString';
 import { type PartialModule } from '~/app/api/stats/[entry]/modules/index+api';

@@ -1,5 +1,7 @@
 {
   "expo": {
+    "name": "expo-atlas-webui",
+    "slug": "expo-atlas-webui",
     "userInterfaceStyle": "dark",
     "web": {
       "bundler": "metro",

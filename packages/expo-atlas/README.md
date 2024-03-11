@@ -1,4 +1,4 @@
-# metro-bundle-plugin
+# Expo Atlas
 
 Inspect the bundle stats from Metro
 
@@ -18,7 +18,7 @@ For bare React Native projects, you must ensure that you have [installed and con
 ### Add the package to your npm dependencies
 
 ```
-npm install metro-bundle-plugin
+npm install expo-atlas
 ```
 
 

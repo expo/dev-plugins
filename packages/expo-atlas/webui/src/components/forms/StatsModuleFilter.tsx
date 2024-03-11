@@ -1,6 +1,4 @@
 import { type FormEvent, useState } from 'react';
-// @ts-expect-error
-import CloseIcon from 'lucide-react/dist/esm/icons/x';
 
 import { useModuleFilterContext, useModuleFilterReducer } from '~/providers/modules';
 import { Input } from '~/ui/Input';
