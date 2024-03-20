@@ -14,11 +14,11 @@
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
     "antd": "^5.10.2",
-    "expo": "50.0.8",
+    "expo": "50.0.14",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-json-view": "^1.21.3",
-    "react-native": "0.73.2",
+    "react-native": "0.73.6",
     "react-native-web": "~0.19.6",
     "typescript": "^5.3.0"
   }

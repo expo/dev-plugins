@@ -51,7 +51,7 @@ function extractQueries(client) {
         return new Map();
     }
     // @ts-expect-error queryManager is private method
-    return client.queryManager.queries;
+    return client?.queryManager.queries;
 }
 function getAllQueries(client) {
     const queryMap = extractQueries(client);
