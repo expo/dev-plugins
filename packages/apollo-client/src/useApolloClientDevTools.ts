@@ -79,7 +79,7 @@ function extractQueries(client: ApolloClientType): Map<any, any> {
     return new Map();
   }
   // @ts-expect-error queryManager is private method
-  return client.queryManager.queries;
+  return client?.queryManager.queries;
 }
 
 function getAllQueries(client: ApolloClientType): ArrayOfQuery {
@@ -130,7 +130,7 @@ function getCurrentState(client: ApolloClientType): Promise<ApolloClientState> {
         lastUpdateAt: getTime(),
         queries: getAllQueries(client),
         mutations: getAllMutations(client),
-        cache: client.cache.extract(true),
+        cache: client?.cache.extract(true),
       };
       res(currentState);
     }, 0);

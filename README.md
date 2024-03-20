@@ -21,6 +21,10 @@
 
   - Credit: Originally contributed by [jthoward64](https://github.com/jthoward64)
 
+- `@dev-plugins/react-native-mmkv`: Plugin for [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv)
+
+  - Credit: Originally contributed by [cyrilbo](https://github.com/cyrilbo)
+
 - `@dev-plugins/redux`: Plugin for [redux](https://github.com/reduxjs/react-redux)
 
   - Credit: Originally contributed by [dannyBies](https://github.com/dannyBies)
