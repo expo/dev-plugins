@@ -1,6 +1,5 @@
 import type { KeyValuePair } from '@react-native-async-storage/async-storage/lib/typescript/types';
-import { App } from 'antd';
-import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
+import { DevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect, useState } from 'react';
 import { Method, MethodAck } from '../../methods';
 
@@ -10,34 +9,13 @@ const methodAck: Record<Method, MethodAck> = {
   remove: 'ack:remove',
 };
 
-export function usePluginStore(onError: (error: unknown) => void) {
-  const client = useDevToolsPluginClient('async-storage');
-
-  const { message, notification } = App.useApp();
-
-  const [connected, setConnected] = useState(false);
-  useEffect(() => {
-    let interval = setInterval(() => {
-      if (client?.isConnected()) {
-        if (interval != null) {
-          clearInterval(interval);
-          interval = null;
-        }
-        setConnected(true);
-      }
-    }, 1000);
-    return () => { if (interval != null) { clearInterval(interval); interval = null; } };
-  }, [client]);
+export function usePluginStore(client: DevToolsPluginClient, onError: (error: unknown) => void) {
 
   const [entries, setEntries] = useState<readonly { key: string; value: string | null }[]>([]);
 
   const update = useCallback(async () => {
-    if (!client?.isConnected()) {
-      message.error('Not connected to host');
-      return;
-    }
     try {
-      return client?.sendMessage('getAll', {});
+      return client.sendMessage('getAll', {});
     } catch (e) {
       onError(e);
     }
@@ -45,10 +23,6 @@ export function usePluginStore(onError: (error: unknown) => void) {
 
   const set = useCallback(
     async (key: string, value: string) => {
-      if (!client?.isConnected()) {
-        message.error('Not connected to host');
-        return;
-      }
       try {
         return client.sendMessage('set', {
           key,
@@ -63,12 +37,8 @@ export function usePluginStore(onError: (error: unknown) => void) {
 
   const remove = useCallback(
     async (key: string) => {
-      if (!client?.isConnected()) {
-        message.error('Not connected to host');
-        return;
-      }
       try {
-        return client?.sendMessage('remove', {
+        return client.sendMessage('remove', {
           key,
         });
       } catch (e) {
@@ -79,15 +49,7 @@ export function usePluginStore(onError: (error: unknown) => void) {
   );
 
   useEffect(() => {
-    if (!client?.isConnected()) {
-      notification.error({
-        message: 'Critical error:\nNot connected to host - please reload the page',
-      });
-      return;
-    }
-
     const subscriptions: EventSubscription[] = [];
-
     try {
       subscriptions.push(
         client.addMessageListener(
@@ -143,6 +105,5 @@ export function usePluginStore(onError: (error: unknown) => void) {
     update,
     set,
     remove,
-    ready: connected,
   };
 }

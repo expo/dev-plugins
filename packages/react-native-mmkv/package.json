@@ -1,7 +1,7 @@
 {
-  "name": "@dev-plugins/apollo-client",
-  "version": "0.0.5",
-  "description": "Expo DevTools Plugin for Apollo Client",
+  "name": "@dev-plugins/react-native-mmkv",
+  "version": "0.0.1",
+  "description": "Expo DevTools Plugin for react-native-mmkv",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "sideEffects": false,
@@ -10,7 +10,7 @@
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
-    "prepare": "expo-module prepare && node ../../scripts/build-webui.js apollo-client",
+    "prepare": "expo-module prepare && node ../../scripts/build-webui.js react-native-mmkv",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
@@ -18,13 +18,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/expo/dev-plugins.git",
-    "directory": "packages/apollo-client"
+    "directory": "packages/react-native-mmkv"
   },
   "keywords": [
     "expo",
     "devtools",
-    "apollo",
-    "apollo-client"
+    "mmkv"
   ],
   "files": [
     "build",
@@ -32,17 +31,16 @@
     "expo-module.config.json",
     "src"
   ],
-  "author": "650 Industries, Inc.",
+  "author": "cyrilbo",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "@apollo/client": "^3.8.7",
     "expo": "50.0.8",
     "expo-module-scripts": "^3.1.0",
-    "graphql": "^16.8.1",
+    "react-native-mmkv": "^2.11.0",
     "typescript": "^5.3.0"
   },
   "peerDependencies": {
+    "react-native-mmkv": "^2.0.0",
     "expo": "*"
   }
 }
