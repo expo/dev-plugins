@@ -2,7 +2,7 @@
   "name": "@dev-plugins/react-query-webui",
   "description": "The frontend webui for @dev-plugins/react-query",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "index.js",
   "scripts": {
     "start": "expo start -w"
