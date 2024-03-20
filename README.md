@@ -29,6 +29,20 @@
 
   - Credit: Originally contributed by [dannyBies](https://github.com/dannyBies)
 
+## Contributions
+
+Due to the current bandwidth limitations of our team, we are unable to accept new plugin pull requests in this repository. We recommend developers to create and maintain their plugins in their own npm accounts.
+
+However, we understand the value of community contributions and would love to showcase your work. This repository serves as a gallery for awesome plugins. If you have created a plugin and would like to share it with the community, you are welcome to submit a pull request to introduce your plugin in this README.
+
+When submitting a pull request, please include the following:
+
+- Name of the plugin
+- Brief description of what the plugin does
+- Link to the plugin's repository
+
+We appreciate your understanding and look forward to your contributions!
+
 ## Example App
 
 The [example app](/apps/example) is an [Expo Router](https://docs.expo.dev/routing/introduction/) app that provides test cases for plugins
