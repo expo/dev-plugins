@@ -25,6 +25,9 @@
 
   - Credit: Originally contributed by [cyrilbo](https://github.com/cyrilbo)
 
+- `@dev-plugins/redux`: Plugin for [redux](https://github.com/reduxjs/react-redux)
+
+  - Credit: Originally contributed by [dannyBies](https://github.com/dannyBies)
 
 ## Example App
 

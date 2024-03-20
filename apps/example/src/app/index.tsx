@@ -15,6 +15,7 @@ export default function TesterScreen() {
         <TestCase title="Vanilla Log Viewer" route="/vanilla-log-viewer/" />
         <TestCase title="Async Storage" route="/async-storage/" />
         <TestCase title="React Native MMKV" route="/react-native-mmkv/" />
+        <TestCase title="Redux" route="/redux/" />
       </View>
     </SafeAreaView>
   );
