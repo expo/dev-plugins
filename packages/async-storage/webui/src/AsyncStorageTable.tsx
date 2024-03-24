@@ -95,8 +95,8 @@ export function AsyncStorageTable() {
                 },
               };
             },
-            shouldCellUpdate(record, prevRecord) {
-              return record.editedValue !== prevRecord.editedValue;
+            shouldCellUpdate() {
+              return false;
             },
           },
           {
