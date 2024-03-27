@@ -25,6 +25,7 @@ export function AsyncStorageTable() {
   const { showAddEntryDialog, AddEntryDialog, showing } = useAddEntryDialog({ set });
 
   const [initialUpdate, setInitialUpdate] = useState(false);
+  const [editingManually, setEditingManually] = useState(false);
   useEffect(() => {
     if (!initialUpdate && ready) {
       update()
@@ -93,10 +94,16 @@ export function AsyncStorageTable() {
                 onInput(e) {
                   updateInProgressEdits({ [record.key]: e.currentTarget.textContent });
                 },
+                onBlur() {
+                  setEditingManually(false)
+                },
+                onFocus() {
+                  setEditingManually(true)
+                }
               };
             },
-            shouldCellUpdate() {
-              return false;
+            shouldCellUpdate(record, prevRecord) {
+              return !editingManually && record.editedValue !== prevRecord.editedValue
             },
           },
           {
