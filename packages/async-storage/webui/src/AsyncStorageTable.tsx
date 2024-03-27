@@ -103,7 +103,7 @@ export function AsyncStorageTable() {
               };
             },
             shouldCellUpdate(record, prevRecord) {
-              return !editingManually && record.editedValue !== prevRecord.editedValue
+              return !editingManually && record.editedValue !== prevRecord.editedValue;
             },
           },
           {
