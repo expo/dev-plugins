@@ -29,6 +29,10 @@
 
   - Credit: Originally contributed by [dannyBies](https://github.com/dannyBies)
 
+- [`redux-devtools-expo-dev-plugin`](https://github.com/matt-oakes/redux-devtools-expo-dev-plugin): A plugin for [redux](https://github.com/reduxjs/react-redux) with the full [Redux DevTools](https://github.com/reduxjs/redux-devtools/) (from the Chrome extension)
+
+  - Credit: [Matt Oakes](https://mattoakes.net) and based [Redux DevTools](https://github.com/reduxjs/redux-devtools/)
+
 ## Contributions
 
 Due to the current bandwidth limitations of our team, we are unable to accept new plugin pull requests in this repository. We recommend developers to create and maintain their plugins in their own npm accounts.
