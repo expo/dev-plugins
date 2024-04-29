@@ -17,7 +17,7 @@ export function useReduxDevTools(store: Store) {
 
     const unsubscribeFn = store.subscribe(() => {
       const state = store.getState();
-      client?.sendMessage('storeUpdated', state);
+      client?.sendMessage('storeUpdated', { store: store.getState(), lastAction });
     });
 
     return () => {
