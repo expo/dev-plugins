@@ -7,15 +7,15 @@
 
 - `@dev-plugins/apollo-client`: Plugin for [Apollo Client](https://www.apollographql.com/docs/react/)
 
-  - Credit: Most code are forked from [react-query-apollo-devtools](https://github.com/razorpay/react-native-apollo-devtools)
+  - Credit: Most code is forked from [react-query-apollo-devtools](https://github.com/razorpay/react-native-apollo-devtools)
 
 - `@dev-plugins/react-query`: Plugin for [TanStack Query](https://tanstack.com/query/latest/)
 
-  - Credit: Most code are forked from [react-query-native-devtools](https://github.com/bgaleotti/react-query-native-devtools)
+  - Credit: Most code is forked from [react-query-native-devtools](https://github.com/bgaleotti/react-query-native-devtools)
 
 - `@dev-plugins/react-navigation`: Plugin for [React Navigation](https://reactnavigation.org/)
 
-  - Credit: Most code are forked from [@react-navigation/devtools](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/devtools) and the [Flipper plugin frontend](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/flipper-plugin-react-navigation)
+  - Credit: Most code is forked from [@react-navigation/devtools](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/devtools) and the [Flipper plugin frontend](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/flipper-plugin-react-navigation)
 
 - `@dev-plugins/async-storage`: Plugin for [@react-native-async-storage/async-storage](https://github.com/react-native-async-storage/async-storage)
 
