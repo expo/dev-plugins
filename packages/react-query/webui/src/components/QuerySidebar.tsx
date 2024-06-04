@@ -2,6 +2,7 @@ import { Button, Collapse, type CollapseProps, Layout, Space } from 'antd';
 import styled from '@emotion/styled';
 import ReactJson from 'react-json-view';
 import type { ExtendedQuery } from '../types';
+import DataViewer from './DataViewer';
 
 const ContainerWithPaddings = styled(Layout)({
   padding: '10px 5px',
@@ -48,7 +49,7 @@ export default function QuerySidebar({ query, onQueryRefetch, onQueryRemove }: P
       label: 'Data Explorer',
       children: (
         <ContainerWithPaddings>
-          {<ReactJson src={query?.state?.data || {}} enableClipboard={false} collapsed />}
+          <DataViewer src={query?.state?.data || {}}  />
         </ContainerWithPaddings>
       ),
     },
