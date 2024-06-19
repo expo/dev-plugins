@@ -1,8 +1,11 @@
 import ReactJson from 'react-json-view';
 
 export default function DataViewer({ src }: { src: unknown }) {
-  if (typeof src !== 'object' || src === null) {
-    return <ReactJson src={{ __default: src }} enableClipboard={false} collapsed />;
+  if (src === null || src === undefined) {
+    return <span>{src}</span>;
   }
-  return <ReactJson src={src} enableClipboard={false} collapsed />;
+  if (typeof src === 'object') {
+    return <ReactJson src={src} enableClipboard={false} collapsed />;
+  }
+  return <span>{src.toString()}</span>;
 }
