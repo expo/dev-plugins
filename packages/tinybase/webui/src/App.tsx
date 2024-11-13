@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { createStore } from 'tinybase/debug';
-import { Provider } from 'tinybase/debug/ui-react';
-import { StoreInspector } from 'tinybase/debug/ui-react-dom';
+import { createStore } from 'tinybase';
+import { Provider } from 'tinybase/ui-react';
+import { Inspector } from 'tinybase/ui-react-inspector';
 
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 
@@ -52,7 +52,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <StoreInspector open position="full" />
+      <Inspector open position="full" />
     </Provider>
   );
 }

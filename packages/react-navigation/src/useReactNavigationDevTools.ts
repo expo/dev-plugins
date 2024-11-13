@@ -1,32 +1,21 @@
 import type { NavigationContainerRef } from '@react-navigation/core';
-import { nanoid } from 'nanoid/non-secure';
-import useDevToolsBase from '@react-navigation/devtools/lib/module/useDevToolsBase';
+import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+import { ReduxExtensionAdapter } from './ReduxExtensionAdapter';
 
 export function useReactNavigationDevTools(ref: React.RefObject<NavigationContainerRef<any>>) {
   const client = useDevToolsPluginClient('react-navigation');
-
-  const { resetRoot } = useDevToolsBase(ref, (result) => {
-    switch (result.type) {
-      case 'init':
-        client?.sendMessage('init', {
-          id: nanoid(),
-          state: result.state,
-        });
-        break;
-      case 'action':
-        client?.sendMessage('action', {
-          id: nanoid(),
-          action: result.action,
-          state: result.state,
-          stack: result.stack,
-        });
-        break;
-    }
-  });
+  const adapterRef = useRef(new ReduxExtensionAdapter());
+  globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
+    connect: () => adapterRef.current,
+  };
+  useReduxDevToolsExtension(ref);
 
   useEffect(() => {
+    adapterRef.current.setClient(client);
+
     const on = (event: string, listener: (params: any) => Promise<any>) => {
       client?.addMessageListener(event, async (params) => {
         try {
@@ -44,7 +33,7 @@ export function useReactNavigationDevTools(ref: React.RefObject<NavigationContai
       on('navigation.invoke', ({ method, args = [] }) => {
         switch (method) {
           case 'resetRoot':
-            return resetRoot(args[0]);
+            return adapterRef.current?.resetRoot(args[0]);
           default:
             return ref.current?.[method](...args);
         }
@@ -80,5 +69,5 @@ export function useReactNavigationDevTools(ref: React.RefObject<NavigationContai
         subscription?.remove();
       }
     };
-  }, [client, ref, resetRoot]);
+  }, [client]);
 }

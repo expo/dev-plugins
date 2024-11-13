@@ -33,13 +33,13 @@
   "author": "jthoward64",
   "license": "MIT",
   "devDependencies": {
-    "@react-native-async-storage/async-storage": "^1.21.0",
-    "expo": "50.0.14",
-    "expo-module-scripts": "^3.1.0",
-    "typescript": "^5.3.0"
+    "@react-native-async-storage/async-storage": "^1.24.0",
+    "expo": "~52.0.4",
+    "expo-module-scripts": "^4.0.2",
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^1.0.0",
-    "expo": "*"
+    "expo": "^52.0.0"
   }
 }
