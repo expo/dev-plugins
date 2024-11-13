@@ -1,4 +1,3 @@
-import type { KeyValuePair } from '@react-native-async-storage/async-storage/lib/typescript/types';
 import { DevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect, useState } from 'react';
 import { Method, MethodAck } from '../../methods';
@@ -8,6 +7,10 @@ const methodAck: Record<Method, MethodAck> = {
   set: 'ack:set',
   remove: 'ack:remove',
 };
+
+type KeyType = string;
+type ValueType = string;
+type KeyValuePair = [KeyType, ValueType];
 
 export function usePluginStore(client: DevToolsPluginClient, onError: (error: unknown) => void) {
 
