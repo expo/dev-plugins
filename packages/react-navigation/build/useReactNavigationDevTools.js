@@ -1,28 +1,16 @@
-import { nanoid } from 'nanoid/non-secure';
-import useDevToolsBase from '@react-navigation/devtools/lib/module/useDevToolsBase';
+import { useReduxDevToolsExtension } from '@react-navigation/devtools';
 import { useDevToolsPluginClient } from 'expo/devtools';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { ReduxExtensionAdapter } from './ReduxExtensionAdapter';
 export function useReactNavigationDevTools(ref) {
     const client = useDevToolsPluginClient('react-navigation');
-    const { resetRoot } = useDevToolsBase(ref, (result) => {
-        switch (result.type) {
-            case 'init':
-                client?.sendMessage('init', {
-                    id: nanoid(),
-                    state: result.state,
-                });
-                break;
-            case 'action':
-                client?.sendMessage('action', {
-                    id: nanoid(),
-                    action: result.action,
-                    state: result.state,
-                    stack: result.stack,
-                });
-                break;
-        }
-    });
+    const adapterRef = useRef(new ReduxExtensionAdapter());
+    globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
+        connect: () => adapterRef.current,
+    };
+    useReduxDevToolsExtension(ref);
     useEffect(() => {
+        adapterRef.current.setClient(client);
         const on = (event, listener) => {
             client?.addMessageListener(event, async (params) => {
                 try {
@@ -38,7 +26,7 @@ export function useReactNavigationDevTools(ref) {
         subscriptions.push(on('navigation.invoke', ({ method, args = [] }) => {
             switch (method) {
                 case 'resetRoot':
-                    return resetRoot(args[0]);
+                    return adapterRef.current?.resetRoot(args[0]);
                 default:
                     return ref.current?.[method](...args);
             }
@@ -65,6 +53,6 @@ export function useReactNavigationDevTools(ref) {
                 subscription?.remove();
             }
         };
-    }, [client, ref, resetRoot]);
+    }, [client]);
 }
 //# sourceMappingURL=useReactNavigationDevTools.js.map
