@@ -34,13 +34,13 @@
   "author": "cyrilbo",
   "license": "MIT",
   "devDependencies": {
-    "expo": "50.0.14",
-    "expo-module-scripts": "^3.1.0",
-    "react-native-mmkv": "^2.11.0",
-    "typescript": "^5.3.0"
+    "expo": "~52.0.4",
+    "expo-module-scripts": "^4.0.2",
+    "react-native-mmkv": "^3.1.0",
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
-    "react-native-mmkv": "^2.0.0",
-    "expo": "*"
+    "react-native-mmkv": "*",
+    "expo": "^52.0.0"
   }
 }

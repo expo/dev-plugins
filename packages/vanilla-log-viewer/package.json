@@ -21,10 +21,10 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "esbuild": "^0.19.10",
-    "expo": "50.0.14"
+    "esbuild": "^0.24.0",
+    "expo": "~52.0.4"
   },
   "peerDependencies": {
-    "expo": "*"
+    "expo": "^52.0.0"
   }
 }

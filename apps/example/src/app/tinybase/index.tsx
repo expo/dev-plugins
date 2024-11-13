@@ -1,6 +1,6 @@
 import { createStore } from 'tinybase';
 import { Button, Text, View } from 'react-native';
-import { useValue, Provider } from 'tinybase/lib/ui-react';
+import { useValue, Provider } from 'tinybase/ui-react';
 import { useTinyBaseDevTools } from '@dev-plugins/tinybase';
 
 const store = createStore().setValue('counter', 0);
