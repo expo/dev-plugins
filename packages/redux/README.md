@@ -16,10 +16,23 @@ npx expo install @dev-plugins/redux
 import { useReduxDevTools } from '@dev-plugins/redux';
 import { store } from './store';
 
-
 export default function App() {
   useReduxDevTools(store);
 
   /* ... */
 }
+```
+
+### Add middleware to store
+
+```jsx
+import { reduxDevToolsMiddleware } from '@dev-plugins/redux';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers';
+
+const store = createStore(
+  rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(reduxDevToolsMiddleware),
+);
+
 ```
