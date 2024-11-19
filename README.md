@@ -55,3 +55,13 @@ The [example app](/apps/example) is an [Expo Router](https://docs.expo.dev/routi
 - [`Apollo Client`](/apps/example/src/app/apollo-client/): Apollo Client example forked from https://www.apollographql.com/docs/react/get-started/
 - [`React Query`](/apps/example/src/app/react-query/): React Query example forked from https://github.com/TanStack/query/tree/5b9be1e299257e32c4c294796711f5d82f968530/examples/react/react-native
 - [`React Query Time`](/apps/example/src/app/react-query-time/): React Query example forked from https://github.com/bgaleotti/react-query-native-devtools/tree/799efff17b08e9793ab27d5a93457c5d5510233c/apps/Time
+
+### How to run the example app
+
+```sh
+$ git clone https://github.com/expo/dev-plugins.git
+$ cd dev-plugins
+$ cd apps/example
+$ bun run ios
+$ bun run android
+```
