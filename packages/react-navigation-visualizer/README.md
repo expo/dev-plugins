@@ -1,13 +1,13 @@
-# @dev-plugins/react-navigation
+# @bam.tech/react-navigation-visualizer-dev-plugin
 
-A React Navigation DevTool that can run in an Expo App
+A Visualization Tool based on Expo DevTools Plugin for React Navigation.
 
 ## Installation
 
 ### Add the package to your project
 
 ```bash
-npx expo install @dev-plugins/react-navigation
+npx expo install@bam.tech/react-navigation-visualizer-dev-plugin
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ npx expo install @dev-plugins/react-navigation
 
 ```jsx
 import { useNavigationContainerRef } from '@react-navigation/native';
-import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
+import { useReactNavigationDevTools } from '@bam.tech/react-navigation-visualizer-dev-plugin';
 
 export default function App() {
   const navigationRef = useNavigationContainerRef();
@@ -34,13 +34,13 @@ When using `expo-router`, integrate the DevTool in your main `_layout.tsx` file.
 
 ```tsx
 import { useNavigationContainerRef } from 'expo-router';
-import { useReactNavigationDevTools } from '@dev-plugins/react-navigation';
+import { useReactNavigationDevTools } from '@bam.tech/react-navigation-visualizer-dev-plugin';
 
 export default function RootLayout() {
   const navigationRef = useNavigationContainerRef();
   useReactNavigationDevTools(navigationRef);
 
-  return <Stack />
+  return <Stack />;
 }
 ```
 

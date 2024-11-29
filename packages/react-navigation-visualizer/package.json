@@ -1,7 +1,7 @@
 {
-  "name": "@dev-plugins/react-navigation",
-  "version": "0.1.0",
-  "description": "Expo DevTools Plugin for React Navigation",
+  "name": "@bam.tech/react-navigation-visualizer-dev-plugin",
+  "version": "0.1.1",
+  "description": "Visualization Tool based on Expo DevTools Plugin for React Navigation",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "sideEffects": false,
@@ -10,7 +10,7 @@
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
-    "prepare": "expo-module prepare && node ../../scripts/build-webui.js react-navigation",
+    "prepare": "expo-module prepare && node ../../scripts/build-webui.js react-navigation-visualizer",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
