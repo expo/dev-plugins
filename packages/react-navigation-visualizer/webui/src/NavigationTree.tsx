@@ -3,7 +3,7 @@ import { Layout, Typography } from 'antd';
 import * as React from 'react';
 
 import { Sidebar } from './Sidebar';
-import type { NavigationRoute, StoreType } from './types';
+import type { NavigationState, StoreType } from './types';
 
 type Props = StoreType;
 
@@ -11,8 +11,11 @@ export function NavigationTree({ logs }: Props) {
   const currentNavigationItem = logs[logs.length - 1];
   const previousNavigationItem = logs[logs.length - 2];
 
-  const hasCurrentItem = !!currentNavigationItem;
-  const hasPreviousItem = !!previousNavigationItem;
+  const currentNavigationItemState = currentNavigationItem?.state;
+  const previousNavigationItemState = previousNavigationItem?.state;
+
+  const hasCurrentItem = !!currentNavigationItem && currentNavigationItemState;
+  const hasPreviousItem = !!previousNavigationItem && previousNavigationItemState;
 
   return (
     <Layout style={{ height: '100%' }}>
@@ -21,15 +24,13 @@ export function NavigationTree({ logs }: Props) {
           <HalfContainer>
             <Typography>Previous state</Typography>
             <HalfContent>
-              {hasPreviousItem && (
-                <Node name="root" routes={previousNavigationItem.state?.routes} />
-              )}
+              {hasPreviousItem && <Node name="root" state={previousNavigationItemState} />}
             </HalfContent>
           </HalfContainer>
           <HalfContainer>
             <Typography>Current state</Typography>
             <HalfContent>
-              {hasCurrentItem && <Node name="root" routes={currentNavigationItem.state?.routes} />}
+              {hasCurrentItem && <Node name="root" state={currentNavigationItemState} />}
             </HalfContent>
           </HalfContainer>
         </Container>
@@ -86,14 +87,16 @@ const LeafContainer = styled.div(({ theme: antdTheme }) => ({
   padding: 8,
 }));
 
-const LeafTitle = styled(Typography)({
+const LeafTitle = styled(Typography.Text)({
   color: 'white',
 });
 
-const Leaf = ({ title }: { title: string }) => {
+const Leaf = ({ title, isSelectedTab }: { title: string; isSelectedTab?: boolean }) => {
   return (
     <LeafContainer>
-      <LeafTitle>{title}</LeafTitle>
+      <LeafTitle style={{ textDecoration: isSelectedTab ? 'underline' : 'none' }}>
+        {title}
+      </LeafTitle>
     </LeafContainer>
   );
 };
@@ -113,7 +116,8 @@ const NodeTitle = styled(Typography)(({ theme }) => ({
   alignSelf: 'flex-start',
 }));
 
-const Node = ({ name, routes }: { name: string; routes: NavigationRoute[] | undefined }) => {
+const Node = ({ name, state }: { name: string; state: NavigationState }) => {
+  const routes = state.routes;
   if (!routes || !routes.length) {
     return <Leaf title={name} />;
   }
@@ -122,7 +126,14 @@ const Node = ({ name, routes }: { name: string; routes: NavigationRoute[] | unde
     <NodeContainer>
       {routes.toReversed().map((route, index) => (
         <React.Fragment key={index}>
-          <Node name={route.name} routes={route.state?.routes} />
+          {route.state?.routes && route.state.routes.length ? (
+            <Node name={route.name} state={route.state} />
+          ) : (
+            <Leaf
+              title={route.name}
+              isSelectedTab={state.type === 'tab' && state.index === index}
+            />
+          )}
           <Spacer />
         </React.Fragment>
       ))}
