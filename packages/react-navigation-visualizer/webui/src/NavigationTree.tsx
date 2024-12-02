@@ -131,7 +131,9 @@ const Node = ({ name, state }: { name: string; state: NavigationState }) => {
           ) : (
             <Leaf
               title={route.name}
-              isSelectedTab={state.type === 'tab' && state.index === index}
+              isSelectedTab={
+                state.type === 'tab' && state.index === state.routes.length - 1 - index
+              }
             />
           )}
           <Spacer />
