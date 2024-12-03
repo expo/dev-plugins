@@ -18,8 +18,8 @@ export function NavigationTree({ logs }: Props) {
   const hasPreviousItem = !!previousNavigationItem && previousNavigationItemState;
 
   return (
-    <Layout style={{ height: '100%' }}>
-      <Layout.Content style={{ height: '100%' }}>
+    <Layout>
+      <Layout.Content style={{ height: '100vh', overflow: 'auto', paddingBottom: '80px' }}>
         <Container>
           <HalfContainer>
             <Typography>Previous state</Typography>
@@ -50,7 +50,6 @@ const Container = styled.div({
   display: 'flex',
   overflow: 'auto',
   flexDirection: 'row',
-  height: 'calc(100vh - 80px)',
   flex: 1,
 });
 
