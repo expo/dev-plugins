@@ -1,6 +1,6 @@
 {
-  "name": "@dev-plugins/react-navigation-webui",
-  "description": "The frontend webui for @dev-plugins/react-navigation",
+  "name": "@bam.tech/react-navigation-visualizer-dev-plugin-webui",
+  "description": "The frontend webui for @bam.tech/react-navigation-visualizer-dev-plugin",
   "private": true,
   "version": "0.1.0",
   "main": "index.js",
