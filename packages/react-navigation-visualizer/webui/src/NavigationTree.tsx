@@ -19,16 +19,18 @@ export function NavigationTree({ logs }: Props) {
 
   return (
     <Layout>
-      <Layout.Content style={{ height: '100vh', overflow: 'auto', paddingBottom: '80px' }}>
+      <Layout.Content style={{ height: '100vh', overflow: 'auto', paddingBottom: '60px' }}>
         <Container>
           <HalfContainer>
             <Typography>Previous state</Typography>
+            <Spacer />
             <HalfContent>
               {hasPreviousItem && <Node name="root" state={previousNavigationItemState} />}
             </HalfContent>
           </HalfContainer>
           <HalfContainer>
             <Typography>Current state</Typography>
+            <Spacer />
             <HalfContent>
               {hasCurrentItem && <Node name="root" state={currentNavigationItemState} />}
             </HalfContent>
@@ -48,17 +50,16 @@ export function NavigationTree({ logs }: Props) {
 
 const Container = styled.div({
   display: 'flex',
-  overflow: 'auto',
   flexDirection: 'row',
+  height: '100%',
   flex: 1,
 });
 
 const HalfContainer = styled.div({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'column-reverse',
   alignItems: 'center',
   overflow: 'auto',
-  justifyContent: 'space-between',
   height: '100%',
   flex: 1,
 });
@@ -68,9 +69,7 @@ const HalfContent = styled.div({
   flexDirection: 'column',
   alignItems: 'center',
   overflow: 'auto',
-  justifyContent: 'flex-end',
-  height: '100%',
-  flex: 1,
+  padding: 12,
 });
 
 const Spacer = styled.div({
