@@ -17,7 +17,7 @@
   "homepage": "https://docs.expo.dev/versions/latest/sdk/image/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thomasrebam/dev-plugins.git",
+    "url": "git+https://github.com/bamlab/dev-plugins.git",
     "directory": "packages/react-navigation-visualizer"
   },
   "keywords": [

@@ -45,3 +45,11 @@ export default function RootLayout() {
 ```
 
 In this case, `expo-router` automatically manages the navigation container, so you just need to add the DevTool setup in your layout component.
+
+## Launch in Metro
+
+In the metro launcher, type Shift+M to open the dev tools menu, and select `@bam.tech/react-navigation-visualizer-dev-plugin`
+
+The visualization tool is available under the `Navigation Tree` section
+
+![alt text](./assets/visualizer_example.png)
