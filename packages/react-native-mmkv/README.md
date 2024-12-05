@@ -14,10 +14,12 @@ npx expo install @dev-plugins/react-native-mmkv
 
 ```jsx
 import { useMMKVDevTools } from '@dev-plugins/react-native-mmkv';
+import { MMKV } from 'react-native-mmkv';
 
+const yourMmkvStorage = new MMKV({ id: 'any_id' });
 
 export default function App() {
-  useMMKVDevTools();
+  useMMKVDevTools({ storage: yourMmkvStorage });
   /* ... */
 }
 ```
