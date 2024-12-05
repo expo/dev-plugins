@@ -25,14 +25,26 @@ export function NavigationTree({ logs }: Props) {
             <Typography>Previous state</Typography>
             <Spacer />
             <HalfContent>
-              {hasPreviousItem && <Node name="root" state={previousNavigationItemState} />}
+              {hasPreviousItem && (
+                <Node
+                  name="root"
+                  state={previousNavigationItemState}
+                  parentColor={generateColor(previousNavigationItemState.key)}
+                />
+              )}
             </HalfContent>
           </HalfContainer>
           <HalfContainer>
             <Typography>Current state</Typography>
             <Spacer />
             <HalfContent>
-              {hasCurrentItem && <Node name="root" state={currentNavigationItemState} />}
+              {hasCurrentItem && (
+                <Node
+                  name="root"
+                  state={currentNavigationItemState}
+                  parentColor={generateColor(currentNavigationItemState.key)}
+                />
+              )}
             </HalfContent>
           </HalfContainer>
         </Container>
@@ -89,9 +101,17 @@ const LeafTitle = styled(Typography.Text)({
   color: 'white',
 });
 
-const Leaf = ({ title, isSelectedTab }: { title: string; isSelectedTab?: boolean }) => {
+const Leaf = ({
+  title,
+  isSelectedTab,
+  color,
+}: {
+  title: string;
+  isSelectedTab?: boolean;
+  color: string;
+}) => {
   return (
-    <LeafContainer>
+    <LeafContainer style={{ backgroundColor: color }}>
       <LeafTitle style={{ textDecoration: isSelectedTab ? 'underline' : 'none' }}>
         {title}
       </LeafTitle>
@@ -114,31 +134,62 @@ const NodeTitle = styled(Typography)(({ theme }) => ({
   alignSelf: 'flex-start',
 }));
 
-const Node = ({ name, state }: { name: string; state: NavigationState }) => {
+const Node = ({
+  name,
+  state,
+  parentColor,
+}: {
+  name: string;
+  state: NavigationState;
+  parentColor: string;
+}) => {
   const routes = state.routes;
   if (!routes || !routes.length) {
-    return <Leaf title={name} />;
+    return <Leaf title={name} color={parentColor} />;
   }
 
+  const color = generateColor(state.key);
+
   return (
-    <NodeContainer>
+    <NodeContainer style={{ borderColor: color }}>
       {routes.toReversed().map((route, index) => (
         <React.Fragment key={index}>
           {route.state?.routes && route.state.routes.length ? (
-            <Node name={route.name} state={route.state} />
+            <Node name={route.name} state={route.state} parentColor={color} />
           ) : (
             <Leaf
               title={route.name}
               isSelectedTab={
                 state.type === 'tab' && state.index === state.routes.length - 1 - index
               }
+              color={color}
             />
           )}
           <Spacer />
         </React.Fragment>
       ))}
       <Spacer />
-      <NodeTitle>{name}</NodeTitle>
+      <NodeTitle style={{ color }}>{name}</NodeTitle>
     </NodeContainer>
   );
+};
+
+const colorMap: Record<string, string> = {};
+let currentHue = 0;
+
+const generateColor = (key: string) => {
+  if (colorMap[key]) {
+    console.log(key);
+
+    return colorMap[key];
+  }
+
+  currentHue = (currentHue + 9) % 360;
+  const newColor = `hsl(${currentHue}, 70%, 50%)`;
+
+  colorMap[key] = newColor;
+
+  console.log(newColor);
+
+  return newColor;
 };
