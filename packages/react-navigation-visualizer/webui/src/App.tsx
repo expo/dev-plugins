@@ -1,12 +1,12 @@
-import { Layout, Tabs, theme as antTheme, ThemeConfig } from 'antd';
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
+import { theme as antTheme, Layout, Tabs, ThemeConfig } from 'antd';
 import * as React from 'react';
-
-import { theme } from './theme';
 
 import { LinkingTester } from './LinkingTester';
 import { Logs } from './Logs';
+import { NavigationTree } from './NavigationTree';
+import { theme } from './theme';
 import { usePluginStore } from './usePluginStore';
 
 declare module '@emotion/react' {
@@ -30,6 +30,9 @@ export default function App() {
           </TabsContent>
           <TabsContent tab={<TabLabel>Linking</TabLabel>} key="linking">
             <LinkingTester active={activeKey === 'linking'} {...store} />
+          </TabsContent>
+          <TabsContent tab={<TabLabel>Stack Visualization</TabLabel>} key="navigationTree">
+            <NavigationTree {...store} />
           </TabsContent>
         </Tabs>
       </Container>

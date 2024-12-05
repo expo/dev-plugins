@@ -9,6 +9,7 @@ export type NavigationState = {
   key: string;
   index: number;
   routes: NavigationRoute[];
+  type: string;
 };
 
 export type NavigationAction = {
