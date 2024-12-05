@@ -7,7 +7,7 @@ A Visualization Tool based on Expo DevTools Plugin for React Navigation.
 ### Add the package to your project
 
 ```bash
-npx expo install@bam.tech/react-navigation-visualizer-dev-plugin
+npx expo install @bam.tech/react-navigation-visualizer-dev-plugin
 ```
 
 ## Usage
