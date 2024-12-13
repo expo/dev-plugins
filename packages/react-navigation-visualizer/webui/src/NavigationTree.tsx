@@ -51,6 +51,7 @@ export function NavigationTree({ logs }: Props) {
       </Layout.Content>
       {hasCurrentItem ? (
         <Sidebar
+          Legend={<Legend />}
           action={currentNavigationItem.action}
           state={currentNavigationItem.state}
           stack={currentNavigationItem.stack}
@@ -86,16 +87,27 @@ const HalfContent = styled.div({
 
 const Spacer = styled.div({
   height: 4,
+  width: 4,
 });
 
 const LeafContainer = styled.div(({ theme: antdTheme }) => ({
   display: 'flex',
+  flex: 1,
   backgroundColor: antdTheme.token?.colorPrimary,
   borderRadius: 4,
   alignItems: 'center',
   justifyContent: 'center',
   padding: 8,
 }));
+
+const SelectedLeafContainer = styled.div({
+  display: 'flex',
+  flex: 1,
+  padding: 4,
+  border: 'dashed',
+  borderRadius: 4,
+  borderWidth: 2,
+});
 
 const LeafTitle = styled(Typography.Text)({
   color: 'white',
@@ -110,12 +122,15 @@ const Leaf = ({
   isSelectedTab?: boolean;
   color: string;
 }) => {
+  const Wrapper = isSelectedTab ? SelectedLeafContainer : React.Fragment;
   return (
-    <LeafContainer style={{ backgroundColor: color }}>
-      <LeafTitle style={{ textDecoration: isSelectedTab ? 'underline' : 'none' }}>
-        {title}
-      </LeafTitle>
-    </LeafContainer>
+    <Wrapper style={{ borderColor: color }}>
+      <LeafContainer style={{ backgroundColor: color }}>
+        <LeafTitle style={{ textDecoration: isSelectedTab ? 'underline' : 'none' }}>
+          {title}
+        </LeafTitle>
+      </LeafContainer>
+    </Wrapper>
   );
 };
 
@@ -126,13 +141,25 @@ const NodeContainer = styled.div(({ theme: antdTheme }) => ({
   borderWidth: 1,
   border: 'solid',
   borderColor: antdTheme.token?.colorPrimary,
+  borderTopWidth: 0,
+  borderTopLeftRadius: 0,
+  borderTopRightRadius: 0,
   padding: 8,
+  paddingTop: 4,
 }));
 
 const NodeTitle = styled(Typography)(({ theme }) => ({
   color: theme.token?.colorPrimary,
   alignSelf: 'flex-start',
 }));
+
+const TabContainer = styled.div({
+  display: 'flex',
+  flex: 1,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-around',
+});
 
 const Node = ({
   name,
@@ -150,25 +177,28 @@ const Node = ({
 
   const color = generateColor(state.key);
 
+  const StackWrapper = state.type === 'tab' ? TabContainer : React.Fragment;
+
   return (
     <NodeContainer style={{ borderColor: color }}>
-      {routes.toReversed().map((route, index) => (
-        <React.Fragment key={index}>
-          {route.state?.routes && route.state.routes.length ? (
-            <Node name={route.name} state={route.state} parentColor={color} />
-          ) : (
-            <Leaf
-              title={route.name}
-              isSelectedTab={
-                state.type === 'tab' && state.index === state.routes.length - 1 - index
-              }
-              color={color}
-            />
-          )}
-          <Spacer />
-        </React.Fragment>
-      ))}
-      <Spacer />
+      <StackWrapper>
+        {routes.toReversed().map((route, index) => (
+          <React.Fragment key={index}>
+            {route.state?.routes && route.state.routes.length ? (
+              <Node name={route.name} state={route.state} parentColor={color} />
+            ) : (
+              <Leaf
+                title={route.name}
+                isSelectedTab={
+                  state.type === 'tab' && state.index === state.routes.length - 1 - index
+                }
+                color={color}
+              />
+            )}
+            {index < routes.length - 1 ? <Spacer /> : null}
+          </React.Fragment>
+        ))}
+      </StackWrapper>
       <NodeTitle style={{ color }}>{name}</NodeTitle>
     </NodeContainer>
   );
@@ -184,7 +214,7 @@ const generateColor = (key: string) => {
     return colorMap[key];
   }
 
-  currentHue = (currentHue + 9) % 360;
+  currentHue = (currentHue + 15) % 360;
   const newColor = `hsl(${currentHue}, 70%, 50%)`;
 
   colorMap[key] = newColor;
@@ -192,4 +222,28 @@ const generateColor = (key: string) => {
   console.log(newColor);
 
   return newColor;
+};
+
+const Legend = () => {
+  return (
+    <div style={{ padding: 12 }}>
+      <NodeContainer style={{ borderColor: 'hsl(0, 70%, 50%)' }}>
+        <Leaf title="Screen" color="hsl(0, 70%, 50%)" />
+        <div style={{ height: 4 }} />
+        <NodeTitle style={{ color: 'hsl(0, 70%, 50%)' }}>Stack Navigator</NodeTitle>
+      </NodeContainer>
+      <div style={{ height: 12 }} />
+      <NodeContainer style={{ borderColor: 'hsl(0, 70%, 50%)' }}>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Leaf title="Unselected Tab" color="hsl(0, 70%, 50%)" />
+          <div style={{ width: 4 }} />
+          <SelectedLeafContainer style={{ borderColor: 'hsl(0, 70%, 50%)' }}>
+            <Leaf title="Selected Tab" color="hsl(0, 70%, 50%)" />
+          </SelectedLeafContainer>
+        </div>
+        <div style={{ height: 4 }} />
+        <NodeTitle style={{ color: 'hsl(0, 70%, 50%)' }}>Tab Navigator</NodeTitle>
+      </NodeContainer>
+    </div>
+  );
 };
