@@ -16,6 +16,7 @@ export default function TesterScreen() {
         <TestCase title="Async Storage" route="/async-storage/" />
         <TestCase title="React Native MMKV" route="/react-native-mmkv/" />
         <TestCase title="Redux" route="/redux/" />
+        <TestCase title="Example stacks" route="/example-stack/" />
       </View>
     </SafeAreaView>
   );
