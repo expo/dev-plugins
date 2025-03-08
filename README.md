@@ -33,6 +33,10 @@
 
   - Credit: [Matt Oakes](https://mattoakes.net) and based [Redux DevTools](https://github.com/reduxjs/redux-devtools/)
 
+- [`file-explorer-expo-dev-plugin`](https://github.com/dmt-op/file-explorer-expo-dev-plugin): Plugin for debugging [expo-file-system](https://github.com/expo/expo/tree/sdk-52/packages/expo-file-system) operations
+
+  - Credit: [Dmytro Kulahin](https://github.com/dmt-op)
+
 ## Contributions
 
 Due to the current bandwidth limitations of our team, we are unable to accept new plugin pull requests in this repository. We recommend developers to create and maintain their plugins in their own npm accounts.
