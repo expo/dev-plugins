@@ -46,10 +46,32 @@ export default function RootLayout() {
 
 In this case, `expo-router` automatically manages the navigation container, so you just need to add the DevTool setup in your layout component.
 
-## Launch in Metro
+## What to do with this plugin ?
+
+### Launch in Metro
 
 In the metro launcher, type Shift+M to open the dev tools menu, and select `@bam.tech/react-navigation-visualizer-dev-plugin`
 
 The visualization tool is available under the `Navigation Tree` section
 
 ![alt text](./assets/visualizer_example.png)
+
+### What's in my stack ?
+
+The idea of this plugin is to show your current navigation state, and its evolution during a user's journey through the app.
+
+Three types of elements are represented :
+
+- The stack navigators
+
+  ![alt text](./assets/stack_navigator_example.png)
+
+- The tab navigators
+
+  ![alt text](./assets/tab_navigator_example.png)
+
+- The screens
+
+  ![alt text](./assets/screen_example.png)
+
+You can see the current and previous (last iteration) navigation states, and you can also collapse stacks if needed by clicking them.
