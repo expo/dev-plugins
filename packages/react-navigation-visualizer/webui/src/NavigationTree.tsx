@@ -92,7 +92,7 @@ const Spacer = styled.div({
 
 const LeafContainer = styled.div<{ color: string }>(({ color }) => ({
   display: 'flex',
-  flex: 1,
+  flexGrow: 1,
   borderRadius: 4,
   backgroundColor: color,
   alignItems: 'center',
@@ -102,7 +102,7 @@ const LeafContainer = styled.div<{ color: string }>(({ color }) => ({
 
 const SelectedLeafContainer = styled.div<{ color: string }>(({ color }) => ({
   display: 'flex',
-  flex: 1,
+  flexGrow: 1,
   padding: 4,
   border: 'dashed',
   borderColor: color,
