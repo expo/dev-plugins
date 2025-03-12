@@ -4,7 +4,7 @@
       "bundler": "metro"
     },
     "experiments": {
-      "baseUrl": "/_expo/plugins/@dev-plugins/react-navigation"
+      "baseUrl": "/_expo/plugins/@bam.tech/react-navigation-visualizer-dev-plugin"
     }
   }
 }
