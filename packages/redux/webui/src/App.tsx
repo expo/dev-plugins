@@ -2,6 +2,7 @@ import { App } from 'antd';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { Fragment, useEffect, useState } from 'react';
 import JsonView from '@uiw/react-json-view';
+import SuperJson from 'superjson';
 
 export default function Main() {
   const client = useDevToolsPluginClient('redux');
@@ -12,7 +13,7 @@ export default function Main() {
   
     subscriptions.push(
       client?.addMessageListener('storeUpdated', (data) => {
-        setStoreHistory(prevHistory => [...prevHistory, data]);
+        setStoreHistory((prevHistory) => [...prevHistory, SuperJson.parse(data)]);
       })
     );
   

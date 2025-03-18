@@ -21,6 +21,7 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.1",
     "react-native-web": "~0.19.13",
+    "superjson": "^2.2.2",
     "typescript": "^5.6.3"
   }
 }
