@@ -1,7 +1,7 @@
 import { App } from 'antd';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { Fragment, useEffect, useState } from 'react';
-import ReactJson from 'react-json-view';
+import JsonView from '@uiw/react-json-view';
 
 export default function Main() {
   const client = useDevToolsPluginClient('redux');
@@ -27,9 +27,12 @@ export default function Main() {
   return (
     <App style={{ width: '100%', height: '100%', padding: '0.75em', overflowY: 'scroll' }}>
       {storeHistory.map((history, index) => {
-        return <Fragment key={index}><ReactJson src={history} /></Fragment>
+        return (
+          <Fragment key={index}>
+            <JsonView value={history} />
+          </Fragment>
+        );
       })}
-      
     </App>
   );
 }
