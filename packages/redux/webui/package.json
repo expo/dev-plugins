@@ -2,7 +2,7 @@
   "name": "@dev-plugins/redux-webui",
   "description": "The frontend webui for @dev-plugins/redux",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "index.js",
   "scripts": {
     "start": "expo start -w"
