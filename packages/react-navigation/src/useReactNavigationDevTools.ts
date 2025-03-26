@@ -11,6 +11,7 @@ export function useReactNavigationDevTools(ref: React.RefObject<NavigationContai
   globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
     connect: () => adapterRef.current,
   };
+  // @ts-expect-error
   useReduxDevToolsExtension(ref);
 
   useEffect(() => {
