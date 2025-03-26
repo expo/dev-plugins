@@ -45,6 +45,6 @@
   },
   "peerDependencies": {
     "@react-navigation/core": "*",
-    "expo": "^52.0.0"
+    "expo": "^52.0.41"
   }
 }

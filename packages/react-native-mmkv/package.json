@@ -41,6 +41,6 @@
   },
   "peerDependencies": {
     "react-native-mmkv": "*",
-    "expo": "^52.0.0"
+    "expo": "^52.0.41"
   }
 }
