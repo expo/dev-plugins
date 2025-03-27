@@ -1,14 +1,14 @@
+import styled from '@emotion/styled';
+import { QueryCacheNotifyEvent } from '@tanstack/react-query';
 import { Layout, Table } from 'antd';
 import type { ColumnType } from 'antd/es/table';
+import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { parse } from 'flatted';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 
 import QuerySidebar from './components/QuerySidebar';
 import type { ExtendedQuery, SerializedQuery } from './types';
 import { formatTimestamp, getObserversCounter, getQueryStatusLabel, isQueryActive } from './utils';
-import styled from '@emotion/styled';
-import { QueryCacheNotifyEvent } from '@tanstack/react-query';
 
 const extendQuery = (query: SerializedQuery): ExtendedQuery => {
   const extendedQuery = query as ExtendedQuery;
@@ -161,7 +161,7 @@ export default function App() {
   );
 
   return (
-    <StyledLayout hasSider={true}>
+    <StyledLayout hasSider>
       <Content>
         <Table<ExtendedQuery>
           dataSource={queries}
@@ -193,4 +193,5 @@ const StyledLayout = styled(Layout)({
 
 const Content = styled(Layout.Content)({
   margin: '0 16px',
+  overflow: 'auto',
 });
