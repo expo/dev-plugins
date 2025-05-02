@@ -1,6 +1,6 @@
 {
   "name": "@dev-plugins/async-storage",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Expo DevTools Plugin for React Navigation",
   "main": "build/index.js",
   "types": "build/index.d.ts",

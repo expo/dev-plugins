@@ -1,6 +1,6 @@
 {
   "name": "@dev-plugins/vanilla-log-viewer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An example of DevTools plugin using vanilla JavaScript to show console logs",
   "main": "index.js",
   "types": "index.d.ts",

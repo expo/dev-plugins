@@ -2,7 +2,7 @@
   "name": "@dev-plugins/async-storage-webui",
   "description": "The frontend webui for @dev-plugins/async-storage",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "index.js",
   "scripts": {
     "start": "expo start -w"
