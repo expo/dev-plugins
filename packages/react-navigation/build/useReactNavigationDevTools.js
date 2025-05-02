@@ -5,6 +5,7 @@ import { ReduxExtensionAdapter } from './ReduxExtensionAdapter';
 export function useReactNavigationDevTools(ref) {
     const client = useDevToolsPluginClient('react-navigation');
     const adapterRef = useRef(new ReduxExtensionAdapter());
+    // @ts-ignore: Override global
     globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
         connect: () => adapterRef.current,
     };
@@ -13,7 +14,7 @@ export function useReactNavigationDevTools(ref) {
     useEffect(() => {
         adapterRef.current.setClient(client);
         const on = (event, listener) => {
-            client?.addMessageListener(event, async (params) => {
+            return client?.addMessageListener(event, async (params) => {
                 try {
                     const result = await listener(params);
                     if (params.id) {
@@ -29,6 +30,7 @@ export function useReactNavigationDevTools(ref) {
                 case 'resetRoot':
                     return adapterRef.current?.resetRoot(args[0]);
                 default:
+                    // @ts-ignore: this might not exist
                     return ref.current?.[method](...args);
             }
         }));

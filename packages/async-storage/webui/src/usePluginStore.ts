@@ -2,6 +2,7 @@ import type { KeyValuePair } from '@react-native-async-storage/async-storage/lib
 import { App } from 'antd';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect, useState } from 'react';
+
 import { Method, MethodAck } from '../../methods';
 
 const methodAck: Record<Method, MethodAck> = {
@@ -17,7 +18,7 @@ export function usePluginStore(onError: (error: unknown) => void) {
 
   const [connected, setConnected] = useState(false);
   useEffect(() => {
-    let interval = setInterval(() => {
+    let interval: NodeJS.Timeout | null = setInterval(() => {
       if (client?.isConnected()) {
         if (interval != null) {
           clearInterval(interval);
@@ -26,7 +27,12 @@ export function usePluginStore(onError: (error: unknown) => void) {
         setConnected(true);
       }
     }, 1000);
-    return () => { if (interval != null) { clearInterval(interval); interval = null; } };
+    return () => {
+      if (interval != null) {
+        clearInterval(interval);
+        interval = null;
+      }
+    };
   }, [client]);
 
   const [entries, setEntries] = useState<readonly { key: string; value: string | null }[]>([]);
@@ -86,7 +92,7 @@ export function usePluginStore(onError: (error: unknown) => void) {
       return;
     }
 
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     try {
       subscriptions.push(

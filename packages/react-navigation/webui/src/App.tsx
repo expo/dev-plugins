@@ -1,12 +1,11 @@
-import { Layout, Tabs, theme as antTheme, ThemeConfig } from 'antd';
 import { ThemeProvider } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Layout, Tabs, theme as antTheme, ThemeConfig } from 'antd';
 import * as React from 'react';
-
-import { theme } from './theme';
 
 import { LinkingTester } from './LinkingTester';
 import { Logs } from './Logs';
+import { theme } from './theme';
 import { usePluginStore } from './usePluginStore';
 
 declare module '@emotion/react' {

@@ -34,12 +34,12 @@
   "license": "MIT",
   "devDependencies": {
     "@react-native-async-storage/async-storage": "^1.24.0",
-    "expo": "~52.0.4",
-    "expo-module-scripts": "^4.0.2",
-    "typescript": "^5.6.3"
+    "expo": "53.0.5",
+    "expo-module-scripts": "^4.1.6",
+    "typescript": "~5.8.3"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^1.0.0",
-    "expo": "^52.0.41"
+    "expo": "^53.0.5"
   }
 }

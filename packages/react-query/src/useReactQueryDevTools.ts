@@ -1,9 +1,9 @@
-import { stringify } from 'flatted';
 import type { Query, QueryCacheNotifyEvent, QueryClient } from '@tanstack/react-query';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
+import { stringify } from 'flatted';
 import { useEffect } from 'react';
 
-const bigintReplacer = (_, v) => (typeof v === 'bigint' ? v.toString() : v);
+const bigintReplacer = (_: any, v: any) => (typeof v === 'bigint' ? v.toString() : v);
 
 export function useReactQueryDevTools(queryClient: QueryClient) {
   const client = useDevToolsPluginClient('react-query');
@@ -30,7 +30,7 @@ export function useReactQueryDevTools(queryClient: QueryClient) {
   }
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     subscriptions.push(
       client?.addMessageListener('queryRefetch', ({ queryHash }) => {

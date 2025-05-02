@@ -10,12 +10,12 @@ export function useApolloClientDevTools(apolloClient) {
         async function setup() {
             let acknowledged = true;
             let apolloData = await getCurrentState(apolloClient);
-            const sendData = () => void {
-                if(apolloData) {
-                    subscriptions.push(client?.sendMessage('GQL:response', apolloData));
+            const sendData = () => {
+                if (apolloData) {
+                    client?.sendMessage('GQL:response', apolloData);
                     acknowledged = false;
                     apolloData = null;
-                },
+                }
             };
             const logger = async () => {
                 if (acknowledged) {

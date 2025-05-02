@@ -27,8 +27,8 @@
   "dependencies": {},
   "devDependencies": {
     "expo": "<%- expoPackageVersion %>",
-    "expo-module-scripts": "^4.0.2",
-    "typescript": "^5.6.3"
+    "expo-module-scripts": "^4.1.6",
+    "typescript": "~5.8.3"
   },
   "peerDependencies": {
     "expo": "*"

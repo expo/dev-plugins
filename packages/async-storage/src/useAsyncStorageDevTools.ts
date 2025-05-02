@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect } from 'react';
+
 import { Method } from '../methods';
 
 /**
@@ -50,7 +51,7 @@ export function useAsyncStorageDevTools({
         }
       });
 
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     try {
       subscriptions.push(

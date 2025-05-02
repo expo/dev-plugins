@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import ReactJson from 'react-json-view';
 import { Layout } from 'antd';
-
 import * as React from 'react';
+import ReactJson from 'react-json-view';
 
-import { theme } from './theme';
 import { Title4 } from './Typography';
+import { theme } from './theme';
 
 export function Sidebar({
   action,
@@ -25,7 +24,7 @@ export function Sidebar({
         padding: `0 ${theme.space.small}px`,
         borderRadius: theme.borderRadius,
         overflow: 'auto',
-        height: '100vh'
+        height: '100vh',
       }}>
       {stack ? (
         <>

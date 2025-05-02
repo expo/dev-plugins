@@ -1,5 +1,5 @@
-import { stringify } from 'flatted';
 import { useDevToolsPluginClient } from 'expo/devtools';
+import { stringify } from 'flatted';
 import { useEffect } from 'react';
 const bigintReplacer = (_, v) => (typeof v === 'bigint' ? v.toString() : v);
 export function useReactQueryDevTools(queryClient) {

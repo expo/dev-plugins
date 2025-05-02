@@ -1,14 +1,14 @@
 import { Spin } from 'antd';
-import { useConnectedClient } from './useConnectedClient';
-import { MMKVStorageTable } from './MMKVStorageTable';
 
+import { MMKVStorageTable } from './MMKVStorageTable';
+import { useConnectedClient } from './useConnectedClient';
 
 export default function App() {
-  const connectedClient = useConnectedClient()
+  const connectedClient = useConnectedClient();
 
-  if(!connectedClient) {
-    return (<Spin style={{alignSelf: "center", justifySelf: "center", width: "100%"}} />)
+  if (!connectedClient) {
+    return <Spin style={{ alignSelf: 'center', justifySelf: 'center', width: '100%' }} />;
   }
 
-  return <MMKVStorageTable client={connectedClient} />
+  return <MMKVStorageTable client={connectedClient} />;
 }

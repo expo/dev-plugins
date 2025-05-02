@@ -27,8 +27,8 @@ export type MutationData = {
     body: string | undefined;
 };
 export type Callback = () => any;
-export type ArrayOfQuery = Array<QueryData>;
-export type ArrayOfMutations = Array<MutationData>;
+export type ArrayOfQuery = QueryData[];
+export type ArrayOfMutations = MutationData[];
 export type ApolloClientState = {
     id: number;
     lastUpdateAt: string;

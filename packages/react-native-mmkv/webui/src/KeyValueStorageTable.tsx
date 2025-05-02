@@ -9,26 +9,27 @@ import {
 import ReactJsonView from '@microlink/react-json-view';
 import { Button, Flex, Table } from 'antd';
 import React from 'react';
+
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
 import { useRemoveEntryModal } from './modal/useRemoveEntryModal';
 import { useTableData } from './useTableData';
 
 type KeyValueStorageTableProps = {
-    entries: readonly {
-        key: string;
-        value: string | null;
-    }[];
-    update: () => Promise<void>;
-    set: (key: string, value: string) => Promise<void>;
-    remove: (key: string) => Promise<void>;
-}
+  entries: readonly {
+    key: string;
+    value: string | null;
+  }[];
+  update: () => Promise<void>;
+  set: (key: string, value: string) => Promise<void>;
+  remove: (key: string) => Promise<void>;
+};
 
-export function KeyValueStorageTable({remove, set, entries, update}: KeyValueStorageTableProps) {
+export function KeyValueStorageTable({ remove, set, entries, update }: KeyValueStorageTableProps) {
   const { showRemoveEntryModal } = useRemoveEntryModal({ remove });
   const { showAddEntryDialog, AddEntryDialog, showing } = useAddEntryDialog({ set });
 
   const { rows, inProgressEdits, updateInProgressEdits } = useTableData({ entries });
-  console.log(rows, inProgressEdits, updateInProgressEdits)
+  console.log(rows, inProgressEdits, updateInProgressEdits);
 
   return (
     <>

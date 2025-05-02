@@ -1,6 +1,7 @@
-import { Button, Collapse, type CollapseProps, Layout, Space } from 'antd';
 import styled from '@emotion/styled';
+import { Button, Collapse, type CollapseProps, Layout, Space } from 'antd';
 import ReactJson from 'react-json-view';
+
 import type { ExtendedQuery } from '../types';
 import DataViewer from './DataViewer';
 
@@ -33,7 +34,7 @@ export default function QuerySidebar({ query, onQueryRefetch, onQueryRemove }: P
           </Button>
           <Button
             type="default"
-            danger={true}
+            danger
             onClick={() => {
               if (query) {
                 onQueryRemove(query);
@@ -49,7 +50,7 @@ export default function QuerySidebar({ query, onQueryRefetch, onQueryRemove }: P
       label: 'Data Explorer',
       children: (
         <ContainerWithPaddings>
-          <DataViewer src={query?.state?.data || {}}  />
+          <DataViewer src={query?.state?.data || {}} />
         </ContainerWithPaddings>
       ),
     },
