@@ -22,9 +22,9 @@
   "dependencies": {},
   "devDependencies": {
     "esbuild": "^0.24.0",
-    "expo": "~52.0.4"
+    "expo": "53.0.5"
   },
   "peerDependencies": {
-    "expo": "^52.0.41"
+    "expo": "^53.0.5"
   }
 }

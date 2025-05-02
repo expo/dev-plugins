@@ -16,19 +16,19 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@react-navigation/core": "^7.0.0",
-    "@types/react": "~18.3.12",
+    "@types/react": "~19.0.10",
     "@types/react-virtualized-auto-sizer": "^1.0.4",
     "@types/react-window": "^1.8.8",
     "antd": "^5.22.0",
-    "expo": "~52.0.4",
+    "expo": "53.0.5",
     "nanoid": "^5.0.8",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-json-view": "^1.21.3",
-    "react-native": "0.76.1",
-    "react-native-web": "~0.19.13",
+    "react-native": "0.79.2",
+    "react-native-web": "0.20.0",
     "react-virtualized-auto-sizer": "^1.0.24",
     "react-window": "^1.8.10",
-    "typescript": "^5.6.3"
+    "typescript": "~5.8.3"
   }
 }

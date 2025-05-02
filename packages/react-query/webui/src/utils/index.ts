@@ -1,5 +1,6 @@
 import padStart from 'lodash/padStart';
 import { nanoid } from 'nanoid';
+
 import type { SerializedQuery } from '../types';
 
 export function formatTimestamp(timestamp: number): string {
@@ -43,10 +44,10 @@ export function getQueryStatusLabel(query: SerializedQuery): string {
   return query.state.fetchStatus === 'fetching'
     ? 'fetching'
     : isInactive(query)
-    ? 'inactive'
-    : query.state.fetchStatus === 'paused'
-    ? 'paused'
-    : isStale(query)
-    ? 'stale'
-    : 'fresh';
+      ? 'inactive'
+      : query.state.fetchStatus === 'paused'
+        ? 'paused'
+        : isStale(query)
+          ? 'stale'
+          : 'fresh';
 }

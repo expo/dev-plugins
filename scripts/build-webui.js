@@ -2,7 +2,7 @@
 
 const spawnAsync = require('@expo/spawn-async');
 const path = require('path');
-const rimraf = require('rimraf');
+const fs = require('fs');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -22,10 +22,14 @@ async function runAsync() {
 async function buildAsync(packageName) {
   console.log(`⚙️  Building web assets for ${packageName}`);
   const packageRoot = path.join(ROOT, 'packages', packageName);
-  await rimraf.rimraf(path.join(packageRoot, 'dist'));
-  await spawnAsync('npx', ['expo', 'export', '-p', 'web', '--output-dir', '../dist'], {
+  await Promise.all([
+    fs.promises.rm(path.join(packageRoot, 'dist'), { recursive: true, force: true }),
+    fs.promises.rm(path.join(packageRoot, 'webui', 'dist'), { recursive: true, force: true }),
+  ]);
+  await spawnAsync('npx', ['expo', 'export', '-p', 'web', '--output-dir', 'dist'], {
     cwd: path.join(packageRoot, 'webui'),
   });
+  await fs.promises.rename(path.join(packageRoot, 'webui', 'dist'), path.join(packageRoot, 'dist'));
 }
 
 (async () => {

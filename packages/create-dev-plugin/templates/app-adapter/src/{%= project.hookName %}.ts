@@ -5,7 +5,7 @@ export function <%= project.hookName %>() {
   const client = useDevToolsPluginClient('<%- project.name %>');
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     subscriptions.push(
       client?.addMessageListener('ping', (data) => {

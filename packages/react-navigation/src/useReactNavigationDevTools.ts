@@ -8,6 +8,7 @@ import { ReduxExtensionAdapter } from './ReduxExtensionAdapter';
 export function useReactNavigationDevTools(ref: React.RefObject<NavigationContainerRef<any>>) {
   const client = useDevToolsPluginClient('react-navigation');
   const adapterRef = useRef(new ReduxExtensionAdapter());
+  // @ts-ignore: Override global
   globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
     connect: () => adapterRef.current,
   };
@@ -18,7 +19,7 @@ export function useReactNavigationDevTools(ref: React.RefObject<NavigationContai
     adapterRef.current.setClient(client);
 
     const on = (event: string, listener: (params: any) => Promise<any>) => {
-      client?.addMessageListener(event, async (params) => {
+      return client?.addMessageListener(event, async (params) => {
         try {
           const result = await listener(params);
 
@@ -29,13 +30,14 @@ export function useReactNavigationDevTools(ref: React.RefObject<NavigationContai
       });
     };
 
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
     subscriptions.push(
       on('navigation.invoke', ({ method, args = [] }) => {
         switch (method) {
           case 'resetRoot':
             return adapterRef.current?.resetRoot(args[0]);
           default:
+            // @ts-ignore: this might not exist
             return ref.current?.[method](...args);
         }
       })

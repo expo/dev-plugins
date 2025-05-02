@@ -14,8 +14,8 @@ function jsonStructure(str: unknown): object | null {
   try {
     const result = JSON.parse(str);
     const type = Object.prototype.toString.call(result);
-    return type === '[object Object]' || type === '[object Array]' ? result : false;
-  } catch (err) {
+    return type === '[object Object]' || type === '[object Array]' ? result : null;
+  } catch {
     return null;
   }
 }
@@ -29,6 +29,7 @@ export function useTableData({
   }[];
 }) {
   const { message } = App.useApp();
+
   try {
     const [inProgressEdits, updateInProgressEdits] = useReducer<
       Reducer<Record<string, string | null>, Record<string, string | null> | 'clear'>
@@ -42,8 +43,10 @@ export function useTableData({
       };
     }, {});
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [rows, updateRows] = useState<TableRow[]>([]);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       updateRows(
         entries.map((entry) => {

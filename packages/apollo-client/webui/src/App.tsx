@@ -7,7 +7,7 @@ import { StyleSheet, View } from 'react-native';
 import { Details } from './Details';
 import { Header } from './Header';
 import { List, TabsEnum } from './List';
-import type { BlockType, Data, Events } from './types';
+import type { BlockType, Data } from './types';
 import { createCacheBlock, createMutationBlocks, createQueryBlocks } from './utils';
 
 const InitialData = {
@@ -35,7 +35,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(TabsEnum.cache.key);
 
   useEffect(() => {
-    const subscriptions: EventSubscription = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     subscriptions.push(
       client?.addMessageListener('GQL:response', (newData: any) => {
@@ -126,6 +126,6 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 8,
-    overflow: 'scroll'
+    overflow: 'scroll',
   },
 });

@@ -1,7 +1,8 @@
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect } from 'react';
-import { Method } from '../methods';
 import { MMKV } from 'react-native-mmkv';
+
+import { Method } from '../methods';
 
 /**
  * This hook registers a devtools plugin for react-native-mmkv.
@@ -15,7 +16,7 @@ import { MMKV } from 'react-native-mmkv';
  */
 export function useMMKVDevTools({
   errorHandler,
-  storage = new MMKV()
+  storage = new MMKV(),
 }: {
   errorHandler?: (error: Error) => void;
   storage?: MMKV;
@@ -36,7 +37,7 @@ export function useMMKVDevTools({
   useEffect(() => {
     const on = (
       event: Method,
-      listener: (params: { key?: string; value?: string }) => Promise<any>
+      listener: (params: { key?: string; value?: string }) => Promise<any>
     ) =>
       client?.addMessageListener(event, async (params: { key?: string; value?: string }) => {
         try {
@@ -53,13 +54,13 @@ export function useMMKVDevTools({
         }
       });
 
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     try {
       subscriptions.push(
         on('getAll', async () => {
           const keys = storage.getAllKeys();
-          return keys?.map(key => [key, storage.getString(key)]);
+          return keys?.map((key) => [key, storage.getString(key)]);
         })
       );
     } catch (e) {

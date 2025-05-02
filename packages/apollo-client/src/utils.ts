@@ -1,8 +1,9 @@
 import { print } from 'graphql';
+
 import type { ArrayOfQuery, RawQueryData } from './types';
 
 export function getQueries(queryMap: Map<string, RawQueryData>): ArrayOfQuery {
-  let queries: ArrayOfQuery = [];
+  const queries: ArrayOfQuery = [];
 
   if (queryMap) {
     [...queryMap.values()].forEach(

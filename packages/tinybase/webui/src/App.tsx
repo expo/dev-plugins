@@ -1,9 +1,8 @@
+import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useEffect } from 'react';
 import { createStore } from 'tinybase';
 import { Provider } from 'tinybase/ui-react';
 import { Inspector } from 'tinybase/ui-react-inspector';
-
-import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 
 const store = createStore();
 
@@ -13,7 +12,7 @@ export default function App() {
   const client = useDevToolsPluginClient('tinybase');
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     subscriptions.push(
       client?.addMessageListener('@tinybase-inspector/init', (data) => {

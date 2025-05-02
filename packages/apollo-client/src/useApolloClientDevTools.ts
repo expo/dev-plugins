@@ -18,20 +18,19 @@ export function useApolloClientDevTools(apolloClient: ApolloClientType) {
   const client = useDevToolsPluginClient('apollo-client');
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     async function setup() {
       let acknowledged = true;
       let apolloData: null | ApolloClientState = await getCurrentState(apolloClient);
 
-      const sendData = () =>
-        void {
-          if(apolloData) {
-            subscriptions.push(client?.sendMessage('GQL:response', apolloData));
-            acknowledged = false;
-            apolloData = null;
-          },
-        };
+      const sendData = () => {
+        if (apolloData) {
+          client?.sendMessage('GQL:response', apolloData);
+          acknowledged = false;
+          apolloData = null;
+        }
+      };
 
       const logger = async (): Promise<void> => {
         if (acknowledged) {
@@ -94,7 +93,7 @@ type MutationObject = {
   loading: boolean;
   error: object;
 };
-function getMutationData(allMutations: Record<string, MutationObject>): Array<MutationData> {
+function getMutationData(allMutations: Record<string, MutationObject>): MutationData[] {
   return [...Object.keys(allMutations)]?.map((key) => {
     const { mutation, variables, loading, error } = allMutations[key];
 

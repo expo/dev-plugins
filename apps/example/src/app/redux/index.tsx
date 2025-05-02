@@ -1,7 +1,7 @@
 import { Pressable, Text, View, StyleSheet } from 'react-native';
-import { useAppDispatch, useAppSelector } from './hooks';
-import { decrement, increment, incrementByAmount } from './counterSlice';
-import { store } from './store';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { decrement, increment, incrementByAmount } from '@/redux/counterSlice';
+import { store } from '@/redux/store';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { useReduxDevTools } from '@dev-plugins/redux';

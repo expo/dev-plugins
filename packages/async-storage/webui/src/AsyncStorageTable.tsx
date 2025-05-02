@@ -9,6 +9,7 @@ import {
 import ReactJsonView from '@microlink/react-json-view';
 import { App, Button, Flex, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
+
 import { useAddEntryDialog } from './modal/useAddEntryDialog';
 import { useRemoveEntryModal } from './modal/useRemoveEntryModal';
 import { usePluginStore } from './usePluginStore';
@@ -95,11 +96,11 @@ export function AsyncStorageTable() {
                   updateInProgressEdits({ [record.key]: e.currentTarget.textContent });
                 },
                 onBlur() {
-                  setEditingManually(false)
+                  setEditingManually(false);
                 },
                 onFocus() {
-                  setEditingManually(true)
-                }
+                  setEditingManually(true);
+                },
               };
             },
             shouldCellUpdate(record, prevRecord) {

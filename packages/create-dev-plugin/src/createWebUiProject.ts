@@ -1,11 +1,11 @@
-import spawnAsync from '@expo/spawn-async';
 import JsonFile from '@expo/json-file';
+import spawnAsync from '@expo/spawn-async';
 import fs from 'fs/promises';
 import path from 'path';
 
 import { EXPO_BETA } from './env';
-import type { ProjectInfo } from './types';
 import { installDependenciesAsync, type PackageManagerName } from './resolvePackageManager';
+import type { ProjectInfo } from './types';
 
 const debug = require('debug')('create-dev-plugin:createWebUiProject') as typeof console.log;
 
@@ -73,7 +73,7 @@ export default function App() {
   const client = useDevToolsPluginClient('${projectInfo.name}');
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     subscriptions.push(
       client?.addMessageListener('ping', (data) => {
