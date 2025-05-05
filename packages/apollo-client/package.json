@@ -37,7 +37,7 @@
   "dependencies": {},
   "devDependencies": {
     "@apollo/client": "^3.11.10",
-    "expo": "53.0.5",
+    "expo": "53.0.7",
     "expo-module-scripts": "^4.1.6",
     "graphql": "^16.9.0",
     "typescript": "~5.8.3"

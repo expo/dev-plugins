@@ -33,7 +33,7 @@
   "author": "dannyBies",
   "license": "MIT",
   "devDependencies": {
-    "expo": "53.0.5",
+    "expo": "53.0.7",
     "expo-module-scripts": "^4.1.6",
     "typescript": "~5.8.3"
   },

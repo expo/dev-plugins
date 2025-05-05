@@ -20,7 +20,7 @@
     "@react-navigation/native": "^7.0.0",
     "@reduxjs/toolkit": "^2.3.0",
     "@tanstack/react-query": "^5.59.20",
-    "expo": "53.0.5",
+    "expo": "53.0.7",
     "expo-font": "~13.3.0",
     "expo-linking": "~7.1.4",
     "expo-router": "~5.0.4",
