@@ -2,7 +2,7 @@
   "name": "@dev-plugins/react-native-mmkv-webui",
   "description": "The frontend webui for @dev-plugins/react-native-mmkv",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "index.js",
   "scripts": {
     "start": "expo start -w"
