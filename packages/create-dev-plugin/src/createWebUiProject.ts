@@ -54,10 +54,14 @@ export async function createWebUiProjectAsync(
   debug(`Installing packages by ${packageManager}`);
   await installDependenciesAsync(webUiRoot, packageManager, { silent: true });
   debug(`Installing web packages`);
-  await spawnAsync('npx', ['expo', 'install', 'react-native-web', 'react-dom'], {
-    cwd: webUiRoot,
-    stdio: 'ignore',
-  });
+  await spawnAsync(
+    'npx',
+    ['expo', 'install', 'react-native-web', 'react-dom', '@expo/metro-runtime'],
+    {
+      cwd: webUiRoot,
+      stdio: 'ignore',
+    }
+  );
 
   // [4] Overwrite App.tsx
   await fs.writeFile(path.join(webUiRoot, 'App.tsx'), createAppEntryPointContent(projectInfo));
