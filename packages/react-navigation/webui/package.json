@@ -20,7 +20,7 @@
     "@types/react-virtualized-auto-sizer": "^1.0.4",
     "@types/react-window": "^1.8.8",
     "antd": "^5.22.0",
-    "expo": "53.0.5",
+    "expo": "53.0.7",
     "nanoid": "^5.0.8",
     "react": "19.0.0",
     "react-dom": "19.0.0",
