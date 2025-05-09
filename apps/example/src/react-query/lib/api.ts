@@ -35,7 +35,7 @@ export async function fetchMovie(title: string) {
 
   const result = movies.filter((item) => item.title === title);
 
-  if (result.length == 0) {
+  if (result.length === 0) {
     throw new Error('Movie not found');
   }
   return result[0] as unknown as Promise<MovieDetails>;

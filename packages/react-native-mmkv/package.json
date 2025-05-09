@@ -35,7 +35,7 @@
   "license": "MIT",
   "devDependencies": {
     "expo": "53.0.7",
-    "expo-module-scripts": "^4.1.6",
+    "expo-module-scripts": "^4.1.7",
     "react-native-mmkv": "^3.1.0",
     "typescript": "~5.8.3"
   },

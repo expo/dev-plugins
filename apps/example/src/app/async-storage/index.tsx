@@ -25,7 +25,7 @@ function Main() {
   useEffect(() => {
     const interval = setInterval(updateAllData, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [updateAllData]);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20 }}>

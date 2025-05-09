@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import spawnAsync from '@expo/spawn-async';
 import chalk from 'chalk';
 import { Command } from 'commander';
 import fs from 'fs/promises';
@@ -12,7 +13,6 @@ import { createWebUiProjectAsync } from './createWebUiProject';
 import { resolvePackageManager } from './resolvePackageManager';
 import type { ProjectInfo } from './types';
 import { newStep } from './utils';
-import spawnAsync from '@expo/spawn-async';
 
 const packageJSON = require('../package.json');
 

@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/react": "<%- typesReactPackageVersion %>",
     "expo": "<%- expoPackageVersion %>",
-    "expo-module-scripts": "^4.1.6",
+    "expo-module-scripts": "^4.1.7",
     "react": "<%- reactPackageVersion %>",
     "typescript": "~5.8.3"
   },

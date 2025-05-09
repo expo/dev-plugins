@@ -13,18 +13,21 @@ function Main() {
   const [value, setValue] = useState('');
   const [item, setItem] = useMMKVString(key);
 
-  const [allData, setAllData] = useState<[string, string | undefined][]>([]);
+  const [allData, setAllData] = useState<[string, string | undefined][]>([]);
 
   const updateAllData = useCallback(() => {
     const keys = storage.getAllKeys();
-    const keyValues = keys.map((key) => [key, storage.getString(key)]) as [string, string | undefined][];
+    const keyValues = keys.map((key) => [key, storage.getString(key)]) as [
+      string,
+      string | undefined,
+    ][];
     setAllData(keyValues);
   }, []);
 
   useEffect(() => {
     const interval = setInterval(updateAllData, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [updateAllData]);
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20 }}>
@@ -68,18 +71,15 @@ function Main() {
           onPress={() => {
             setItem(value);
             updateAllData();
-          }
-          }
+          }}
         />
         <IconButton
           icon="refresh"
           iconColor="#000"
           size={20}
           onPress={() => {
-          
             setValue(item ?? '');
-          }
-          }
+          }}
         />
       </View>
       <View style={{ width: '100%' }}>

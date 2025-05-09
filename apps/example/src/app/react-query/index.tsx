@@ -11,7 +11,7 @@ import { fetchMovies, Movie } from '@/react-query/lib/api';
 
 export default function MoviesListScreen() {
   const navigation = useNavigation();
-  const { isPending, error, data, refetch } = useQuery<Movie[], Error>({
+  const { data, refetch } = useQuery<Movie[], Error>({
     queryKey: ['movies'],
     queryFn: fetchMovies,
   });
