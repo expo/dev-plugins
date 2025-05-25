@@ -13,10 +13,6 @@
 
   - Credit: Most code is forked from [react-query-native-devtools](https://github.com/bgaleotti/react-query-native-devtools)
 
-- `@dev-plugins/react-navigation`: Plugin for [React Navigation](https://reactnavigation.org/)
-
-  - Credit: Most code is forked from [@react-navigation/devtools](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/devtools) and the [Flipper plugin frontend](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/flipper-plugin-react-navigation)
-
 - `@dev-plugins/async-storage`: Plugin for [@react-native-async-storage/async-storage](https://github.com/react-native-async-storage/async-storage)
 
   - Credit: Originally contributed by [jthoward64](https://github.com/jthoward64)
@@ -32,6 +28,10 @@
 - [`file-explorer-expo-dev-plugin`](https://github.com/dmt-op/file-explorer-expo-dev-plugin): Plugin for debugging [expo-file-system](https://docs.expo.dev/versions/latest/sdk/filesystem/) operations
 
   - Credit: [Dmytro Kulahin](https://github.com/dmt-op)
+
+- [`@bam.tech/react-navigation-visualizer-dev-plugin`](https://github.com/bamlab/dev-plugins/tree/main/packages/react-navigation-visualizer#readme): Plugin for [React Navigation](https://reactnavigation.org/)
+
+  - Credit: Most code is forked from [@react-navigation/devtools](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/devtools) and the [Flipper plugin frontend](https://github.com/react-navigation/react-navigation/tree/4797ace/packages/flipper-plugin-react-navigation)
 
 ## Contributions
 
