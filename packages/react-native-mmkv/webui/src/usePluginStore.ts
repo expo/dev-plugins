@@ -1,5 +1,6 @@
 import { DevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useCallback, useEffect, useState } from 'react';
+
 import { Method, MethodAck } from '../../methods';
 
 const methodAck: Record<Method, MethodAck> = {
@@ -13,7 +14,6 @@ type ValueType = string;
 type KeyValuePair = [KeyType, ValueType];
 
 export function usePluginStore(client: DevToolsPluginClient, onError: (error: unknown) => void) {
-
   const [entries, setEntries] = useState<readonly { key: string; value: string | null }[]>([]);
 
   const update = useCallback(async () => {
@@ -52,7 +52,7 @@ export function usePluginStore(client: DevToolsPluginClient, onError: (error: un
   );
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
     try {
       subscriptions.push(
         client.addMessageListener(

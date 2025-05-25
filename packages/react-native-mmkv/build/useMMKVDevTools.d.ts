@@ -9,7 +9,7 @@ import { MMKV } from 'react-native-mmkv';
  * with the devtools, if not provided errors will be ignored. Setting this is highly recommended.
  * @param props.storage - A MMKV storage instance to use, if not provided the default storage will be used.
  */
-export declare function useMMKVDevTools({ errorHandler, storage }?: {
+export declare function useMMKVDevTools({ errorHandler, storage, }?: {
     errorHandler?: (error: Error) => void;
     storage?: MMKV;
 }): void;

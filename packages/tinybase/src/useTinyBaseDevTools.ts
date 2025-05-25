@@ -1,12 +1,12 @@
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
-import type { Store } from 'tinybase';
 import { useEffect } from 'react';
+import type { Store } from 'tinybase';
 
 export function useTinyBaseDevTools(store: Store) {
   const client = useDevToolsPluginClient('tinybase');
 
   useEffect(() => {
-    const subscriptions: EventSubscription[] = [];
+    const subscriptions: (EventSubscription | undefined)[] = [];
 
     /* Sync the full store on init */
     client?.sendMessage('@tinybase-inspector/init', store.getJson());

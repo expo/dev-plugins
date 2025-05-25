@@ -1,4 +1,5 @@
 import { App } from 'antd';
+
 import { AsyncStorageTable } from './AsyncStorageTable';
 
 export default function Main() {

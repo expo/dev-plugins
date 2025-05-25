@@ -1,13 +1,1070 @@
-(()=>{var Re=Object.create;var S=Object.defineProperty;var Ue=Object.getOwnPropertyDescriptor;var Fe=Object.getOwnPropertyNames;var We=Object.getPrototypeOf,Ve=Object.prototype.hasOwnProperty;var f=(t,e)=>()=>(t&&(e=t(t=0)),e);var d=(t,e)=>()=>(e||t((e={exports:{}}).exports,e),e.exports),$e=(t,e)=>{for(var r in e)S(t,r,{get:e[r],enumerable:!0})},z=(t,e,r,n)=>{if(e&&typeof e=="object"||typeof e=="function")for(let o of Fe(e))!Ve.call(t,o)&&o!==r&&S(t,o,{get:()=>e[o],enumerable:!(n=Ue(e,o))||n.enumerable});return t};var E=(t,e,r)=>(r=t!=null?Re(We(t)):{},z(e||!t||!t.__esModule?S(r,"default",{value:t,enumerable:!0}):r,t)),je=t=>z(S({},"__esModule",{value:!0}),t);var ae=d(u=>{"use strict";var g=Symbol.for("react.element"),Ke=Symbol.for("react.portal"),qe=Symbol.for("react.fragment"),He=Symbol.for("react.strict_mode"),Qe=Symbol.for("react.profiler"),Je=Symbol.for("react.provider"),ze=Symbol.for("react.context"),Ge=Symbol.for("react.forward_ref"),Xe=Symbol.for("react.suspense"),Ye=Symbol.for("react.memo"),Ze=Symbol.for("react.lazy"),G=Symbol.iterator;function et(t){return t===null||typeof t!="object"?null:(t=G&&t[G]||t["@@iterator"],typeof t=="function"?t:null)}var Z={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},ee=Object.assign,te={};function v(t,e,r){this.props=t,this.context=e,this.refs=te,this.updater=r||Z}v.prototype.isReactComponent={};v.prototype.setState=function(t,e){if(typeof t!="object"&&typeof t!="function"&&t!=null)throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");this.updater.enqueueSetState(this,t,e,"setState")};v.prototype.forceUpdate=function(t){this.updater.enqueueForceUpdate(this,t,"forceUpdate")};function re(){}re.prototype=v.prototype;function M(t,e,r){this.props=t,this.context=e,this.refs=te,this.updater=r||Z}var R=M.prototype=new re;R.constructor=M;ee(R,v.prototype);R.isPureReactComponent=!0;var X=Array.isArray,ne=Object.prototype.hasOwnProperty,U={current:null},oe={key:!0,ref:!0,__self:!0,__source:!0};function ie(t,e,r){var n,o={},i=null,s=null;if(e!=null)for(n in e.ref!==void 0&&(s=e.ref),e.key!==void 0&&(i=""+e.key),e)ne.call(e,n)&&!oe.hasOwnProperty(n)&&(o[n]=e[n]);var c=arguments.length-2;if(c===1)o.children=r;else if(1<c){for(var a=Array(c),l=0;l<c;l++)a[l]=arguments[l+2];o.children=a}if(t&&t.defaultProps)for(n in c=t.defaultProps,c)o[n]===void 0&&(o[n]=c[n]);return{$$typeof:g,type:t,key:i,ref:s,props:o,_owner:U.current}}function tt(t,e){return{$$typeof:g,type:t.type,key:e,ref:t.ref,props:t.props,_owner:t._owner}}function F(t){return typeof t=="object"&&t!==null&&t.$$typeof===g}function rt(t){var e={"=":"=0",":":"=2"};return"$"+t.replace(/[=:]/g,function(r){return e[r]})}var Y=/\/+/g;function D(t,e){return typeof t=="object"&&t!==null&&t.key!=null?rt(""+t.key):e.toString(36)}function C(t,e,r,n,o){var i=typeof t;(i==="undefined"||i==="boolean")&&(t=null);var s=!1;if(t===null)s=!0;else switch(i){case"string":case"number":s=!0;break;case"object":switch(t.$$typeof){case g:case Ke:s=!0}}if(s)return s=t,o=o(s),t=n===""?"."+D(s,0):n,X(o)?(r="",t!=null&&(r=t.replace(Y,"$&/")+"/"),C(o,e,r,"",function(l){return l})):o!=null&&(F(o)&&(o=tt(o,r+(!o.key||s&&s.key===o.key?"":(""+o.key).replace(Y,"$&/")+"/")+t)),e.push(o)),1;if(s=0,n=n===""?".":n+":",X(t))for(var c=0;c<t.length;c++){i=t[c];var a=n+D(i,c);s+=C(i,e,r,a,o)}else if(a=et(t),typeof a=="function")for(t=a.call(t),c=0;!(i=t.next()).done;)i=i.value,a=n+D(i,c++),s+=C(i,e,r,a,o);else if(i==="object")throw e=String(t),Error("Objects are not valid as a React child (found: "+(e==="[object Object]"?"object with keys {"+Object.keys(t).join(", ")+"}":e)+"). If you meant to render a collection of children, use an array instead.");return s}function T(t,e,r){if(t==null)return t;var n=[],o=0;return C(t,n,"","",function(i){return e.call(r,i,o++)}),n}function nt(t){if(t._status===-1){var e=t._result;e=e(),e.then(function(r){(t._status===0||t._status===-1)&&(t._status=1,t._result=r)},function(r){(t._status===0||t._status===-1)&&(t._status=2,t._result=r)}),t._status===-1&&(t._status=0,t._result=e)}if(t._status===1)return t._result.default;throw t._result}var p={current:null},P={transition:null},ot={ReactCurrentDispatcher:p,ReactCurrentBatchConfig:P,ReactCurrentOwner:U};function se(){throw Error("act(...) is not supported in production builds of React.")}u.Children={map:T,forEach:function(t,e,r){T(t,function(){e.apply(this,arguments)},r)},count:function(t){var e=0;return T(t,function(){e++}),e},toArray:function(t){return T(t,function(e){return e})||[]},only:function(t){if(!F(t))throw Error("React.Children.only expected to receive a single React element child.");return t}};u.Component=v;u.Fragment=qe;u.Profiler=Qe;u.PureComponent=M;u.StrictMode=He;u.Suspense=Xe;u.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED=ot;u.act=se;u.cloneElement=function(t,e,r){if(t==null)throw Error("React.cloneElement(...): The argument must be a React element, but you passed "+t+".");var n=ee({},t.props),o=t.key,i=t.ref,s=t._owner;if(e!=null){if(e.ref!==void 0&&(i=e.ref,s=U.current),e.key!==void 0&&(o=""+e.key),t.type&&t.type.defaultProps)var c=t.type.defaultProps;for(a in e)ne.call(e,a)&&!oe.hasOwnProperty(a)&&(n[a]=e[a]===void 0&&c!==void 0?c[a]:e[a])}var a=arguments.length-2;if(a===1)n.children=r;else if(1<a){c=Array(a);for(var l=0;l<a;l++)c[l]=arguments[l+2];n.children=c}return{$$typeof:g,type:t.type,key:o,ref:i,props:n,_owner:s}};u.createContext=function(t){return t={$$typeof:ze,_currentValue:t,_currentValue2:t,_threadCount:0,Provider:null,Consumer:null,_defaultValue:null,_globalName:null},t.Provider={$$typeof:Je,_context:t},t.Consumer=t};u.createElement=ie;u.createFactory=function(t){var e=ie.bind(null,t);return e.type=t,e};u.createRef=function(){return{current:null}};u.forwardRef=function(t){return{$$typeof:Ge,render:t}};u.isValidElement=F;u.lazy=function(t){return{$$typeof:Ze,_payload:{_status:-1,_result:t},_init:nt}};u.memo=function(t,e){return{$$typeof:Ye,type:t,compare:e===void 0?null:e}};u.startTransition=function(t){var e=P.transition;P.transition={};try{t()}finally{P.transition=e}};u.unstable_act=se;u.useCallback=function(t,e){return p.current.useCallback(t,e)};u.useContext=function(t){return p.current.useContext(t)};u.useDebugValue=function(){};u.useDeferredValue=function(t){return p.current.useDeferredValue(t)};u.useEffect=function(t,e){return p.current.useEffect(t,e)};u.useId=function(){return p.current.useId()};u.useImperativeHandle=function(t,e,r){return p.current.useImperativeHandle(t,e,r)};u.useInsertionEffect=function(t,e){return p.current.useInsertionEffect(t,e)};u.useLayoutEffect=function(t,e){return p.current.useLayoutEffect(t,e)};u.useMemo=function(t,e){return p.current.useMemo(t,e)};u.useReducer=function(t,e,r){return p.current.useReducer(t,e,r)};u.useRef=function(t){return p.current.useRef(t)};u.useState=function(t){return p.current.useState(t)};u.useSyncExternalStore=function(t,e,r){return p.current.useSyncExternalStore(t,e,r)};u.useTransition=function(){return p.current.useTransition()};u.version="18.3.1"});var ce=d((Pt,ue)=>{"use strict";ue.exports=ae()});var pe=d((kt,le)=>{"use strict";var it=function(){function t(r){this.subscriber=r}var e=t.prototype;return e.remove=function(){this.subscriber&&(this.subscriber.removeSubscription(this),this.subscriber=null)},t}();le.exports=it});var W=d((At,fe)=>{"use strict";function st(t,e){t.prototype=Object.create(e.prototype),t.prototype.constructor=t,t.__proto__=e}var at=pe(),ut=function(t){st(e,t);function e(r,n,o){var i;return i=t.call(this,r)||this,i.listener=n,i.context=o,i}return e}(at);fe.exports=ut});var V=d((_t,de)=>{"use strict";var ct=function(t){};function lt(t,e){for(var r=arguments.length,n=new Array(r>2?r-2:0),o=2;o<r;o++)n[o-2]=arguments[o];if(ct(e),!t){var i;if(e===void 0)i=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var s=0;i=new Error(e.replace(/%s/g,function(){return String(n[s++])})),i.name="Invariant Violation"}throw i.framesToPop=1,i}}de.exports=lt});var me=d((xt,ye)=>{"use strict";var pt=V(),ft=function(){function t(){this._subscriptionsForType={},this._currentSubscription=null}var e=t.prototype;return e.addSubscription=function(n,o){o.subscriber!==this&&pt(!1),this._subscriptionsForType[n]||(this._subscriptionsForType[n]=[]);var i=this._subscriptionsForType[n].length;return this._subscriptionsForType[n].push(o),o.eventType=n,o.key=i,o},e.removeAllSubscriptions=function(n){n===void 0?this._subscriptionsForType={}:delete this._subscriptionsForType[n]},e.removeSubscription=function(n){var o=n.eventType,i=n.key,s=this._subscriptionsForType[o];s&&delete s[i]},e.getSubscriptionsForType=function(n){return this._subscriptionsForType[n]},t}();ye.exports=ft});var he=d((Lt,ve)=>{"use strict";function k(t){return function(){return t}}var m=function(){};m.thatReturns=k;m.thatReturnsFalse=k(!1);m.thatReturnsTrue=k(!0);m.thatReturnsNull=k(null);m.thatReturnsThis=function(){return this};m.thatReturnsArgument=function(t){return t};ve.exports=m});var be=d((It,ge)=>{"use strict";var dt=W(),yt=me(),mt=V(),vt=he(),ht=function(){function t(){this._subscriber=new yt,this._currentSubscription=null}var e=t.prototype;return e.addListener=function(n,o,i){return this._subscriber.addSubscription(n,new dt(this._subscriber,o,i))},e.once=function(n,o,i){var s=this;return this.addListener(n,function(){s.removeCurrentListener(),o.apply(i,arguments)})},e.removeAllListeners=function(n){this._subscriber.removeAllSubscriptions(n)},e.removeCurrentListener=function(){this._currentSubscription||mt(!1),this._subscriber.removeSubscription(this._currentSubscription)},e.listeners=function(n){var o=this._subscriber.getSubscriptionsForType(n);return o?o.filter(vt.thatReturnsTrue).map(function(i){return i.listener}):[]},e.emit=function(n){var o=this._subscriber.getSubscriptionsForType(n);if(o){for(var i=Object.keys(o),s=0;s<i.length;s++){var c=i[s],a=o[c];a&&(this._currentSubscription=a,this.__emitToSubscription.apply(this,[a].concat(Array.prototype.slice.call(arguments))))}this._currentSubscription=null}},e.__emitToSubscription=function(n,o){var i=Array.prototype.slice.call(arguments,2);n.listener.apply(n.context,i)},t}();ge.exports=ht});var $=d((Bt,we)=>{var gt={EventEmitter:be(),EmitterSubscription:W()};we.exports=gt});function A(t){return typeof t.arrayBuffer=="function"?t.arrayBuffer():bt(t)}async function bt(t){return new Promise((e,r)=>{let n=new FileReader;n.onload=()=>{e(n.result)},n.onerror=r,n.readAsArrayBuffer(t)})}var j=f(()=>{});var _,Se=f(()=>{j();_=class t{textEncoder=new TextEncoder;textDecoder=new TextDecoder;async pack({messageKey:e,payload:r}){let n=JSON.stringify(e),o=this.textEncoder.encode(n),i=o.length,s=await this.payloadToUint8Array(r),c=4+i+1+s.byteLength,a=new ArrayBuffer(c),l=new Uint8Array(a);return new DataView(a,0,4).setUint32(0,i,!1),l.set(o,4),new DataView(a,4+i,1).setUint8(0,t.getPayloadTypeIndicator(r)),l.set(s,4+i+1),l}async unpack(e){let n=new DataView(e,0,4).getUint32(0,!1),o=e.slice(4,4+n),i=this.textDecoder.decode(o),s=JSON.parse(i),a=new DataView(e,4+n,1).getUint8(0),l=e.slice(4+n+1),J=await this.deserializePayload(l,a);return{messageKey:s,payload:J}}async payloadToUint8Array(e){if(e instanceof Uint8Array)return e;if(typeof e=="string")return this.textEncoder.encode(e);if(typeof e=="number"){let r=new ArrayBuffer(8);return new DataView(r).setFloat64(0,e,!1),new Uint8Array(r)}else return e===null?new Uint8Array(0):e===void 0?new Uint8Array(0):e instanceof ArrayBuffer?new Uint8Array(e):e instanceof Blob?new Uint8Array(await A(e)):this.textEncoder.encode(JSON.stringify(e))}async deserializePayload(e,r){switch(r){case 1:return new Uint8Array(e);case 2:return this.textDecoder.decode(e);case 3:return new DataView(e).getFloat64(0,!1);case 4:return null;case 5:return;case 6:{let n=this.textDecoder.decode(e);return JSON.parse(n)}case 7:return e;case 8:return new Blob([e]);default:throw new Error("Unsupported payload type")}}static getPayloadTypeIndicator(e){if(e instanceof Uint8Array)return 1;if(typeof e=="string")return 2;if(typeof e=="number")return 3;if(e===null)return 4;if(e===void 0)return 5;if(e instanceof ArrayBuffer)return 7;if(e instanceof Blob)return 8;if(typeof e=="object")return 6;throw new Error("Unsupported payload type")}}});var x,Ee=f(()=>{x=class{constructor(e=null,r=0){this.ws=e;this.refCount=r}}});var Te,L,Ce=f(()=>{Te=E($()),L=class{constructor(e,r){this.url=e;this.retriesInterval=r?.retriesInterval??1500,this.maxRetries=r?.maxRetries??200,this.connectTimeout=r?.connectTimeout??5e3,this.onError=r?.onError??(n=>{throw n}),this.onReconnect=r?.onReconnect??(()=>{}),this.wsBinaryType=r?.binaryType,this.connect()}retriesInterval;maxRetries;connectTimeout;onError;onReconnect;ws=null;retries=0;connectTimeoutHandle=null;isClosed=!1;sendQueue=[];lastCloseEvent=null;emitter=new Te.EventEmitter;eventSubscriptions=[];wsBinaryType;close(e,r){if(this.clearConnectTimeoutIfNeeded(),this.emitter.emit("close",this.lastCloseEvent??{code:e??1e3,reason:r??"Explicit closing",message:"Explicit closing"}),this.lastCloseEvent=null,this.isClosed=!0,this.emitter.removeAllListeners(),this.sendQueue=[],this.ws!=null){let n=this.ws;this.ws=null,this.wsClose(n)}}addEventListener(e,r){this.eventSubscriptions.push(this.emitter.addListener(e,r))}removeEventListener(e,r){let n=this.eventSubscriptions.findIndex(o=>o.listener===r);n>=0&&(this.eventSubscriptions[n].remove(),this.eventSubscriptions.splice(n,1))}connect(){this.ws==null&&(this.connectTimeoutHandle=setTimeout(this.handleConnectTimeout,this.connectTimeout),this.ws=new WebSocket(this.url.toString()),this.wsBinaryType!=null&&(this.ws.binaryType=this.wsBinaryType),this.ws.addEventListener("message",this.handleMessage),this.ws.addEventListener("open",this.handleOpen),this.ws.addEventListener("error",this.handleError),this.ws.addEventListener("close",this.handleClose))}send(e){if(this.isClosed){this.onError(new Error("Unable to send data: WebSocket is closed"));return}if(this.retries>=this.maxRetries){this.onError(new Error(`Unable to send data: Exceeded max retries - retries[${this.retries}]`));return}let r=this.ws;r!=null&&r.readyState===WebSocket.OPEN?r.send(e):this.sendQueue.push(e)}handleOpen=()=>{this.clearConnectTimeoutIfNeeded(),this.lastCloseEvent=null,this.emitter.emit("open");let e=this.sendQueue;this.sendQueue=[];for(let r of e)this.send(r)};handleMessage=e=>{this.emitter.emit("message",e)};handleError=e=>{this.clearConnectTimeoutIfNeeded(),this.emitter.emit("error",e),this.reconnectIfNeeded(`WebSocket error - ${e.message}`)};handleClose=e=>{this.clearConnectTimeoutIfNeeded(),this.lastCloseEvent={code:e.code,reason:e.reason,message:e.message},this.reconnectIfNeeded(`WebSocket closed - code[${e.code}] reason[${e.reason}]`)};handleConnectTimeout=()=>{this.reconnectIfNeeded("Timeout from connecting to the WebSocket")};clearConnectTimeoutIfNeeded(){this.connectTimeoutHandle!=null&&(clearTimeout(this.connectTimeoutHandle),this.connectTimeoutHandle=null)}reconnectIfNeeded(e){if(this.ws!=null&&(this.wsClose(this.ws),this.ws=null),!this.isClosed){if(this.retries>=this.maxRetries){this.onError(new Error("Exceeded max retries")),this.close();return}setTimeout(()=>{this.retries+=1,this.connect(),this.onReconnect(e)},this.retriesInterval)}}wsClose(e){try{e.removeEventListener("message",this.handleMessage),e.removeEventListener("open",this.handleOpen),e.removeEventListener("close",this.handleClose),e.onerror=()=>{},e.close()}catch{}}get readyState(){if(this.isClosed)return WebSocket.CLOSED;let e=this.ws?.readyState;return e===WebSocket.CLOSED?WebSocket.CONNECTING:e??WebSocket.CONNECTING}CONNECTING=0;OPEN=1;CLOSING=2;CLOSED=3;get binaryType(){return this.ws?.binaryType??"blob"}get bufferedAmount(){return this.ws?.bufferedAmount??0}get extensions(){return this.ws?.extensions??""}get protocol(){return this.ws?.protocol??""}ping(){return this.ws?.ping()}dispatchEvent(e){return this.ws?.dispatchEvent(e)??!1}set onclose(e){throw new Error("Unsupported legacy property, use addEventListener instead")}set onerror(e){throw new Error("Unsupported legacy property, use addEventListener instead")}set onmessage(e){throw new Error("Unsupported legacy property, use addEventListener instead")}set onopen(e){throw new Error("Unsupported legacy property, use addEventListener instead")}}});function h(...t){K&&console.info(...t)}function q(...t){K&&console.warn(...t)}function Pe(t){K=t}var K,b=f(()=>{K=!1});var ke,y,I=f(()=>{ke=E($());Se();Ee();Ce();j();b();y=class t{constructor(e,r){this.connectionInfo=e;this.options=r;this.wsStore=e.wsStore||t.defaultWSStore}eventEmitter=new ke.EventEmitter;static defaultWSStore=new x;wsStore=t.defaultWSStore;isClosed=!1;retries=0;messageFramePacker=new _;async initAsync(){this.wsStore.ws==null&&(this.wsStore.ws=await this.connectAsync()),this.wsStore.refCount+=1,this.wsStore.ws.addEventListener("message",this.handleMessage)}async closeAsync(){this.isClosed=!0,this.wsStore.ws?.removeEventListener("message",this.handleMessage),this.wsStore.refCount-=1,this.wsStore.refCount<1&&(this.wsStore.ws?.close(),this.wsStore.ws=null),this.eventEmitter.removeAllListeners()}sendMessage(e,r){if(this.wsStore.ws?.readyState===WebSocket.CLOSED){q("Unable to send message in a disconnected state.");return}this.sendMessageImpl(e,r)}async sendMessageImpl(e,r){let n={pluginName:this.connectionInfo.pluginName,method:e},o=await this.messageFramePacker.pack({messageKey:n,payload:r});this.wsStore.ws?.send(o)}addMessageListener(e,r){return this.eventEmitter.addListener(e,r)}addMessageListenerOnce(e,r){this.eventEmitter.once(e,r)}isConnected(){return this.wsStore.ws?.readyState===WebSocket.OPEN}connectAsync(){return new Promise((e,r)=>{let n="expo-dev-plugins/broadcast",o=new L(`ws://${this.connectionInfo.devServer}/${n}`,{binaryType:this.options?.websocketBinaryType,onError:i=>{i instanceof Error?console.warn(`Error happened from the WebSocket connection: ${i.message}
-${i.stack}`):console.warn(`Error happened from the WebSocket connection: ${JSON.stringify(i)}`)}});o.addEventListener("open",()=>{e(o)}),o.addEventListener("error",i=>{r(i)}),o.addEventListener("close",i=>{h("WebSocket closed",i.code,i.reason)})})}handleMessage=e=>{this.handleMessageImpl(e)};handleMessageImpl=async e=>{let r;if(e.data instanceof ArrayBuffer)r=e.data;else if(ArrayBuffer.isView(e.data))r=e.data.buffer;else if(e.data instanceof Blob)r=await A(e.data);else{q("Unsupported received data type in handleMessageImpl");return}let{messageKey:n,payload:o}=await this.messageFramePacker.unpack(r);n.pluginName&&n.pluginName!==this.connectionInfo.pluginName||this.eventEmitter.emit(n.method,o)};getWebSocketBackingStore(){return this.wsStore}}});var B,Ae=f(()=>{I();b();B=class extends y{browserClientMap={};async initAsync(){await super.initAsync(),this.addHandshakeHandler()}addHandshakeHandler(){this.addMessageListener("handshake",e=>{let r=this.browserClientMap[e.pluginName];r!=null&&r!==e.browserClientId&&(h(`Terminate the previous browser client connection - previousBrowserClientId[${r}]`),this.sendMessage("terminateBrowserClient",{browserClientId:r})),this.browserClientMap[e.pluginName]=e.browserClientId})}}});var O,_e=f(()=>{I();b();O=class extends y{browserClientId=Date.now().toString();async initAsync(){await super.initAsync(),this.startHandshake()}startHandshake(){this.addMessageListener("terminateBrowserClient",e=>{this.browserClientId===e.browserClientId&&(h("Received terminateBrowserClient messages and terminate the current connection"),this.closeAsync())}),this.sendMessage("handshake",{browserClientId:this.browserClientId,pluginName:this.connectionInfo.pluginName})}}});function xe(){let t=new URLSearchParams(window.location.search).get("devServer"),e=window.location.origin.replace(/^https?:\/\//,"");return{sender:"browser",devServer:t||e}}var Le=f(()=>{});async function wt(t,e){let r;return t.sender==="app"?r=new B(t,e):r=new O(t,e),await r.initAsync(),r}async function Q(t,e){let r=xe(),n=N[t];if(n!=null){if(n instanceof Promise)return n;(n.isConnected()===!1||n.connectionInfo.devServer!==r.devServer)&&(await n.closeAsync(),delete N[t],n=null)}if(n==null){let o=wt({...r,pluginName:t},e);N[t]=o,n=await o,N[t]=n}return n}var N,Ie=f(()=>{Ae();_e();Le();N={}});var Be={};$e(Be,{DevToolsPluginClient:()=>y,getDevToolsPluginClientAsync:()=>Q,setEnableLogging:()=>Pe,useDevToolsPluginClient:()=>St});function St(t,e){let[r,n]=(0,w.useState)(null),[o,i]=(0,w.useState)(null);if((0,w.useEffect)(()=>{async function s(){try{let a=await Q(t,e);n(a)}catch(a){i(new Error("Failed to setup client from useDevToolsPluginClient: "+a.toString()))}}async function c(){try{await r?.closeAsync()}catch(a){i(new Error("Failed to teardown client from useDevToolsPluginClient: "+a.toString()))}}return s(),()=>{c()}},[t]),o!=null)throw o;return r}var w,Oe=f(()=>{w=E(ce());I();Ie();b()});var De=d((rr,Ne)=>{Ne.exports=(Oe(),je(Be))});var Me=E(De());(async function(){var t=document.getElementById("root");function e(n,o){typeof n=="object"&&(n=JSON.stringify(n,null,2));var i=document.createElement("div");i.className="log-item "+o,i.textContent=n,t.appendChild(i)}let r=await(0,Me.getDevToolsPluginClientAsync)("vanilla-log-viewer");r.addMessageListener("log",n=>{e(n,"log")}),r.addMessageListener("warn",n=>{e(n,"warn")}),r.addMessageListener("error",n=>{e(n,"error")})})();})();
+(() => {
+  var he = Object.create;
+  var E = Object.defineProperty;
+  var we = Object.getOwnPropertyDescriptor;
+  var Ee = Object.getOwnPropertyNames;
+  var be = Object.getPrototypeOf,
+    Se = Object.prototype.hasOwnProperty;
+  var f = (t, e) => () => (t && (e = t((t = 0))), e);
+  var I = (t, e) => () => (e || t((e = { exports: {} }).exports, e), e.exports),
+    Te = (t, e) => {
+      for (var n in e) E(t, n, { get: e[n], enumerable: !0 });
+    },
+    $ = (t, e, n, r) => {
+      if ((e && typeof e == 'object') || typeof e == 'function')
+        for (let s of Ee(e))
+          !Se.call(t, s) &&
+            s !== n &&
+            E(t, s, { get: () => e[s], enumerable: !(r = we(e, s)) || r.enumerable });
+      return t;
+    };
+  var V = (t, e, n) => (
+      (n = t != null ? he(be(t)) : {}),
+      $(e || !t || !t.__esModule ? E(n, 'default', { value: t, enumerable: !0 }) : n, t)
+    ),
+    Ce = (t) => $(E({}, '__esModule', { value: !0 }), t);
+  var te = I((a) => {
+    'use strict';
+    var R = Symbol.for('react.transitional.element'),
+      Pe = Symbol.for('react.portal'),
+      Ae = Symbol.for('react.fragment'),
+      ke = Symbol.for('react.strict_mode'),
+      _e = Symbol.for('react.profiler'),
+      Oe = Symbol.for('react.consumer'),
+      Le = Symbol.for('react.context'),
+      Ie = Symbol.for('react.forward_ref'),
+      Ne = Symbol.for('react.suspense'),
+      Re = Symbol.for('react.memo'),
+      Q = Symbol.for('react.lazy'),
+      K = Symbol.iterator;
+    function Be(t) {
+      return t === null || typeof t != 'object'
+        ? null
+        : ((t = (K && t[K]) || t['@@iterator']), typeof t == 'function' ? t : null);
+    }
+    var G = {
+        isMounted: function () {
+          return !1;
+        },
+        enqueueForceUpdate: function () {},
+        enqueueReplaceState: function () {},
+        enqueueSetState: function () {},
+      },
+      z = Object.assign,
+      X = {};
+    function v(t, e, n) {
+      (this.props = t), (this.context = e), (this.refs = X), (this.updater = n || G);
+    }
+    v.prototype.isReactComponent = {};
+    v.prototype.setState = function (t, e) {
+      if (typeof t != 'object' && typeof t != 'function' && t != null)
+        throw Error(
+          'takes an object of state variables to update or a function which returns an object of state variables.'
+        );
+      this.updater.enqueueSetState(this, t, e, 'setState');
+    };
+    v.prototype.forceUpdate = function (t) {
+      this.updater.enqueueForceUpdate(this, t, 'forceUpdate');
+    };
+    function Z() {}
+    Z.prototype = v.prototype;
+    function B(t, e, n) {
+      (this.props = t), (this.context = e), (this.refs = X), (this.updater = n || G);
+    }
+    var M = (B.prototype = new Z());
+    M.constructor = B;
+    z(M, v.prototype);
+    M.isPureReactComponent = !0;
+    var F = Array.isArray,
+      c = { H: null, A: null, T: null, S: null },
+      ee = Object.prototype.hasOwnProperty;
+    function x(t, e, n, r, s, o) {
+      return (n = o.ref), { $$typeof: R, type: t, key: e, ref: n !== void 0 ? n : null, props: o };
+    }
+    function Me(t, e) {
+      return x(t.type, e, void 0, void 0, void 0, t.props);
+    }
+    function D(t) {
+      return typeof t == 'object' && t !== null && t.$$typeof === R;
+    }
+    function xe(t) {
+      var e = { '=': '=0', ':': '=2' };
+      return (
+        '$' +
+        t.replace(/[=:]/g, function (n) {
+          return e[n];
+        })
+      );
+    }
+    var Y = /\/+/g;
+    function N(t, e) {
+      return typeof t == 'object' && t !== null && t.key != null ? xe('' + t.key) : e.toString(36);
+    }
+    function J() {}
+    function De(t) {
+      switch (t.status) {
+        case 'fulfilled':
+          return t.value;
+        case 'rejected':
+          throw t.reason;
+        default:
+          switch (
+            (typeof t.status == 'string'
+              ? t.then(J, J)
+              : ((t.status = 'pending'),
+                t.then(
+                  function (e) {
+                    t.status === 'pending' && ((t.status = 'fulfilled'), (t.value = e));
+                  },
+                  function (e) {
+                    t.status === 'pending' && ((t.status = 'rejected'), (t.reason = e));
+                  }
+                )),
+            t.status)
+          ) {
+            case 'fulfilled':
+              return t.value;
+            case 'rejected':
+              throw t.reason;
+          }
+      }
+      throw t;
+    }
+    function y(t, e, n, r, s) {
+      var o = typeof t;
+      (o === 'undefined' || o === 'boolean') && (t = null);
+      var i = !1;
+      if (t === null) i = !0;
+      else
+        switch (o) {
+          case 'bigint':
+          case 'string':
+          case 'number':
+            i = !0;
+            break;
+          case 'object':
+            switch (t.$$typeof) {
+              case R:
+              case Pe:
+                i = !0;
+                break;
+              case Q:
+                return (i = t._init), y(i(t._payload), e, n, r, s);
+            }
+        }
+      if (i)
+        return (
+          (s = s(t)),
+          (i = r === '' ? '.' + N(t, 0) : r),
+          F(s)
+            ? ((n = ''),
+              i != null && (n = i.replace(Y, '$&/') + '/'),
+              y(s, e, n, '', function (p) {
+                return p;
+              }))
+            : s != null &&
+              (D(s) &&
+                (s = Me(
+                  s,
+                  n +
+                    (s.key == null || (t && t.key === s.key)
+                      ? ''
+                      : ('' + s.key).replace(Y, '$&/') + '/') +
+                    i
+                )),
+              e.push(s)),
+          1
+        );
+      i = 0;
+      var l = r === '' ? '.' : r + ':';
+      if (F(t))
+        for (var u = 0; u < t.length; u++) (r = t[u]), (o = l + N(r, u)), (i += y(r, e, n, o, s));
+      else if (((u = Be(t)), typeof u == 'function'))
+        for (t = u.call(t), u = 0; !(r = t.next()).done; )
+          (r = r.value), (o = l + N(r, u++)), (i += y(r, e, n, o, s));
+      else if (o === 'object') {
+        if (typeof t.then == 'function') return y(De(t), e, n, r, s);
+        throw (
+          ((e = String(t)),
+          Error(
+            'Objects are not valid as a React child (found: ' +
+              (e === '[object Object]'
+                ? 'object with keys {' + Object.keys(t).join(', ') + '}'
+                : e) +
+              '). If you meant to render a collection of children, use an array instead.'
+          ))
+        );
+      }
+      return i;
+    }
+    function b(t, e, n) {
+      if (t == null) return t;
+      var r = [],
+        s = 0;
+      return (
+        y(t, r, '', '', function (o) {
+          return e.call(n, o, s++);
+        }),
+        r
+      );
+    }
+    function Ue(t) {
+      if (t._status === -1) {
+        var e = t._result;
+        (e = e()),
+          e.then(
+            function (n) {
+              (t._status === 0 || t._status === -1) && ((t._status = 1), (t._result = n));
+            },
+            function (n) {
+              (t._status === 0 || t._status === -1) && ((t._status = 2), (t._result = n));
+            }
+          ),
+          t._status === -1 && ((t._status = 0), (t._result = e));
+      }
+      if (t._status === 1) return t._result.default;
+      throw t._result;
+    }
+    var q =
+      typeof reportError == 'function'
+        ? reportError
+        : function (t) {
+            if (typeof window == 'object' && typeof window.ErrorEvent == 'function') {
+              var e = new window.ErrorEvent('error', {
+                bubbles: !0,
+                cancelable: !0,
+                message:
+                  typeof t == 'object' && t !== null && typeof t.message == 'string'
+                    ? String(t.message)
+                    : String(t),
+                error: t,
+              });
+              if (!window.dispatchEvent(e)) return;
+            } else if (typeof process == 'object' && typeof process.emit == 'function') {
+              process.emit('uncaughtException', t);
+              return;
+            }
+            console.error(t);
+          };
+    function He() {}
+    a.Children = {
+      map: b,
+      forEach: function (t, e, n) {
+        b(
+          t,
+          function () {
+            e.apply(this, arguments);
+          },
+          n
+        );
+      },
+      count: function (t) {
+        var e = 0;
+        return (
+          b(t, function () {
+            e++;
+          }),
+          e
+        );
+      },
+      toArray: function (t) {
+        return (
+          b(t, function (e) {
+            return e;
+          }) || []
+        );
+      },
+      only: function (t) {
+        if (!D(t))
+          throw Error('React.Children.only expected to receive a single React element child.');
+        return t;
+      },
+    };
+    a.Component = v;
+    a.Fragment = Ae;
+    a.Profiler = _e;
+    a.PureComponent = B;
+    a.StrictMode = ke;
+    a.Suspense = Ne;
+    a.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = c;
+    a.act = function () {
+      throw Error('act(...) is not supported in production builds of React.');
+    };
+    a.cache = function (t) {
+      return function () {
+        return t.apply(null, arguments);
+      };
+    };
+    a.cloneElement = function (t, e, n) {
+      if (t == null) throw Error('The argument must be a React element, but you passed ' + t + '.');
+      var r = z({}, t.props),
+        s = t.key,
+        o = void 0;
+      if (e != null)
+        for (i in (e.ref !== void 0 && (o = void 0), e.key !== void 0 && (s = '' + e.key), e))
+          !ee.call(e, i) ||
+            i === 'key' ||
+            i === '__self' ||
+            i === '__source' ||
+            (i === 'ref' && e.ref === void 0) ||
+            (r[i] = e[i]);
+      var i = arguments.length - 2;
+      if (i === 1) r.children = n;
+      else if (1 < i) {
+        for (var l = Array(i), u = 0; u < i; u++) l[u] = arguments[u + 2];
+        r.children = l;
+      }
+      return x(t.type, s, void 0, void 0, o, r);
+    };
+    a.createContext = function (t) {
+      return (
+        (t = {
+          $$typeof: Le,
+          _currentValue: t,
+          _currentValue2: t,
+          _threadCount: 0,
+          Provider: null,
+          Consumer: null,
+        }),
+        (t.Provider = t),
+        (t.Consumer = { $$typeof: Oe, _context: t }),
+        t
+      );
+    };
+    a.createElement = function (t, e, n) {
+      var r,
+        s = {},
+        o = null;
+      if (e != null)
+        for (r in (e.key !== void 0 && (o = '' + e.key), e))
+          ee.call(e, r) && r !== 'key' && r !== '__self' && r !== '__source' && (s[r] = e[r]);
+      var i = arguments.length - 2;
+      if (i === 1) s.children = n;
+      else if (1 < i) {
+        for (var l = Array(i), u = 0; u < i; u++) l[u] = arguments[u + 2];
+        s.children = l;
+      }
+      if (t && t.defaultProps)
+        for (r in ((i = t.defaultProps), i)) s[r] === void 0 && (s[r] = i[r]);
+      return x(t, o, void 0, void 0, null, s);
+    };
+    a.createRef = function () {
+      return { current: null };
+    };
+    a.forwardRef = function (t) {
+      return { $$typeof: Ie, render: t };
+    };
+    a.isValidElement = D;
+    a.lazy = function (t) {
+      return { $$typeof: Q, _payload: { _status: -1, _result: t }, _init: Ue };
+    };
+    a.memo = function (t, e) {
+      return { $$typeof: Re, type: t, compare: e === void 0 ? null : e };
+    };
+    a.startTransition = function (t) {
+      var e = c.T,
+        n = {};
+      c.T = n;
+      try {
+        var r = t(),
+          s = c.S;
+        s !== null && s(n, r),
+          typeof r == 'object' && r !== null && typeof r.then == 'function' && r.then(He, q);
+      } catch (o) {
+        q(o);
+      } finally {
+        c.T = e;
+      }
+    };
+    a.unstable_useCacheRefresh = function () {
+      return c.H.useCacheRefresh();
+    };
+    a.use = function (t) {
+      return c.H.use(t);
+    };
+    a.useActionState = function (t, e, n) {
+      return c.H.useActionState(t, e, n);
+    };
+    a.useCallback = function (t, e) {
+      return c.H.useCallback(t, e);
+    };
+    a.useContext = function (t) {
+      return c.H.useContext(t);
+    };
+    a.useDebugValue = function () {};
+    a.useDeferredValue = function (t, e) {
+      return c.H.useDeferredValue(t, e);
+    };
+    a.useEffect = function (t, e) {
+      return c.H.useEffect(t, e);
+    };
+    a.useId = function () {
+      return c.H.useId();
+    };
+    a.useImperativeHandle = function (t, e, n) {
+      return c.H.useImperativeHandle(t, e, n);
+    };
+    a.useInsertionEffect = function (t, e) {
+      return c.H.useInsertionEffect(t, e);
+    };
+    a.useLayoutEffect = function (t, e) {
+      return c.H.useLayoutEffect(t, e);
+    };
+    a.useMemo = function (t, e) {
+      return c.H.useMemo(t, e);
+    };
+    a.useOptimistic = function (t, e) {
+      return c.H.useOptimistic(t, e);
+    };
+    a.useReducer = function (t, e, n) {
+      return c.H.useReducer(t, e, n);
+    };
+    a.useRef = function (t) {
+      return c.H.useRef(t);
+    };
+    a.useState = function (t) {
+      return c.H.useState(t);
+    };
+    a.useSyncExternalStore = function (t, e, n) {
+      return c.H.useSyncExternalStore(t, e, n);
+    };
+    a.useTransition = function () {
+      return c.H.useTransition();
+    };
+    a.version = '19.0.0';
+  });
+  var re = I((Je, ne) => {
+    'use strict';
+    ne.exports = te();
+  });
+  function S(t) {
+    return typeof t.arrayBuffer == 'function' ? t.arrayBuffer() : We(t);
+  }
+  async function We(t) {
+    return new Promise((e, n) => {
+      let r = new FileReader();
+      (r.onload = () => {
+        e(r.result);
+      }),
+        (r.onerror = n),
+        r.readAsArrayBuffer(t);
+    });
+  }
+  var U = f(() => {});
+  var T,
+    se = f(() => {
+      U();
+      T = class t {
+        textEncoder = new TextEncoder();
+        textDecoder = new TextDecoder();
+        pack({ messageKey: e, payload: n }) {
+          return this.isFastPathPayload(n)
+            ? JSON.stringify({ messageKey: e, payload: n })
+            : n instanceof Blob
+              ? new Promise(async (r, s) => {
+                  try {
+                    let o = await S(n);
+                    r(this.packImpl({ messageKey: e, payload: new Uint8Array(o) }, 8));
+                  } catch (o) {
+                    s(o);
+                  }
+                })
+              : this.packImpl({ messageKey: e, payload: n }, void 0);
+        }
+        unpack(e) {
+          if (typeof e == 'string') return JSON.parse(e);
+          let r = new DataView(e, 0, 4).getUint32(0, !1),
+            s = e.slice(4, 4 + r),
+            o = this.textDecoder.decode(s),
+            i = JSON.parse(o),
+            u = new DataView(e, 4 + r, 1).getUint8(0),
+            p = e.slice(4 + r + 1),
+            m = this.deserializePayload(p, u);
+          return { messageKey: i, payload: m };
+        }
+        isFastPathPayload(e) {
+          if (e == null) return !0;
+          let n = typeof e;
+          return n === 'string' || n === 'number' || (n === 'object' && e.constructor === Object);
+        }
+        payloadToUint8Array(e) {
+          if (e instanceof Uint8Array) return e;
+          if (typeof e == 'string') return this.textEncoder.encode(e);
+          if (typeof e == 'number') {
+            let n = new ArrayBuffer(8);
+            return new DataView(n).setFloat64(0, e, !1), new Uint8Array(n);
+          } else {
+            if (e === null) return new Uint8Array(0);
+            if (e === void 0) return new Uint8Array(0);
+            if (e instanceof ArrayBuffer) return new Uint8Array(e);
+            if (e instanceof Blob) throw new Error('Blob is not supported in this callsite.');
+            return this.textEncoder.encode(JSON.stringify(e));
+          }
+        }
+        packImpl({ messageKey: e, payload: n }, r) {
+          let s = JSON.stringify(e),
+            o = this.textEncoder.encode(s),
+            i = o.length,
+            l = this.payloadToUint8Array(n),
+            u = 4 + i + 1 + l.byteLength,
+            p = new ArrayBuffer(u),
+            m = new Uint8Array(p);
+          return (
+            new DataView(p, 0, 4).setUint32(0, i, !1),
+            m.set(o, 4),
+            new DataView(p, 4 + i, 1).setUint8(0, r ?? t.getPayloadTypeIndicator(n)),
+            m.set(l, 4 + i + 1),
+            m
+          );
+        }
+        deserializePayload(e, n) {
+          switch (n) {
+            case 1:
+              return new Uint8Array(e);
+            case 2:
+              return this.textDecoder.decode(e);
+            case 3:
+              return new DataView(e).getFloat64(0, !1);
+            case 4:
+              return null;
+            case 5:
+              return;
+            case 6: {
+              let r = this.textDecoder.decode(e);
+              return JSON.parse(r);
+            }
+            case 7:
+              return e;
+            case 8:
+              return new Blob([e]);
+            default:
+              throw new Error('Unsupported payload type');
+          }
+        }
+        static getPayloadTypeIndicator(e) {
+          if (e instanceof Uint8Array) return 1;
+          if (typeof e == 'string') return 2;
+          if (typeof e == 'number') return 3;
+          if (e === null) return 4;
+          if (e === void 0) return 5;
+          if (e instanceof ArrayBuffer) return 7;
+          if (e instanceof Blob) return 8;
+          if (typeof e == 'object') return 6;
+          throw new Error('Unsupported payload type');
+        }
+      };
+    });
+  var C,
+    oe = f(() => {
+      C = class {
+        constructor(e = null, n = 0) {
+          this.ws = e;
+          this.refCount = n;
+        }
+      };
+    });
+  var P,
+    ie = f(() => {
+      P = class {
+        constructor(e, n) {
+          this.url = e;
+          (this.retriesInterval = n?.retriesInterval ?? 1500),
+            (this.maxRetries = n?.maxRetries ?? 200),
+            (this.connectTimeout = n?.connectTimeout ?? 5e3),
+            (this.onError =
+              n?.onError ??
+              ((r) => {
+                throw r;
+              })),
+            (this.onReconnect = n?.onReconnect ?? (() => {})),
+            (this.wsBinaryType = n?.binaryType),
+            (this.eventListeners = Object.create(null)),
+            this.connect();
+        }
+        retriesInterval;
+        maxRetries;
+        connectTimeout;
+        onError;
+        onReconnect;
+        ws = null;
+        retries = 0;
+        connectTimeoutHandle = null;
+        isClosed = !1;
+        sendQueue = [];
+        lastCloseEvent = null;
+        eventListeners;
+        wsBinaryType;
+        close(e, n) {
+          if (
+            (this.clearConnectTimeoutIfNeeded(),
+            this.emitEvent(
+              'close',
+              this.lastCloseEvent ?? {
+                code: e ?? 1e3,
+                reason: n ?? 'Explicit closing',
+                message: 'Explicit closing',
+              }
+            ),
+            (this.lastCloseEvent = null),
+            (this.isClosed = !0),
+            (this.eventListeners = Object.create(null)),
+            (this.sendQueue = []),
+            this.ws != null)
+          ) {
+            let r = this.ws;
+            (this.ws = null), this.wsClose(r);
+          }
+        }
+        addEventListener(e, n) {
+          (this.eventListeners[e] || (this.eventListeners[e] = new Set())).add(n);
+        }
+        removeEventListener(e, n) {
+          this.eventListeners[e]?.delete(n);
+        }
+        connect() {
+          this.ws == null &&
+            ((this.connectTimeoutHandle = setTimeout(
+              this.handleConnectTimeout,
+              this.connectTimeout
+            )),
+            (this.ws = new WebSocket(this.url.toString())),
+            this.wsBinaryType != null && (this.ws.binaryType = this.wsBinaryType),
+            this.ws.addEventListener('message', this.handleMessage),
+            this.ws.addEventListener('open', this.handleOpen),
+            this.ws.addEventListener('error', this.handleError),
+            this.ws.addEventListener('close', this.handleClose));
+        }
+        send(e) {
+          if (this.isClosed) {
+            this.onError(new Error('Unable to send data: WebSocket is closed'));
+            return;
+          }
+          if (this.retries >= this.maxRetries) {
+            this.onError(
+              new Error(`Unable to send data: Exceeded max retries - retries[${this.retries}]`)
+            );
+            return;
+          }
+          let n = this.ws;
+          n != null && n.readyState === WebSocket.OPEN ? n.send(e) : this.sendQueue.push(e);
+        }
+        emitEvent(e, n) {
+          let r = this.eventListeners[e];
+          if (r) for (let s of r) s(n);
+        }
+        handleOpen = () => {
+          this.clearConnectTimeoutIfNeeded(), (this.lastCloseEvent = null), this.emitEvent('open');
+          let e = this.sendQueue;
+          this.sendQueue = [];
+          for (let n of e) this.send(n);
+        };
+        handleMessage = (e) => {
+          this.emitEvent('message', e);
+        };
+        handleError = (e) => {
+          this.clearConnectTimeoutIfNeeded(),
+            this.emitEvent('error', e),
+            this.reconnectIfNeeded(`WebSocket error - ${e.message}`);
+        };
+        handleClose = (e) => {
+          this.clearConnectTimeoutIfNeeded(),
+            (this.lastCloseEvent = { code: e.code, reason: e.reason, message: e.message }),
+            this.reconnectIfNeeded(`WebSocket closed - code[${e.code}] reason[${e.reason}]`);
+        };
+        handleConnectTimeout = () => {
+          this.reconnectIfNeeded('Timeout from connecting to the WebSocket');
+        };
+        clearConnectTimeoutIfNeeded() {
+          this.connectTimeoutHandle != null &&
+            (clearTimeout(this.connectTimeoutHandle), (this.connectTimeoutHandle = null));
+        }
+        reconnectIfNeeded(e) {
+          if ((this.ws != null && (this.wsClose(this.ws), (this.ws = null)), !this.isClosed)) {
+            if (this.retries >= this.maxRetries) {
+              this.onError(new Error('Exceeded max retries')), this.close();
+              return;
+            }
+            setTimeout(() => {
+              (this.retries += 1), this.connect(), this.onReconnect(e);
+            }, this.retriesInterval);
+          }
+        }
+        wsClose(e) {
+          try {
+            e.removeEventListener('message', this.handleMessage),
+              e.removeEventListener('open', this.handleOpen),
+              e.removeEventListener('close', this.handleClose),
+              (e.onerror = () => {}),
+              e.close();
+          } catch {}
+        }
+        get readyState() {
+          if (this.isClosed) return WebSocket.CLOSED;
+          let e = this.ws?.readyState;
+          return e === WebSocket.CLOSED ? WebSocket.CONNECTING : (e ?? WebSocket.CONNECTING);
+        }
+        CONNECTING = 0;
+        OPEN = 1;
+        CLOSING = 2;
+        CLOSED = 3;
+        get binaryType() {
+          return this.ws?.binaryType ?? 'blob';
+        }
+        get bufferedAmount() {
+          return this.ws?.bufferedAmount ?? 0;
+        }
+        get extensions() {
+          return this.ws?.extensions ?? '';
+        }
+        get protocol() {
+          return this.ws?.protocol ?? '';
+        }
+        ping() {
+          return this.ws?.ping();
+        }
+        dispatchEvent(e) {
+          return this.ws?.dispatchEvent(e) ?? !1;
+        }
+        set onclose(e) {
+          throw new Error('Unsupported legacy property, use addEventListener instead');
+        }
+        set onerror(e) {
+          throw new Error('Unsupported legacy property, use addEventListener instead');
+        }
+        set onmessage(e) {
+          throw new Error('Unsupported legacy property, use addEventListener instead');
+        }
+        set onopen(e) {
+          throw new Error('Unsupported legacy property, use addEventListener instead');
+        }
+      };
+    });
+  function g(...t) {
+    H && console.info(...t);
+  }
+  function A(...t) {
+    H && console.warn(...t);
+  }
+  function ae(t) {
+    H = t;
+  }
+  var H,
+    h = f(() => {
+      H = !1;
+    });
+  var d,
+    k = f(() => {
+      se();
+      oe();
+      ie();
+      h();
+      U();
+      d = class t {
+        constructor(e, n) {
+          this.connectionInfo = e;
+          this.options = n;
+          (this.wsStore = e.wsStore || t.defaultWSStore), (this.listeners = Object.create(null));
+        }
+        listeners;
+        static defaultWSStore = new C();
+        wsStore = t.defaultWSStore;
+        isClosed = !1;
+        retries = 0;
+        messageFramePacker = new T();
+        async initAsync() {
+          this.wsStore.ws == null && (this.wsStore.ws = await this.connectAsync()),
+            (this.wsStore.refCount += 1),
+            this.wsStore.ws.addEventListener('message', this.handleMessage);
+        }
+        async closeAsync() {
+          (this.isClosed = !0),
+            this.wsStore.ws?.removeEventListener('message', this.handleMessage),
+            (this.wsStore.refCount -= 1),
+            this.wsStore.refCount < 1 && (this.wsStore.ws?.close(), (this.wsStore.ws = null)),
+            (this.listeners = Object.create(null));
+        }
+        sendMessage(e, n) {
+          if (this.wsStore.ws?.readyState === WebSocket.CLOSED) {
+            A('Unable to send message in a disconnected state.');
+            return;
+          }
+          let r = { pluginName: this.connectionInfo.pluginName, method: e },
+            s = this.messageFramePacker.pack({ messageKey: r, payload: n });
+          if (!(s instanceof Promise)) {
+            this.wsStore.ws?.send(s);
+            return;
+          }
+          s.then((o) => {
+            this.wsStore.ws?.send(o);
+          });
+        }
+        addMessageListener(e, n) {
+          return (
+            (this.listeners[e] || (this.listeners[e] = new Set())).add(n),
+            {
+              remove: () => {
+                this.listeners[e]?.delete(n);
+              },
+            }
+          );
+        }
+        addMessageListenerOnce(e, n) {
+          let r = (s) => {
+            n(s), this.listeners[e]?.delete(r);
+          };
+          this.addMessageListener(e, r);
+        }
+        sendHandshakeMessage(e) {
+          if (this.wsStore.ws?.readyState === WebSocket.CLOSED) {
+            A('Unable to send message in a disconnected state.');
+            return;
+          }
+          this.wsStore.ws?.send(JSON.stringify({ ...e, __isHandshakeMessages: !0 }));
+        }
+        addHandskakeMessageListener(e) {
+          let n = (r) => {
+            if (typeof r.data != 'string') return;
+            let s = JSON.parse(r.data);
+            if (!s.__isHandshakeMessages) return;
+            delete s.__isHandshakeMessages;
+            let o = s;
+            (o.pluginName && o.pluginName !== this.connectionInfo.pluginName) || e(o);
+          };
+          return (
+            this.wsStore.ws?.addEventListener('message', n),
+            {
+              remove: () => {
+                this.wsStore.ws?.removeEventListener('message', n);
+              },
+            }
+          );
+        }
+        isConnected() {
+          return this.wsStore.ws?.readyState === WebSocket.OPEN;
+        }
+        connectAsync() {
+          return new Promise((e, n) => {
+            let r = 'expo-dev-plugins/broadcast',
+              s = new P(`ws://${this.connectionInfo.devServer}/${r}`, {
+                binaryType: this.options?.websocketBinaryType,
+                onError: (o) => {
+                  o instanceof Error
+                    ? console.warn(`Error happened from the WebSocket connection: ${o.message}
+${o.stack}`)
+                    : console.warn(
+                        `Error happened from the WebSocket connection: ${JSON.stringify(o)}`
+                      );
+                },
+              });
+            s.addEventListener('open', () => {
+              e(s);
+            }),
+              s.addEventListener('error', (o) => {
+                n(o);
+              }),
+              s.addEventListener('close', (o) => {
+                g('WebSocket closed', o.code, o.reason);
+              });
+          });
+        }
+        handleMessage = async (e) => {
+          let n;
+          if (typeof e.data == 'string') n = e.data;
+          else if (e.data instanceof ArrayBuffer) n = e.data;
+          else if (ArrayBuffer.isView(e.data)) n = e.data.buffer;
+          else if (e.data instanceof Blob) n = await S(e.data);
+          else {
+            A('Unsupported received data type in handleMessageImpl');
+            return;
+          }
+          let { messageKey: r, payload: s, ...o } = this.messageFramePacker.unpack(n);
+          if (
+            o?.__isHandshakeMessages === !0 ||
+            (r.pluginName && r.pluginName !== this.connectionInfo.pluginName)
+          )
+            return;
+          let i = this.listeners[r.method];
+          if (i) for (let l of i) l(s);
+        };
+        getWebSocketBackingStore() {
+          return this.wsStore;
+        }
+      };
+    });
+  var _,
+    ue = f(() => {
+      k();
+      h();
+      _ = class extends d {
+        browserClientMap = {};
+        async initAsync() {
+          await super.initAsync(), this.addHandshakeHandler();
+        }
+        addHandshakeHandler() {
+          this.addHandskakeMessageListener((e) => {
+            if (e.method === 'handshake') {
+              let { pluginName: n, protocolVersion: r } = e;
+              if (r !== this.connectionInfo.protocolVersion) {
+                console.warn(
+                  `Received an incompatible devtools plugin handshake message - pluginName[${n}]`
+                ),
+                  this.terminateBrowserClient(n, e.browserClientId);
+                return;
+              }
+              let s = this.browserClientMap[n];
+              s != null &&
+                s !== e.browserClientId &&
+                (g(
+                  `Terminate the previous browser client connection - previousBrowserClientId[${s}]`
+                ),
+                this.terminateBrowserClient(n, s)),
+                (this.browserClientMap[n] = e.browserClientId);
+            }
+          });
+        }
+        terminateBrowserClient(e, n) {
+          this.sendHandshakeMessage({
+            protocolVersion: this.connectionInfo.protocolVersion,
+            method: 'terminateBrowserClient',
+            browserClientId: n,
+            pluginName: e,
+          });
+        }
+      };
+    });
+  var O,
+    ce = f(() => {
+      k();
+      h();
+      O = class extends d {
+        browserClientId = Date.now().toString();
+        async initAsync() {
+          await super.initAsync(), this.startHandshake();
+        }
+        startHandshake() {
+          this.addHandskakeMessageListener((e) => {
+            e.method === 'terminateBrowserClient' &&
+              this.browserClientId === e.browserClientId &&
+              (g('Received terminateBrowserClient messages and terminate the current connection'),
+              this.closeAsync());
+          }),
+            this.sendHandshakeMessage({
+              protocolVersion: this.connectionInfo.protocolVersion,
+              pluginName: this.connectionInfo.pluginName,
+              method: 'handshake',
+              browserClientId: this.browserClientId,
+            });
+        }
+      };
+    });
+  function le() {
+    let t = new URLSearchParams(window.location.search).get('devServer'),
+      e = window.location.origin.replace(/^https?:\/\//, '');
+    return { protocolVersion: 1, sender: 'browser', devServer: t || e };
+  }
+  var fe = f(() => {});
+  async function je(t, e) {
+    let n;
+    return t.sender === 'app' ? (n = new _(t, e)) : (n = new O(t, e)), await n.initAsync(), n;
+  }
+  async function j(t, e) {
+    let n = le(),
+      r = L[t];
+    if (r != null) {
+      if (r instanceof Promise) return r;
+      (r.isConnected() === !1 || r.connectionInfo.devServer !== n.devServer) &&
+        (await r.closeAsync(), delete L[t], (r = null));
+    }
+    if (r == null) {
+      let s = je({ ...n, pluginName: t }, e);
+      (L[t] = s), (r = await s), (L[t] = r);
+    }
+    return r;
+  }
+  var L,
+    de = f(() => {
+      ue();
+      ce();
+      fe();
+      L = {};
+    });
+  var pe = {};
+  Te(pe, {
+    DevToolsPluginClient: () => d,
+    getDevToolsPluginClientAsync: () => j,
+    setEnableLogging: () => ae,
+    useDevToolsPluginClient: () => $e,
+  });
+  function $e(t, e) {
+    let [n, r] = (0, w.useState)(null),
+      [s, o] = (0, w.useState)(null);
+    if (
+      ((0, w.useEffect)(() => {
+        async function i() {
+          try {
+            let u = await j(t, e);
+            r(u);
+          } catch (u) {
+            o(new Error('Failed to setup client from useDevToolsPluginClient: ' + u.toString()));
+          }
+        }
+        async function l() {
+          try {
+            await n?.closeAsync();
+          } catch (u) {
+            o(new Error('Failed to teardown client from useDevToolsPluginClient: ' + u.toString()));
+          }
+        }
+        return (
+          i(),
+          () => {
+            l();
+          }
+        );
+      }, [t]),
+      s != null)
+    )
+      throw s;
+    return n;
+  }
+  var w,
+    ye = f(() => {
+      w = V(re());
+      k();
+      de();
+      h();
+    });
+  var ge = I((mt, ve) => {
+    ve.exports = (ye(), Ce(pe));
+  });
+  var me = V(ge());
+  (async function () {
+    var t = document.getElementById('root');
+    function e(r, s) {
+      typeof r == 'object' && (r = JSON.stringify(r, null, 2));
+      var o = document.createElement('div');
+      (o.className = 'log-item ' + s), (o.textContent = r), t.appendChild(o);
+    }
+    let n = await (0, me.getDevToolsPluginClientAsync)('vanilla-log-viewer');
+    n.addMessageListener('log', (r) => {
+      e(r, 'log');
+    }),
+      n.addMessageListener('warn', (r) => {
+        e(r, 'warn');
+      }),
+      n.addMessageListener('error', (r) => {
+        e(r, 'error');
+      });
+  })();
+})();
 /*! Bundled license information:
 
-react/cjs/react.production.min.js:
+react/cjs/react.production.js:
   (**
    * @license React
-   * react.production.min.js
+   * react.production.js
    *
-   * Copyright (c) Facebook, Inc. and its affiliates.
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
    *
    * This source code is licensed under the MIT license found in the
    * LICENSE file in the root directory of this source tree.

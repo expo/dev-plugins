@@ -1,6 +1,5 @@
-import { ArrayOfMutations, ArrayOfQuery } from '../../src/types';
-
 import { BlockType } from './types';
+import { ArrayOfMutations, ArrayOfQuery } from '../../src/types';
 
 function createQueryBlocks(queries: ArrayOfQuery) {
   return queries.map((query) => {

@@ -1,6 +1,6 @@
 import { print } from 'graphql';
 export function getQueries(queryMap) {
-    let queries = [];
+    const queries = [];
     if (queryMap) {
         [...queryMap.values()].forEach(({ document, variables, observableQuery, diff, lastDiff }, queryId) => {
             if (document && observableQuery) {

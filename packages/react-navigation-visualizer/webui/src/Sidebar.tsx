@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { Layout } from 'antd';
-import ReactJson from 'react-json-view';
 
 import * as React from 'react';
+import ReactJson from 'react-json-view';
 
-import { theme } from './theme';
 import { Title4 } from './Typography';
+import { theme } from './theme';
 
 export function Sidebar({
   action,

@@ -26,7 +26,7 @@ async function shouldPreparePackageAsync(packageName) {
 async function prepareAsync(packageName) {
   console.log(`⚙️  Preparing package - ${packageName}`);
   const packageRoot = path.join(ROOT, 'packages', packageName);
-  await spawnAsync('yarn', ['prepare'], {
+  await spawnAsync('bun', ['run', 'prepare'], {
     cwd: packageRoot,
   });
 }

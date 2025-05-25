@@ -20,15 +20,15 @@ export type RawData = {
   lastUpdateAt: Date;
   queries: ArrayOfQuery;
   mutations: ArrayOfMutations;
-  cache: Array<BlockType>;
+  cache: BlockType[];
 };
 
 export type Data = {
   id: string;
   lastUpdateAt: Date;
-  queries: Array<BlockType>;
-  mutations: Array<BlockType>;
-  cache: Array<BlockType>;
+  queries: BlockType[];
+  mutations: BlockType[];
+  cache: BlockType[];
 };
 
 export type Events = {
@@ -41,9 +41,9 @@ export type BlockType = {
   id?: string;
   operationType?: string;
   name?: string | null;
-  blocks?: Array<{
+  blocks?: {
     blockType: string;
     blockLabel: string;
     blockValue: any;
-  }>;
+  }[];
 };
