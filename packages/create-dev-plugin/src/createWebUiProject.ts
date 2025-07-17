@@ -20,9 +20,10 @@ export async function createWebUiProjectAsync(
   const templateVersion = EXPO_BETA ? 'next' : 'latest';
   const template = `expo-template-blank-typescript@${templateVersion}`;
   debug(`Using expo template: ${template}`);
+  const argTerminator = packageManager === 'npm' ? '--' : '';
   await spawnAsync(
     packageManager,
-    ['create', 'expo-app', '--', '--template', template, '--yes', '--no-install', 'webui'],
+    ['create', 'expo-app', argTerminator, '--template', template, '--yes', '--no-install', 'webui'],
     { cwd: projectRoot, stdio: 'ignore' }
   );
 
