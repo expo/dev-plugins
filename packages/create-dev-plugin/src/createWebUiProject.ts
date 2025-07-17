@@ -22,7 +22,7 @@ export async function createWebUiProjectAsync(
   debug(`Using expo template: ${template}`);
   const argTerminator = packageManager === 'npm' ? '--' : '';
   await spawnAsync(
-    'bun',
+    packageManager,
     [
       'create',
       'expo-app',

@@ -30,6 +30,7 @@
     "expo": "<%- expoPackageVersion %>",
     "expo-module-scripts": "^4.1.7",
     "react": "<%- reactPackageVersion %>",
+    "react-native": "<%- reactNativePackageVersion %>",
     "typescript": "~5.8.3"
   },
   "peerDependencies": {
