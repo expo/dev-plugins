@@ -28,6 +28,7 @@ export async function createAppAdapterProjectAsync(
 export async function queryExpoPackageVersionAsync(): Promise<{
   expoPackageVersion: string;
   reactPackageVersion: string;
+  reactNativePackageVersion: string;
   typesReactPackageVersion: string;
 }> {
   const distTag = EXPO_BETA ? 'next' : 'latest';
@@ -42,6 +43,7 @@ export async function queryExpoPackageVersionAsync(): Promise<{
   return {
     expoPackageVersion: dependencies['expo'],
     reactPackageVersion: dependencies['react'],
+    reactNativePackageVersion: dependencies['react-native'],
     typesReactPackageVersion: devDependencies['@types/react'],
   };
 }
