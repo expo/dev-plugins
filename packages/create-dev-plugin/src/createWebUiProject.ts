@@ -22,8 +22,17 @@ export async function createWebUiProjectAsync(
   debug(`Using expo template: ${template}`);
   const argTerminator = packageManager === 'npm' ? '--' : '';
   await spawnAsync(
-    packageManager,
-    ['create', 'expo-app', argTerminator, '--template', template, '--yes', '--no-install', 'webui'],
+    'bun',
+    [
+      'create',
+      'expo-app',
+      argTerminator,
+      '--template',
+      template,
+      '--yes',
+      '--no-install',
+      'webui',
+    ].filter(Boolean),
     { cwd: projectRoot, stdio: 'ignore' }
   );
 
