@@ -25,6 +25,6 @@
     "expo": "53.0.7"
   },
   "peerDependencies": {
-    "expo": "^53.0.5"
+    "expo": ">=53.0.5"
   }
 }
