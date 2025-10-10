@@ -193,4 +193,5 @@ const StyledLayout = styled(Layout)({
 
 const Content = styled(Layout.Content)({
   margin: '0 16px',
+  overflow: 'auto',
 });
