@@ -29,6 +29,11 @@ function Main() {
     return () => clearInterval(interval);
   }, [updateAllData]);
 
+  const saveContent = useCallback(() => {
+    setItem(value);
+    updateAllData();
+  }, [value, updateAllData, setItem]);
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', padding: 20 }}>
       <Text>MMKV</Text>
@@ -63,16 +68,11 @@ function Main() {
           style={{ height: 40, borderColor: 'gray', borderWidth: 1, minWidth: 200 }}
           onChangeText={setValue}
           value={value}
+          onSubmitEditing={saveContent}
+          returnKeyType="done"
+          submitBehavior="submit"
         />
-        <IconButton
-          icon="content-save"
-          iconColor="#000"
-          size={20}
-          onPress={() => {
-            setItem(value);
-            updateAllData();
-          }}
-        />
+        <IconButton icon="content-save" iconColor="#000" size={20} onPress={saveContent} />
         <IconButton
           icon="refresh"
           iconColor="#000"

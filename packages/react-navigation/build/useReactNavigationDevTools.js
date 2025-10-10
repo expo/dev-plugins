@@ -9,7 +9,6 @@ export function useReactNavigationDevTools(ref) {
     globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
         connect: () => adapterRef.current,
     };
-    // @ts-expect-error
     useReduxDevToolsExtension(ref);
     useEffect(() => {
         adapterRef.current.setClient(client);

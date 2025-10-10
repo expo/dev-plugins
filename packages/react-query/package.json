@@ -45,6 +45,6 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": "*",
-    "expo": "^53.0.5"
+    "expo": ">=53.0.5"
   }
 }
