@@ -21,6 +21,7 @@
   "devDependencies": {
     "@expo/spawn-async": "^1.7.2",
     "@tsconfig/node20": "^20.1.4",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript": "^5.9.2"
   }
 }

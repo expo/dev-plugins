@@ -11,10 +11,12 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@ant-design/icons": "^5.5.1",
     "@babel/core": "^7.26.0",
     "@types/react": "~19.0.10",
     "antd": "^5.22.0",
     "expo": "53.0.7",
+    "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-json-view": "^1.21.3",
