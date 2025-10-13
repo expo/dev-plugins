@@ -35,12 +35,14 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@types/react": "~19.0.10",
     "expo": "53.0.7",
     "expo-module-scripts": "^4.1.7",
     "tinybase": "^5.3.8",
     "typescript": "~5.8.3"
   },
   "peerDependencies": {
-    "expo": ">=53.0.5"
+    "expo": ">=53.0.5",
+    "react": "*"
   }
 }

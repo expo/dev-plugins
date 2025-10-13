@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
+    "@ant-design/colors": "^7.1.0",
     "@ant-design/icons": "^5.5.1",
     "@babel/core": "^7.26.0",
     "@emotion/react": "^11.13.3",
