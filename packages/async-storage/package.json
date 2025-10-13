@@ -40,6 +40,6 @@
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "^1.0.0",
-    "expo": "^53.0.5"
+    "expo": ">=53.0.5"
   }
 }
