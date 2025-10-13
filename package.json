@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "lint:apps": "bun run --filter './apps/**' lint",
+    "typecheck:apps": "bun run --filter './apps/**' typecheck",
     "postinstall": "./scripts/prepare-packages.js"
   },
   "workspaces": [

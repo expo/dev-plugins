@@ -9,6 +9,7 @@ export function useReactNavigationDevTools(ref) {
     globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
         connect: () => adapterRef.current,
     };
+    // @ts-ignore: useReduxDevToolsExtension does not accept null ref from NavigationContainerRefWithCurrent
     useReduxDevToolsExtension(ref);
     useEffect(() => {
         adapterRef.current.setClient(client);
