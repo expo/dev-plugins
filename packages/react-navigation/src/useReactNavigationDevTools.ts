@@ -5,13 +5,16 @@ import { useEffect, useRef } from 'react';
 
 import { ReduxExtensionAdapter } from './ReduxExtensionAdapter';
 
-export function useReactNavigationDevTools(ref: React.RefObject<NavigationContainerRef<any>>) {
+export function useReactNavigationDevTools(
+  ref: React.RefObject<NavigationContainerRef<any> | null>
+) {
   const client = useDevToolsPluginClient('react-navigation');
   const adapterRef = useRef(new ReduxExtensionAdapter());
   // @ts-ignore: Override global
   globalThis.__REDUX_DEVTOOLS_EXTENSION__ = {
     connect: () => adapterRef.current,
   };
+  // @ts-ignore: useReduxDevToolsExtension does not accept null ref from NavigationContainerRefWithCurrent
   useReduxDevToolsExtension(ref);
 
   useEffect(() => {

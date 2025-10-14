@@ -41,6 +41,7 @@
     "expo": "53.0.7",
     "expo-module-scripts": "^4.1.7",
     "graphql": "^16.9.0",
+    "react-dom": "19.1.0",
     "typescript": "~5.8.3"
   },
   "peerDependencies": {
