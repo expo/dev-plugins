@@ -1,5 +1,4 @@
 import type { DocumentNode } from '@apollo/client';
-import { getOperationName } from '@apollo/client/utilities';
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
 import { useEffect } from 'react';
 
@@ -10,7 +9,7 @@ import type {
   ArrayOfQuery,
   MutationData,
 } from './types';
-import { getQueries } from './utils';
+import { getObservableQueriesList, getOperationName, getQueries } from './utils';
 
 let tick = 0;
 
@@ -72,19 +71,12 @@ function getTime(): string {
   return `${date.getHours()}:${date.getMinutes()}`;
 }
 
-function extractQueries(client: ApolloClientType): Map<any, any> {
-  // @ts-expect-error queryManager is private method
-  if (!client || !client.queryManager) {
-    return new Map();
-  }
-  // @ts-expect-error queryManager is private method
-  return client?.queryManager.queries;
-}
-
 function getAllQueries(client: ApolloClientType): ArrayOfQuery {
-  const queryMap = extractQueries(client);
-  const allQueries = getQueries(queryMap);
-  return allQueries;
+  if (!client) {
+    return [];
+  }
+  const observableQueries = getObservableQueriesList(client.getObservableQueries());
+  return getQueries(observableQueries);
 }
 
 type MutationObject = {
