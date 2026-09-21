@@ -1,25 +1,21 @@
-import type { ApolloClient, NormalizedCacheObject, ObservableQuery } from '@apollo/client';
-import type { QueryInfo } from '@apollo/client/core/QueryInfo';
-import type { ASTNode } from 'graphql';
+import type { ObservableQuery } from '@apollo/client';
 
-export type ApolloClientType = ApolloClient<NormalizedCacheObject>;
+// Duck-typed instead of importing `ApolloClient`, to stay independent of the Apollo Client version.
+export interface ApolloClientType {
+  cache: {
+    extract(optimistic?: boolean): unknown;
+  };
+  getObservableQueries(): Map<string, ObservableQuery> | Set<ObservableQuery>;
+  __actionHookForDevTools(cb: () => void): void;
+}
 
-export type Variables = QueryInfo['variables'];
-
-export type RawQueryData = {
-  document: ASTNode;
-  variables: Variables;
-  observableQuery: ObservableQuery;
-  lastDiff: any;
-  diff: any;
-  queryId: string;
-};
+export type Variables = ObservableQuery['variables'];
 
 export type QueryData = {
   id: string;
   queryString: string;
   variables: Variables;
-  cachedData: string;
+  cachedData: unknown;
   name: string | undefined;
 };
 
@@ -42,5 +38,5 @@ export type ApolloClientState = {
   lastUpdateAt: string;
   queries: ArrayOfQuery;
   mutations: ArrayOfMutations;
-  cache: object;
+  cache: unknown;
 };
