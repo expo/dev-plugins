@@ -1,104 +1,105 @@
 import { useDevToolsPluginClient, type EventSubscription } from 'expo/devtools';
-import { useCallback, useEffect } from 'react';
-import { MMKV } from 'react-native-mmkv';
+import { useCallback, useEffect, useMemo } from 'react';
+import { createMMKV, type MMKV } from 'react-native-mmkv';
 
 import { Method } from '../methods';
 
-/**
- * This hook registers a devtools plugin for react-native-mmkv.
- *
- * The plugin provides you with the ability to view, add, edit, and remove react-native-mmkv entries.
- *
- * @param props
- * @param props.errorHandler - A function that will be called with any errors that occur while communicating
- * with the devtools, if not provided errors will be ignored. Setting this is highly recommended.
- * @param props.storage - A MMKV storage instance to use, if not provided the default storage will be used.
- */
-export function useMMKVDevTools({
-  errorHandler,
-  storage = new MMKV(),
-}: {
+type Params = {
   errorHandler?: (error: Error) => void;
   storage?: MMKV;
-} = {}) {
+};
+
+export function useMMKVDevTools({
+  errorHandler,
+  storage: storageProp,
+}: Params = {}) {
   const client = useDevToolsPluginClient('mmkv');
+
+  // Ensure we create MMKV only once if not provided
+  const storage = useMemo(() => storageProp ?? createMMKV(), [storageProp]);
 
   const handleError = useCallback(
     (error: unknown) => {
-      if (error instanceof Error) {
-        errorHandler?.(error);
-      } else {
-        errorHandler?.(new Error(`Unknown error: ${String(error)}`));
-      }
+      const err = error instanceof Error ? error : new Error(String(error));
+      errorHandler?.(err);
     },
     [errorHandler]
   );
 
   useEffect(() => {
+    if (!client) return;
+
     const on = (
       event: Method,
       listener: (params: { key?: string; value?: string }) => Promise<any>
-    ) =>
-      client?.addMessageListener(event, async (params: { key?: string; value?: string }) => {
+    ): EventSubscription =>
+      client.addMessageListener(event, async (params: { key?: string; value?: string }) => {
         try {
           const result = await listener(params);
-
-          client?.sendMessage(`ack:${event}`, { result });
+          client.sendMessage(`ack:${event}`, { result: result ?? true });
         } catch (error) {
+          // send a serializable error payload
+          const err = error instanceof Error ? { message: error.message, stack: error.stack } : { message: String(error) };
           try {
-            client?.sendMessage('error', { error });
+            client.sendMessage('error', err);
+          } finally {
             handleError(error);
-          } catch (e) {
-            handleError(e);
           }
         }
       });
 
-    const subscriptions: (EventSubscription | undefined)[] = [];
+    const subscriptions: EventSubscription[] = [];
 
-    try {
-      subscriptions.push(
-        on('getAll', async () => {
-          const keys = storage.getAllKeys();
-          return keys?.map((key) => [key, storage.getString(key)]);
-        })
-      );
-    } catch (e) {
-      handleError(e);
-    }
+    // getAll
+    subscriptions.push(
+      on('getAll', async () => {
+        const keys = storage.getAllKeys() ?? [];
+        // Try to read strings; fall back to number/bool if not string
+        return keys.map((key) => {
+          const s = storage.getString(key);
+          if (s !== undefined) return [key, s];
 
-    try {
-      subscriptions.push(
-        on('set', async ({ key, value }) => {
-          if (key !== undefined && value !== undefined) {
-            return storage.set(key, value);
-          }
-        })
-      );
-    } catch (e) {
-      handleError(e);
-    }
+          const n = storage.getNumber?.(key);
+          if (typeof n === 'number' && !Number.isNaN(n)) return [key, String(n)];
 
-    try {
-      subscriptions.push(
-        on('remove', async ({ key }) => {
-          if (key !== undefined) {
-            storage.delete(key);
-          }
-        })
-      );
-    } catch (e) {
-      handleError(e);
-    }
+          const b = storage.getBoolean?.(key);
+          if (typeof b === 'boolean') return [key, String(b)];
+
+          return [key, undefined];
+        });
+      })
+    );
+
+    // set
+    subscriptions.push(
+      on('set', async ({ key, value }) => {
+        if (key !== undefined && value !== undefined) {
+          storage.set(key, value);
+          return true;
+        }
+        return false;
+      })
+    );
+
+    // remove
+    subscriptions.push(
+      on('remove', async ({ key }) => {
+        if (key !== undefined) {
+          storage.remove(key);
+          return true;
+        }
+        return false;
+      })
+    );
 
     return () => {
-      for (const subscription of subscriptions) {
+      for (const sub of subscriptions) {
         try {
-          subscription?.remove();
+          sub.remove();
         } catch (e) {
           handleError(e);
         }
       }
     };
-  }, [client]);
+  }, [client, storage, handleError]);
 }

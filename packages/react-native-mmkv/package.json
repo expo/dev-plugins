@@ -1,6 +1,6 @@
 {
   "name": "@dev-plugins/react-native-mmkv",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Expo DevTools Plugin for react-native-mmkv",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -35,9 +35,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/react": "~19.0.10",
-    "expo": "53.0.7",
+    "expo": "^54.0.0",
     "expo-module-scripts": "^4.1.7",
-    "react-native-mmkv": "^3.1.0",
+    "react-native-mmkv": "^4.0.0",
     "typescript": "~5.8.3"
   },
   "peerDependencies": {
