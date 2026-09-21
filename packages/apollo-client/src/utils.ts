@@ -4,9 +4,7 @@ import type { DocumentNode } from 'graphql';
 
 import type { ArrayOfQuery } from './types';
 
-// Apollo Client v4 moved this to `@apollo/client/utilities/internal`, so we
-// reimplement the (trivial) lookup instead of depending on an import path
-// that differs between v3 and v4.
+// Inlined instead of imported, to stay independent of the Apollo Client version.
 export function getOperationName(document: DocumentNode): string | null {
   for (const definition of document.definitions) {
     if (definition.kind === 'OperationDefinition' && definition.name) {
@@ -16,8 +14,7 @@ export function getOperationName(document: DocumentNode): string | null {
   return null;
 }
 
-// v3's `ObservableQuery.queryId` was removed in v4.
-// ponytail: ids aren't stable across app reloads, only within a session; fine for a devtools list key.
+// `ObservableQuery.queryId` does not exist in Apollo Client v4.
 const fallbackQueryIds = new WeakMap<ObservableQuery, string>();
 let nextFallbackQueryId = 0;
 

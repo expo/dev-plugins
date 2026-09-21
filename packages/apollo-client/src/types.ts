@@ -1,11 +1,9 @@
 import type { ObservableQuery } from '@apollo/client';
 
-// A minimal duck-typed shape instead of `ApolloClient<NormalizedCacheObject>`:
-// the `ApolloClient` class generic was removed in v4, so any type referencing
-// it directly can only compile against one major version at a time.
+// Duck-typed instead of importing `ApolloClient`, to stay independent of the Apollo Client version.
 export interface ApolloClientType {
   cache: {
-    extract(optimistic?: boolean): object;
+    extract(optimistic?: boolean): unknown;
   };
   getObservableQueries(): Map<string, ObservableQuery> | Set<ObservableQuery>;
   __actionHookForDevTools(cb: () => void): void;
@@ -40,5 +38,5 @@ export type ApolloClientState = {
   lastUpdateAt: string;
   queries: ArrayOfQuery;
   mutations: ArrayOfMutations;
-  cache: object;
+  cache: unknown;
 };
