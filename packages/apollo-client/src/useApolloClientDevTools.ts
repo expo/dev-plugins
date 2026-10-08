@@ -13,13 +13,17 @@ import { getObservableQueriesList, getOperationName, getQueries } from './utils'
 
 let tick = 0;
 
-export function useApolloClientDevTools(apolloClient: ApolloClientType) {
+export function useApolloClientDevTools(apolloClient: ApolloClientType | null | undefined) {
   const client = useDevToolsPluginClient('apollo-client');
 
   useEffect(() => {
+    if (!apolloClient) {
+      return;
+    }
+
     const subscriptions: (EventSubscription | undefined)[] = [];
 
-    async function setup() {
+    async function setup(apolloClient: ApolloClientType) {
       let acknowledged = true;
       let apolloData: null | ApolloClientState = await getCurrentState(apolloClient);
 
@@ -56,7 +60,7 @@ export function useApolloClientDevTools(apolloClient: ApolloClientType) {
       client?.sendMessage('GQL:response', apolloData);
     }
 
-    setup();
+    setup(apolloClient);
 
     return () => {
       for (const subscription of subscriptions) {
